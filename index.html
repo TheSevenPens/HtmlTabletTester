@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+ 
+<!--
+
+This is derived from the Wacom Scribble Demo: https://github.com/Wacom-Developer/wacom-device-kit-web
+
+Key differences
+- Basic cleanup and refactoring
+- Does not have different brushs colors. The brush colors are static.
+- Removed any IE-specific code
+
+-->
+<html>
+<head>
+	<title>7P HTML Tablet tester</title>
+	<style>
+
+		* {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
+
+		h1, h2, h3, p {
+			padding: 0;
+			margin: 0;
+		}
+
+		.canvasDiv {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		div {
+			/*border: 1px solid black;*/
+			padding: 5px;
+			padding-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		#myCanvas {
+			touch-action: none; /*prevent canvas scrolling and system touch behavior*/
+			display: block;
+			/* This doesn't ensure background color saved in image.
+				background-color: tan;
+				See https://stackoverflow.com/questions/6957034/save-canvas-with-background-image
+			*/
+		}
+	</style>
+</head>
+<body onload="initPage()" onresize="setCanvasProps()" oncontextmenu="return false;">
+	<div class='parent'>
+		<h2 >7P Tablet Tester</h2>
+		<p >GitHub repo: <a href="https://github.com/TheSevenPens/BLANK" target="_blank" rel="noopener noreferrer" >link</a></p>
+	</div>
+
+	<div>
+		<button type="button" onclick="clearCanvas()">Clear</button>
+		<button type="button" onclick="saveCanvas()">Save</button>
+		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="setTilt()">
+		<label for="tiltCheckbox" >Enable tilt</label>
+	</div>
+
+	<div class="canvasDiv">
+		<canvas id="myCanvas" height="800" style="border:5px solid #d1d1d1;">
+			Your browser does not support the canvas element.
+		</canvas>
+	</div>
+
+	<a id="link"></a>
+
+	<script>
+		/////////////////////////////////////////////////////////////////////////
+
+		const setting_touch_pen_color = "red";
+		const setting_stylus_pen_color = "black";
+		const setting_mouse_pen_color = "blue";
+		const setting_download_filename = "scribble.png";
+		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
+		const setting_linecap = "round";
+		var setting_use_tilt = false;
+		var setting_use_pressure = true;
+		var setting_brush_size = 10;
+		var setting_eraser_size = 20;
+
+		const MIN_PRESSURE = 0.0;
+		const MAX_PRESSURE = 1.0;
+
+		const MIN_BRUSH_SIZE = 1.0;
+		const MAX_BRUSH_SIZE = 200.0;
+
+
+		var myCanvas = document.getElementById("myCanvas");
+		var context = myCanvas.getContext("2d");
+		var supportsPointerEvents = window.PointerEvent;
+		var inStroke = false;
+		var canvas_pos_old = { x: 0, y: 0 };
+		var isDrawing = false;
+
+		var buttonProps = new Map();
+
+		var EPenButton =
+			{
+				tip: 0x1,		// left mouse, touch contact, pen contact
+				barrel: 0x2,		// right mouse, pen barrel button
+				middle: 0x4,		// middle mouse
+				eraser: 0x20		// pen eraser button
+			};
+
+
+		/////////////////////////////////////////////////////////////////////////
+		// Initialize page elements
+		//
+		function initPage() 
+		{
+			setCanvasProps();
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+
+
+		/////////////////////////////////////////////////////////////////////////
+		// Init canvas properties.
+		// Sets canvas width to expand to browser window.
+		// Canvas cleared to restore background color.
+		//
+		function setCanvasProps() 
+		{
+			if (myCanvas.width < window.innerWidth) 
+			{
+				myCanvas.width = window.innerWidth - 50;
+			}
+			clearCanvas();	// ensures background saved with drawn image
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Sets a flag to enable/disable use of the pen tilt property.
+		//
+		function setTilt() 
+		{
+			var use_tilt = document.querySelector('input[value="useTilt"]');
+			setting_use_tilt = use_tilt.checked;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Clears the drawing canvas.
+		//
+		function clearCanvas() 
+		{
+			context.fillStyle = setting_canvas_color;
+			context.fillRect(0, 0, myCanvas.width, myCanvas.height);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Saves the image on the drawing canvas and then downloads a png.
+		//
+		function saveCanvas() 
+		{
+			var link = document.getElementById('link');
+			var url = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+			link.setAttribute('download', setting_download_filename );
+			link.setAttribute('href', url);
+			link.click();
+		}
+
+
+		/////////////////////////////////////////////////////////////////////////
+		// Upon a window load event, registers all events.
+		//
+		window.addEventListener('load', function () 
+		{
+			// These events are handled for browsers that do not
+			// handle PointerEvent.
+			var events = [
+				'MSPointerDown',
+				'MSPointerUp',
+				'MSPointerCancel',
+				'MSPointerMove',
+				'MSPointerOver',
+				'MSPointerOut',
+				'MSPointerEnter',
+				'MSPointerLeave',
+				'MSGotPointerCapture',
+				'MSLostPointerCapture',
+				'touchstart',
+				'touchmove',
+				'touchend',
+				'touchenter',
+				'touchleave',
+				'touchcancel',
+				'mouseover',
+				'mousemove',
+				'mouseout',
+				'mouseenter',
+				'mouseleave',
+				'mousedown',
+				'mouseup',
+				'focus',
+				'blur',
+				'click',
+				'webkitmouseforcewillbegin',
+				'webkitmouseforcedown',
+				'webkitmouseforceup',
+				'webkitmouseforcechanged',
+			];
+
+			// These events are for browsers that handle
+			// HTML5 PointerEvent events.
+			var pointerEvents = [
+				'pointerdown',
+				'pointerup',
+				'pointercancel',
+				'pointermove',
+				'pointerover',
+				'pointerout',
+				'pointerenter',
+				'pointerleave',
+				'gotpointercapture',
+				'lostpointercapture'
+			];
+
+			/////////////////////////////////////////////////////////////////////////
+			// Handle event rendering and reporting to output
+			// for traditional mouse/touch/pen handling.
+			//
+			eventDraw = function (evt) 
+			{
+				var canvasRect = myCanvas.getBoundingClientRect();
+				var screenPos = 
+				{
+					x: evt.clientX,
+					y: evt.clientY
+				};
+
+				var pos = 
+				{
+					x: screenPos.x - canvasRect.left,
+					y: screenPos.y - canvasRect.top
+				};
+
+				console.log("screenPos XY:" + screenPos.x + "," + screenPos.y);
+
+				if (pos.x == undefined || pos.y == undefined) 
+				{
+					console.log("WARNING: undefined position");
+					return;
+				}
+
+				var pressure = evt.pressure;
+
+				if (typeof (pressure) == 'undefined') 
+				{
+					pressure = MAX_PRESSURE;
+				}
+
+				switch (evt.type) 
+				{
+					case "mousedown":
+					case "MSPointerDown":
+					case "touchStart":
+						isDrawing = true;
+						canvas_pos_old = pos;
+						break;
+					case "mouseup":
+					case "MSPointerUp":
+					case "touchEnd":
+						isDrawing = false;
+						break;
+					case "mousemove":
+					case "MSPointerMove":
+					case "touchmove":
+						if (isDrawing) 
+						{
+							context.lineWidth = get_effective_brush_size( pressure );
+
+							context.beginPath();
+							context.lineCap = setting_linecap ;
+							context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
+
+							// Draws Bezier curve from context position to midPoint.
+							var midPoint = lerp_point(canvas_pos_old, pos, 0.5);
+							context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
+
+							// This lineTo call eliminates gaps (but leaves flat lines if stroke
+							// is fast enough).
+							context.lineTo(pos.x, pos.y);
+							context.stroke();
+						}
+
+						canvas_pos_old = pos;
+						break;
+
+					default:
+						break;
+				}
+
+
+			}
+
+			function get_effective_brush_size( pressure )
+			{
+				if (setting_use_pressure)
+				{
+					var new_size = pressure * setting_brush_size;
+					new_size = clamp( new_size, MIN_BRUSH_SIZE, MAX_BRUSH_SIZE);
+					return (new_size);
+				}
+				else
+				{
+					return MAX_PRESSURE;
+				}
+			}
+
+			/////////////////////////////////////////////////////////////////////////
+			// clamp to range
+			//
+			function clamp(v, lower, upper) 
+			{
+   				 return Math.min(Math.max(v, lower), upper);
+			}
+			
+			/////////////////////////////////////////////////////////////////////////
+			// Linear interpolate between two values
+			//
+			function lerp(a, b, t ) 
+			{
+				var c = (a * t) + (b * (1-t));
+				return c;
+			}
+
+			/////////////////////////////////////////////////////////////////////////
+			// Linear interpolate between two points
+			//
+			function lerp_point(a, b, t) 
+			{
+				var p = 
+				{
+					x: lerp(a.x, b.x, t),
+					y: lerp(a.y, b.y, t)
+				};
+
+				return p;
+			}
+
+			function new_pos( nx, ny)
+			{
+				var pos =
+				{
+					x: nx,
+					y: ny
+				};
+				return pos;
+			}
+
+			function get_pen_color( evt )
+			{
+				switch (evt.pointerType) 
+					{
+						case "touch":
+							return setting_touch_pen_color;
+						case "pen":
+							return context.strokeStyle = (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+						case "mouse":
+							return  setting_mouse_pen_color;
+						default:
+							return "yellow";
+					}
+			}
+
+			function get_pressure( evt )
+			{
+				return  (evt.pointerType == "pen") ? evt.pressure : MAX_PRESSURE;  
+			}
+
+			/////////////////////////////////////////////////////////////////////////
+			// Handle drawing for HTML5 Pointer Events.
+			//
+			function pointerEventDraw(evt) 
+			{
+				var canvas_rect = myCanvas.getBoundingClientRect();
+				var screen_pos = new_pos(evt.clientX, evt.clientY);
+				var canvas_pos = new_pos(screen_pos.x - canvas_rect.left, screen_pos.y - canvas_rect.top); 
+				var pressure = get_pressure(evt);  
+				var buttons = evt.buttons;
+				var tilt = 
+				{ 
+					x: evt.tiltX,
+					y: evt.tiltY,
+					azimuth: evt.azimuthAngle,
+					altitude: evt.altitudeAngle
+				};
+
+				var rotate = evt.twist;
+
+				if (evt.pointerType) 
+				{
+					context.strokeStyle = get_pen_color(evt);
+					context.lineWidth = get_effective_brush_size(pressure);
+
+					switch (evt.type) 
+					{
+						case "pointerdown":
+							isDrawing = true;
+							canvas_pos_old = canvas_pos;
+							break;
+
+						case "pointerup":
+							isDrawing = false;
+							break;
+
+						case "pointermove":
+							if (!isDrawing) 
+							{
+								return;
+							}
+
+							// If using eraser button, then erase with background color.
+							if (buttons == EPenButton.eraser) 
+							{
+								context.fillStyle = setting_canvas_color;
+								context.fillRect(canvas_pos.x, canvas_pos.y, setting_eraser_size, setting_eraser_size);
+								context.fill
+							}
+							else if (pressure > 0) 
+							{
+								context.beginPath();
+								context.lineCap = setting_linecap;
+								context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
+
+								// Draws Bezier curve from context position to midPoint.
+								var midPoint = lerp_point(canvas_pos_old, canvas_pos, 0.5);
+								context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
+								context.lineTo(canvas_pos.x, canvas_pos.y);
+								context.stroke();
+							}
+
+							canvas_pos_old = canvas_pos;
+							break;
+
+						case "pointerenter":
+							document.body.style.cursor = "crosshair";
+							break;
+
+						case "pointerleave":
+							document.body.style.cursor = "default";
+							break;
+						case "pointerover":
+							// ignore
+							break;
+						case "pointerout":
+							// ignore
+							break;
+						case "gotpointercapture":
+							// ignore
+							break;
+						case "lostpointercapture":
+							// ignore
+							break;
+						default:
+							console.log("WARNING: unhandled event: " + evt.type);
+							break;
+					}
+				}
+			}
+
+
+			/////////////////////////////////////////////////////////////////////////
+			// These event handlers are set up once when the page is loaded.
+			// Note that there are two alternate sets of handlers depending on whether
+			// PointerEvents are handled.
+			//
+			if (supportsPointerEvents) 
+			{
+				// if Pointer Events are supported, only listen to pointer events
+				for (var idx = 0; idx < pointerEvents.length; idx++) 
+				{
+					myCanvas.addEventListener(pointerEvents[idx], pointerEventDraw, false);
+				}
+			}
+			else 
+			{
+				// traditional mouse/touch/pen event handlers
+				for (var idx = 0; idx < events.length; idx++) 
+				{
+					myCanvas.addEventListener(events[idx], eventDraw, false);
+				}
+			}
+		}, true);  // end window.addEventListener
+	</script>
+
+</body>
+</html>
