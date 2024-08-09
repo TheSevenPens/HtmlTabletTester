@@ -199,8 +199,23 @@ Key differences
 			{
 				if (setting_use_pressure)
 				{
-					var new_size = paint_rec.pressure * setting_brush_size;
-					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE );
+					var new_size = setting_brush_size;
+
+					var settings_use_pressure = true;
+					if (settings_use_pressure)
+					{
+						new_size = new_size * paint_rec.pressure; 
+						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+					}
+
+					var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+					if (setting_use_tilt)
+					{
+						new_size = new_size + ( 2.0 * setting_brush_size * (t/60.0));
+						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+					}
+
+					console.log( paint_rec.tilt.x + "," + paint_rec.tilt.y,  "," + t );
 					return (new_size);
 				}
 				else
