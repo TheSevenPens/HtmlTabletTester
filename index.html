@@ -104,7 +104,6 @@ Key differences
 
 		var myCanvas = document.getElementById("myCanvas");
 		var context = myCanvas.getContext("2d");
-		var supportsPointerEvents = window.PointerEvent;
 		var inStroke = false;
 		var canvas_pos_old = { x: 0, y: 0 };
 		var isDrawing = false;
@@ -379,7 +378,7 @@ Key differences
 			// Note that there are two alternate sets of handlers depending on whether
 			// PointerEvents are handled.
 			//
-			if (supportsPointerEvents) 
+			if (window.PointerEvent) 
 			{
 				console.log("Browser DOES support pointer events");
 				// if Pointer Events are supported, only listen to pointer events
