@@ -302,7 +302,6 @@ Key differences
 
 				if (evt.pointerType) 
 				{
-					context.strokeStyle = get_pen_color(evt);
 					context.lineWidth = get_effective_brush_size(pressure);
 
 					switch (evt.type) 
@@ -321,7 +320,7 @@ Key differences
 							{
 								return;
 							}
-
+							context.strokeStyle = get_pen_color(evt);
 							// If using eraser button, then erase with background color.
 							if (buttons == EPenButton.eraser) 
 							{
