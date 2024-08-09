@@ -91,6 +91,7 @@ Key differences
 			return r;
 		}
 
+
 		const setting_stylus_pen_color = "black";
 		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
 
@@ -102,8 +103,8 @@ Key differences
 			use_tilt: false,
 			use_pressure: false,
 			brush_size: 30,
-			eraser_size: 30
-
+			eraser_size: 30,
+			linecap: "round"
 		};
 
 		const PRESSURE_RANGE = new_range(0.0,1.0);
@@ -351,7 +352,7 @@ Key differences
 					else if (pointer_rec.pressure > 0) 
 					{
 						context.beginPath();
-						context.lineCap = setting_linecap;
+						context.lineCap = paint_settings.linecap;
 						context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
 
 						// Draws Bezier curve from context position to midPoint.
