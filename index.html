@@ -291,17 +291,16 @@ Key differences
 					screen_pos: new_pos(evt.clientX, evt.clientY),
 					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
 					pressure: get_pressure(evt),
-					buttons: evt.buttons
+					buttons: evt.buttons,
+					tilt: 
+						{ 
+							x: evt.tiltX,
+							y: evt.tiltY,
+							azimuth: evt.azimuthAngle,
+							altitude: evt.altitudeAngle
+						}
 
 				}
-
-				var tilt = 
-				{ 
-					x: evt.tiltX,
-					y: evt.tiltY,
-					azimuth: evt.azimuthAngle,
-					altitude: evt.altitudeAngle
-				};
 
 				var rotate = evt.twist;
 
