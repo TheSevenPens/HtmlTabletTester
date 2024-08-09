@@ -276,7 +276,7 @@ Key differences
 			function get_pressure( evt )
 			{
 				var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
-				//p = clamp_to_range( p, PRESSURE_RANGE);
+				p = clamp_to_range( p, PRESSURE_RANGE);
 				return p;
 			}
 
@@ -378,6 +378,7 @@ Key differences
 			//
 			if (supportsPointerEvents) 
 			{
+				console.log("Browser DOES support pointer events");
 				// if Pointer Events are supported, only listen to pointer events
 				for (var idx = 0; idx < pointerEvents.length; idx++) 
 				{
@@ -386,6 +387,7 @@ Key differences
 			}
 			else 
 			{
+				console.log("Browser DOES NOT support pointer events");
 			}
 		}, true);  // end window.addEventListener
 	</script>
