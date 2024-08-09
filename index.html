@@ -111,11 +111,15 @@ Key differences
 		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
 
 
-		var myCanvas = document.getElementById("myCanvas");
-		var context = myCanvas.getContext("2d");
-		var inStroke = false;
-		var canvas_pos_old = { x: 0, y: 0 };
-		var isDrawing = false;
+		var canvas_el = document.getElementById("myCanvas");
+		var canvas_context = canvas_el.getContext("2d");
+
+		var paintstate = 
+		{
+			inStroke: false,
+			canvas_pos_old: { x: 0, y: 0 },
+			isDrawing: false
+		};
 
 		update_paint_settings_from_ui(); 
 
@@ -146,9 +150,9 @@ Key differences
 		//
 		function setCanvasProps() 
 		{
-			if (myCanvas.width < window.innerWidth) 
+			if (canvas_el.width < window.innerWidth) 
 			{
-				myCanvas.width = window.innerWidth - 50;
+				canvas_el.width = window.innerWidth - 50;
 			}
 			clearCanvas();	// ensures background saved with drawn image
 		}
@@ -171,8 +175,8 @@ Key differences
 		//
 		function clearCanvas() 
 		{
-			context.fillStyle = setting_canvas_color;
-			context.fillRect(0, 0, myCanvas.width, myCanvas.height);
+			canvas_context.fillStyle = setting_canvas_color;
+			canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
 		}
 
 		/////////////////////////////////////////////////////////////////////////
@@ -181,7 +185,7 @@ Key differences
 		function saveCanvas() 
 		{
 			var link = document.getElementById('link');
-			var url = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+			var url = canvas_el.toDataURL("image/png").replace("image/png", "image/octet-stream");
 			link.setAttribute('download', setting_download_filename );
 			link.setAttribute('href', url);
 			link.click();
@@ -310,7 +314,7 @@ Key differences
 				return;
 			}
 
-			var canvas_rect = myCanvas.getBoundingClientRect();
+			var canvas_rect = canvas_el.getBoundingClientRect();
 
 			var pointer_rec = 
 			{
@@ -330,39 +334,39 @@ Key differences
 			switch (ptr_event.type) 
 			{
 				case "pointerdown":
-					isDrawing = true;
-					canvas_pos_old = pointer_rec.canvas_pos;
+					paintstate.isDrawing = true;
+					paintstate.canvas_pos_old = pointer_rec.canvas_pos;
 					break;
 
 				case "pointermove":
-					if (!isDrawing) 
+					if (!paintstate.isDrawing) 
 					{
 						return;
 					}
-					context.lineWidth = get_effective_brush_size(pointer_rec);
-					context.strokeStyle = get_pen_color(ptr_event);
+					canvas_context.lineWidth = get_effective_brush_size(pointer_rec);
+					canvas_context.strokeStyle = get_pen_color(ptr_event);
 					if (pointer_rec.buttons == EPenButton.eraser) 
 					{
-						context.fillRect(
+						canvas_context.fillRect(
 							pointer_rec.canvas_pos.x, 
 							pointer_rec.canvas_pos.y, 
 							paint_settings.eraser_size, paint_settings.eraser_size);
-						context.fill();
+						canvas_context.fill();
 					}
 					else if (pointer_rec.pressure > 0) 
 					{
-						context.beginPath();
-						context.lineCap = paint_settings.linecap;
-						context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
+						canvas_context.beginPath();
+						canvas_context.lineCap = paint_settings.linecap;
+						canvas_context.moveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y);
 
 						// Draws Bezier curve from context position to midPoint.
-						var midPoint = lerp_point(canvas_pos_old, pointer_rec.canvas_pos, 0.5);
-						context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-						context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
-						context.stroke();
+						var midPoint = lerp_point(paintstate.canvas_pos_old, pointer_rec.canvas_pos, 0.5);
+						canvas_context.quadraticCurveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y, midPoint.x, midPoint.y);
+						canvas_context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
+						canvas_context.stroke();
 					}
 
-					canvas_pos_old = pointer_rec.canvas_pos;
+					paintstate.canvas_pos_old = pointer_rec.canvas_pos;
 					break;
 			}
 		}
@@ -371,8 +375,9 @@ Key differences
 
 		function on_pointerup( evt ) 
 		{
-			isDrawing = false;
+			paintstate.isDrawing = false;
 		}
+		
 		function on_pointerenter( evt ) 
 		{
 			document.body.style.cursor = "crosshair";
@@ -409,20 +414,20 @@ Key differences
 
 			console.log("INFO: Browser DOES support pointer events");
 
-			myCanvas.addEventListener("pointerdown", pointer_event_handler, false);
-			myCanvas.addEventListener("pointerup", on_pointerup, false);
+			canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
+			canvas_el.addEventListener("pointerup", on_pointerup, false);
 
-			myCanvas.addEventListener("pointercancel", pointer_event_handler, false);
-			myCanvas.addEventListener("pointermove", pointer_event_handler, false);
+			canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
+			canvas_el.addEventListener("pointermove", pointer_event_handler, false);
 
-			myCanvas.addEventListener("pointerover", default_ptr_event_handler_do_nothing, false);
-			myCanvas.addEventListener("pointerout", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("pointerover", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("pointerout", default_ptr_event_handler_do_nothing, false);
 
-			myCanvas.addEventListener("pointerenter", on_pointerenter, false);
-			myCanvas.addEventListener("pointerleave", on_pointerleave, false);
+			canvas_el.addEventListener("pointerenter", on_pointerenter, false);
+			canvas_el.addEventListener("pointerleave", on_pointerleave, false);
 
-			myCanvas.addEventListener("gotpointercapture", default_ptr_event_handler_do_nothing, false);
-			myCanvas.addEventListener("lostpointercapture", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("gotpointercapture", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("lostpointercapture", default_ptr_event_handler_do_nothing, false);
 		}
 
 		register_event_handlers();
