@@ -181,41 +181,6 @@ Key differences
 		//
 		window.addEventListener('load', function () 
 		{
-			// These events are handled for browsers that do not
-			// handle PointerEvent.
-			var events = [
-				'MSPointerDown',
-				'MSPointerUp',
-				'MSPointerCancel',
-				'MSPointerMove',
-				'MSPointerOver',
-				'MSPointerOut',
-				'MSPointerEnter',
-				'MSPointerLeave',
-				'MSGotPointerCapture',
-				'MSLostPointerCapture',
-				'touchstart',
-				'touchmove',
-				'touchend',
-				'touchenter',
-				'touchleave',
-				'touchcancel',
-				'mouseover',
-				'mousemove',
-				'mouseout',
-				'mouseenter',
-				'mouseleave',
-				'mousedown',
-				'mouseup',
-				'focus',
-				'blur',
-				'click',
-				'webkitmouseforcewillbegin',
-				'webkitmouseforcedown',
-				'webkitmouseforceup',
-				'webkitmouseforcechanged',
-			];
-
 			// These events are for browsers that handle
 			// HTML5 PointerEvent events.
 			var pointerEvents = [
@@ -231,83 +196,6 @@ Key differences
 				'lostpointercapture'
 			];
 
-			/////////////////////////////////////////////////////////////////////////
-			// Handle event rendering and reporting to output
-			// for traditional mouse/touch/pen handling.
-			//
-			eventDraw = function (evt) 
-			{
-				var canvasRect = myCanvas.getBoundingClientRect();
-				var screenPos = 
-				{
-					x: evt.clientX,
-					y: evt.clientY
-				};
-
-				var pos = 
-				{
-					x: screenPos.x - canvasRect.left,
-					y: screenPos.y - canvasRect.top
-				};
-
-				console.log("screenPos XY:" + screenPos.x + "," + screenPos.y);
-
-				if (pos.x == undefined || pos.y == undefined) 
-				{
-					console.log("WARNING: undefined position");
-					return;
-				}
-
-				var pressure = evt.pressure;
-
-				if (typeof (pressure) == 'undefined') 
-				{
-					pressure = PRESSURE_RANGE.Max;
-				}
-
-				switch (evt.type) 
-				{
-					case "mousedown":
-					case "MSPointerDown":
-					case "touchStart":
-						isDrawing = true;
-						canvas_pos_old = pos;
-						break;
-					case "mouseup":
-					case "MSPointerUp":
-					case "touchEnd":
-						isDrawing = false;
-						break;
-					case "mousemove":
-					case "MSPointerMove":
-					case "touchmove":
-						if (isDrawing) 
-						{
-							context.lineWidth = get_effective_brush_size( pressure );
-
-							context.beginPath();
-							context.lineCap = setting_linecap ;
-							context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
-
-							// Draws Bezier curve from context position to midPoint.
-							var midPoint = lerp_point(canvas_pos_old, pos, 0.5);
-							context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-
-							// This lineTo call eliminates gaps (but leaves flat lines if stroke
-							// is fast enough).
-							context.lineTo(pos.x, pos.y);
-							context.stroke();
-						}
-
-						canvas_pos_old = pos;
-						break;
-
-					default:
-						break;
-				}
-
-
-			}
 
 			function get_effective_brush_size( pressure )
 			{
@@ -499,11 +387,6 @@ Key differences
 			}
 			else 
 			{
-				// traditional mouse/touch/pen event handlers
-				for (var idx = 0; idx < events.length; idx++) 
-				{
-					myCanvas.addEventListener(events[idx], eventDraw, false);
-				}
 			}
 		}, true);  // end window.addEventListener
 	</script>
