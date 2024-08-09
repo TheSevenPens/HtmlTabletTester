@@ -244,27 +244,39 @@ Key differences
 
 		function get_effective_brush_size( paint_rec )
 		{
+			// If the brush size is not dynamic,
+			// simply use the the user's
+			// desired brush size
 			if (!paint_settings.use_pressure && !paint_settings.use_tilt)
 			{
-				return PRESSURE_RANGE.Max;
+				return paint_settings.brush_size;
 			}
 
+			// the brush size is dynamic
+			// start with what the user wants
 			var new_size = paint_settings.brush_size;
 			
+			// then scale the brush size by the pressure value
 			if (paint_settings.use_pressure)
 			{
 				new_size = new_size * paint_rec.pressure; 
 				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
 			}
 
-			var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+			// then apply tilt
+			// NOTE: in this app the "brush" is a circle
+			// For now simply increase the size of the brush
+			// as the pen is more tilted
+ 			var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
 			if (paint_settings.use_tilt)
 			{
-				new_size = new_size + ( 2.0 * paint_settings.brush_size * (t/60.0));
+				var max_tilt = 60.0;
+				var normalized_tilt = tilt_amt/max_tilt;
+				 new_size = new_size * normalized_tilt;
 				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
 			}
 
-			return (new_size);
+			return new_size;
 		}
 
 
