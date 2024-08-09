@@ -381,38 +381,45 @@ Key differences
 		/////////////////////////////////////////////////////////////////////////
 		// Upon a window load event, registers all events.
 		//
-		window.addEventListener('load', function () 
+		function register_pointer_event_handlers()
 		{
-			if (!window.PointerEvent) 
+		
+
+			window.addEventListener('load', function () 
 			{
-				console.log("Browser DOES NOT support pointer events");
-				return;
-			}
+				if (!window.PointerEvent) 
+				{
+					console.log("Browser DOES NOT support pointer events");
+					return;
+				}
 
-			console.log("Browser DOES support pointer events");
+				console.log("Browser DOES support pointer events");
 
-			// HTML5 PointerEvent events.
-			var pointerEvents = [
-				'pointerdown',
-				'pointerup',
-				'pointercancel',
-				'pointermove',
-				'pointerover',
-				'pointerout',
-				'pointerenter',
-				'pointerleave',
-				'gotpointercapture',
-				'lostpointercapture'
-			];
+				// HTML5 PointerEvent events.
+				var pointerEvents = [
+					'pointerdown',
+					'pointerup',
+					'pointercancel',
+					'pointermove',
+					'pointerover',
+					'pointerout',
+					'pointerenter',
+					'pointerleave',
+					'gotpointercapture',
+					'lostpointercapture'
+				];
 
-			// if Pointer Events are supported, only listen to pointer events
-			for (var idx = 0; idx < pointerEvents.length; idx++) 
-			{
-				myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
-			}
+				for (var idx = 0; idx < pointerEvents.length; idx++) 
+				{
+					myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
+				}
 
 
-		}, true);  // end window.addEventListener
+			}, true);  
+		}
+
+		register_pointer_event_handlers();
+
 	</script>
 
 </body>
