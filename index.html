@@ -64,10 +64,10 @@ Key differences
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
 		
-		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="setTilt()">
+		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_setting_use_tilt()">
 		<label for="tiltCheckbox" >Enable tilt</label>
 
-		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="setPressure()" checked>
+		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_setting_use_pressure()" checked>
 		<label for="pressureCheckbox">Enable pressure</label>
 	</div>
 
@@ -112,8 +112,8 @@ Key differences
 		var canvas_pos_old = { x: 0, y: 0 };
 		var isDrawing = false;
 
-		setPressure();
-		setTilt(); 
+		update_setting_use_pressure();
+		update_setting_use_tilt(); 
 
 		var EPenButton =
 			{
@@ -152,13 +152,13 @@ Key differences
 		/////////////////////////////////////////////////////////////////////////
 		// Sets a flag to enable/disable use of the pen tilt property.
 		//
-		function setTilt() 
+		function update_setting_use_tilt() 
 		{
 			var use_tilt = document.querySelector('input[value="useTilt"]');
 			setting_use_tilt = use_tilt.checked;
 		}
 
-		function setPressure() 
+		function update_setting_use_pressure() 
 		{
 			var use_pressure = document.querySelector('input[value="usePressure"]');
 			setting_use_pressure = use_pressure.checked;
