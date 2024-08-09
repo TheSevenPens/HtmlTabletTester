@@ -102,7 +102,7 @@ Key differences
 			use_tilt: false,
 			use_pressure: false,
 			brush_size: 30,
-			eraser_size: 60
+			eraser_size: 30
 
 		};
 
@@ -305,7 +305,7 @@ Key differences
 			{
 				var canvas_rect = myCanvas.getBoundingClientRect();
 
-				var paint_rec = 
+				var pointer_rec = 
 				{
 					screen_pos: new_pos(evt.clientX, evt.clientY),
 					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
@@ -314,25 +314,19 @@ Key differences
 					tilt: 
 						{ 
 							x: evt.tiltX,
-							y: evt.tiltY,
-							azimuth: evt.azimuthAngle,
-							altitude: evt.altitudeAngle
+							y: evt.tiltY
 						},
-					rotate: evt.twist
-
+					rotate: evt.twist,
 				}
-
-
 
 				if (evt.pointerType) 
 				{
-					context.lineWidth = get_effective_brush_size(paint_rec);
 
 					switch (evt.type) 
 					{
 						case "pointerdown":
 							isDrawing = true;
-							canvas_pos_old = paint_rec.canvas_pos;
+							canvas_pos_old = pointer_rec.canvas_pos;
 							break;
 
 						case "pointerup":
@@ -344,30 +338,30 @@ Key differences
 							{
 								return;
 							}
+							context.lineWidth = get_effective_brush_size(pointer_rec);
 							context.strokeStyle = get_pen_color(evt);
-							if (paint_rec.buttons == EPenButton.eraser) 
+							if (pointer_rec.buttons == EPenButton.eraser) 
 							{
-								context.fillStyle = setting_canvas_color;
 								context.fillRect(
-									paint_rec.canvas_pos.x, 
-									paint_rec.canvas_pos.y, 
+									pointer_rec.canvas_pos.x, 
+									pointer_rec.canvas_pos.y, 
 									paint_settings.eraser_size, paint_settings.eraser_size);
-								context.fill
+								context.fill();
 							}
-							else if (paint_rec.pressure > 0) 
+							else if (pointer_rec.pressure > 0) 
 							{
 								context.beginPath();
 								context.lineCap = setting_linecap;
 								context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
 
 								// Draws Bezier curve from context position to midPoint.
-								var midPoint = lerp_point(canvas_pos_old, paint_rec.canvas_pos, 0.5);
+								var midPoint = lerp_point(canvas_pos_old, pointer_rec.canvas_pos, 0.5);
 								context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-								context.lineTo(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y);
+								context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
 								context.stroke();
 							}
 
-							canvas_pos_old = paint_rec.canvas_pos;
+							canvas_pos_old = pointer_rec.canvas_pos;
 							break;
 
 						case "pointerenter":
