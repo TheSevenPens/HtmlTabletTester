@@ -78,6 +78,15 @@ Key differences
 	<script>
 		/////////////////////////////////////////////////////////////////////////
 
+		function new_range(min,max)
+		{
+			var r ={ 
+				Min: min,
+				Max: max 
+			}
+			return r;
+		}
+
 		const setting_touch_pen_color = "red";
 		const setting_stylus_pen_color = "black";
 		const setting_mouse_pen_color = "blue";
@@ -86,14 +95,11 @@ Key differences
 		const setting_linecap = "round";
 		var setting_use_tilt = false;
 		var setting_use_pressure = true;
-		var setting_brush_size = 10;
-		var setting_eraser_size = 20;
+		var setting_brush_size = 30;
+		var setting_eraser_size = 60;
 
-		const MIN_PRESSURE = 0.0;
-		const MAX_PRESSURE = 1.0;
-
-		const MIN_BRUSH_SIZE = 1.0;
-		const MAX_BRUSH_SIZE = 200.0;
+		const PRESSURE_RANGE = new_range(0.0,1.0);
+		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
 
 
 		var myCanvas = document.getElementById("myCanvas");
@@ -256,7 +262,7 @@ Key differences
 
 				if (typeof (pressure) == 'undefined') 
 				{
-					pressure = MAX_PRESSURE;
+					pressure = PRESSURE_RANGE.Max;
 				}
 
 				switch (evt.type) 
@@ -307,13 +313,14 @@ Key differences
 			{
 				if (setting_use_pressure)
 				{
+					console.log(pressure + "  - "  + setting_brush_size );
 					var new_size = pressure * setting_brush_size;
-					new_size = clamp( new_size, MIN_BRUSH_SIZE, MAX_BRUSH_SIZE);
+					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE );
 					return (new_size);
 				}
 				else
 				{
-					return MAX_PRESSURE;
+					return PRESSURE_RANGE.Max;
 				}
 			}
 
@@ -323,6 +330,11 @@ Key differences
 			function clamp(v, lower, upper) 
 			{
    				 return Math.min(Math.max(v, lower), upper);
+			}
+
+			function clamp_to_range(v, r) 
+			{
+   				 return clamp(v, r.Min, r.Max);
 			}
 			
 			/////////////////////////////////////////////////////////////////////////
@@ -375,7 +387,9 @@ Key differences
 
 			function get_pressure( evt )
 			{
-				return  (evt.pointerType == "pen") ? evt.pressure : MAX_PRESSURE;  
+				var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
+				//p = clamp_to_range( p, PRESSURE_RANGE);
+				return p;
 			}
 
 			/////////////////////////////////////////////////////////////////////////
