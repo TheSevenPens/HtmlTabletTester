@@ -386,48 +386,49 @@ Key differences
 			}
 		}
 
+		function default_ptr_event_handler_do_nothing( evt ) 
+		{
+			// do nothing
+		}
 
 		/////////////////////////////////////////////////////////////////////////
 		// Upon a window load event, registers all events.
 		//
-		function register_pointer_event_handlers()
+		function register_event_handlers()
 		{
-		
-
-			window.addEventListener('load', function () 
-			{
-				if (!window.PointerEvent) 
-				{
-					console.log("INFO: Browser DOES NOT support pointer events");
-					return;
-				}
-
-				console.log("INFO: Browser DOES support pointer events");
-
-				// HTML5 PointerEvent events.
-				var pointerEvents = [
-					'pointerdown',
-					'pointerup',
-					'pointercancel',
-					'pointermove',
-					'pointerover',
-					'pointerout',
-					'pointerenter',
-					'pointerleave',
-					'gotpointercapture',
-					'lostpointercapture'
-				];
-
-				for (var idx = 0; idx < pointerEvents.length; idx++) 
-				{
-					myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
-				}
-
-
-			}, true);  
+			window.addEventListener('load', register_pointer_event_handlers, true);  
 		}
 
-		register_pointer_event_handlers();
+		/////////////////////////////////////////////////////////////////////////
+		// Register listeners to canvas
+		//
+		function register_pointer_event_handlers()
+		{
+			if (!window.PointerEvent) 
+			{
+				console.log("INFO: Browser DOES NOT support pointer events");
+				return;
+			}
+
+			console.log("INFO: Browser DOES support pointer events");
+
+			myCanvas.addEventListener("pointerdown", pointer_event_handler, false);
+			myCanvas.addEventListener("pointerup", pointer_event_handler, false);
+
+			myCanvas.addEventListener("pointercancel", pointer_event_handler, false);
+			myCanvas.addEventListener("pointermove", pointer_event_handler, false);
+
+			myCanvas.addEventListener("pointerover", pointer_event_handler, false);
+			myCanvas.addEventListener("pointerout", pointer_event_handler, false);
+
+			myCanvas.addEventListener("pointerenter", pointer_event_handler, false);
+			myCanvas.addEventListener("pointerleave", pointer_event_handler, false);
+
+			myCanvas.addEventListener("gotpointercapture", pointer_event_handler, false);
+			myCanvas.addEventListener("lostpointercapture", pointer_event_handler, false);
+		}
+
+		register_event_handlers();
 
 	</script>
 
