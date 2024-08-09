@@ -286,136 +286,129 @@ Key differences
 
 
 		/////////////////////////////////////////////////////////////////////////
+		// Handle drawing for HTML5 Pointer Events.
+		//
+		function pointer_event_handler(ptr_event) 
+		{
+			var canvas_rect = myCanvas.getBoundingClientRect();
+
+			var pointer_rec = 
+			{
+				screen_pos: new_pos(ptr_event.clientX, ptr_event.clientY),
+				canvas_pos: new_pos(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+				pressure: get_pressure(ptr_event),
+				buttons: ptr_event.buttons,
+				tilt: 
+					{ 
+						x: ptr_event.tiltX,
+						y: ptr_event.tiltY
+					},
+				rotate: ptr_event.twist,
+			}
+
+			if (ptr_event.pointerType) 
+			{
+
+				switch (ptr_event.type) 
+				{
+					case "pointerdown":
+						isDrawing = true;
+						canvas_pos_old = pointer_rec.canvas_pos;
+						break;
+
+					case "pointerup":
+						isDrawing = false;
+						break;
+
+					case "pointermove":
+						if (!isDrawing) 
+						{
+							return;
+						}
+						context.lineWidth = get_effective_brush_size(pointer_rec);
+						context.strokeStyle = get_pen_color(ptr_event);
+						if (pointer_rec.buttons == EPenButton.eraser) 
+						{
+							context.fillRect(
+								pointer_rec.canvas_pos.x, 
+								pointer_rec.canvas_pos.y, 
+								paint_settings.eraser_size, paint_settings.eraser_size);
+							context.fill();
+						}
+						else if (pointer_rec.pressure > 0) 
+						{
+							context.beginPath();
+							context.lineCap = setting_linecap;
+							context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
+
+							// Draws Bezier curve from context position to midPoint.
+							var midPoint = lerp_point(canvas_pos_old, pointer_rec.canvas_pos, 0.5);
+							context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
+							context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
+							context.stroke();
+						}
+
+						canvas_pos_old = pointer_rec.canvas_pos;
+						break;
+
+					case "pointerenter":
+						document.body.style.cursor = "crosshair";
+						break;
+
+					case "pointerleave":
+						document.body.style.cursor = "default";
+						break;
+					case "pointerover":
+						// ignore
+						break;
+					case "pointerout":
+						// ignore
+						break;
+					case "gotpointercapture":
+						// ignore
+						break;
+					case "lostpointercapture":
+						// ignore
+						break;
+					default:
+						console.log("WARNING: unhandled event: " + ptr_event.type);
+						break;
+				}
+			}
+		}
+
+
+		/////////////////////////////////////////////////////////////////////////
 		// Upon a window load event, registers all events.
 		//
 		window.addEventListener('load', function () 
 		{
-
-			/////////////////////////////////////////////////////////////////////////
-			// Handle drawing for HTML5 Pointer Events.
-			//
-			function pointer_event_handler(ptr_event) 
-			{
-				var canvas_rect = myCanvas.getBoundingClientRect();
-
-				var pointer_rec = 
-				{
-					screen_pos: new_pos(ptr_event.clientX, ptr_event.clientY),
-					canvas_pos: new_pos(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
-					pressure: get_pressure(ptr_event),
-					buttons: ptr_event.buttons,
-					tilt: 
-						{ 
-							x: ptr_event.tiltX,
-							y: ptr_event.tiltY
-						},
-					rotate: ptr_event.twist,
-				}
-
-				if (ptr_event.pointerType) 
-				{
-
-					switch (ptr_event.type) 
-					{
-						case "pointerdown":
-							isDrawing = true;
-							canvas_pos_old = pointer_rec.canvas_pos;
-							break;
-
-						case "pointerup":
-							isDrawing = false;
-							break;
-
-						case "pointermove":
-							if (!isDrawing) 
-							{
-								return;
-							}
-							context.lineWidth = get_effective_brush_size(pointer_rec);
-							context.strokeStyle = get_pen_color(ptr_event);
-							if (pointer_rec.buttons == EPenButton.eraser) 
-							{
-								context.fillRect(
-									pointer_rec.canvas_pos.x, 
-									pointer_rec.canvas_pos.y, 
-									paint_settings.eraser_size, paint_settings.eraser_size);
-								context.fill();
-							}
-							else if (pointer_rec.pressure > 0) 
-							{
-								context.beginPath();
-								context.lineCap = setting_linecap;
-								context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
-
-								// Draws Bezier curve from context position to midPoint.
-								var midPoint = lerp_point(canvas_pos_old, pointer_rec.canvas_pos, 0.5);
-								context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-								context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
-								context.stroke();
-							}
-
-							canvas_pos_old = pointer_rec.canvas_pos;
-							break;
-
-						case "pointerenter":
-							document.body.style.cursor = "crosshair";
-							break;
-
-						case "pointerleave":
-							document.body.style.cursor = "default";
-							break;
-						case "pointerover":
-							// ignore
-							break;
-						case "pointerout":
-							// ignore
-							break;
-						case "gotpointercapture":
-							// ignore
-							break;
-						case "lostpointercapture":
-							// ignore
-							break;
-						default:
-							console.log("WARNING: unhandled event: " + ptr_event.type);
-							break;
-					}
-				}
-			}
-
-
-			/////////////////////////////////////////////////////////////////////////
-			// These event handlers are set up once when the page is loaded.
-			// Note that there are two alternate sets of handlers depending on whether
-			// PointerEvents are handled.
-			//
-			if (window.PointerEvent) 
-			{
-				console.log("Browser DOES support pointer events");
-
-				// HTML5 PointerEvent events.
-				var pointerEvents = [
-					'pointerdown',
-					'pointerup',
-					'pointercancel',
-					'pointermove',
-					'pointerover',
-					'pointerout',
-					'pointerenter',
-					'pointerleave',
-					'gotpointercapture',
-					'lostpointercapture'
-				];
-
-				// if Pointer Events are supported, only listen to pointer events
-				for (var idx = 0; idx < pointerEvents.length; idx++) 
-				{
-					myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
-				}
-			}
-			else 
+			if (!window.PointerEvent) 
 			{
 				console.log("Browser DOES NOT support pointer events");
+				return;
+			}
+
+			console.log("Browser DOES support pointer events");
+
+			// HTML5 PointerEvent events.
+			var pointerEvents = [
+				'pointerdown',
+				'pointerup',
+				'pointercancel',
+				'pointermove',
+				'pointerover',
+				'pointerout',
+				'pointerenter',
+				'pointerleave',
+				'gotpointercapture',
+				'lostpointercapture'
+			];
+
+			// if Pointer Events are supported, only listen to pointer events
+			for (var idx = 0; idx < pointerEvents.length; idx++) 
+			{
+				myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
 			}
 
 
