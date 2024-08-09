@@ -64,10 +64,10 @@ Key differences
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
 		
-		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_setting_use_tilt()">
+		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_paint_settings_from_ui()">
 		<label for="tiltCheckbox" >Enable tilt</label>
 
-		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_setting_use_pressure()" checked>
+		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_paint_settings_from_ui()" checked>
 		<label for="pressureCheckbox">Enable pressure</label>
 	</div>
 
@@ -116,8 +116,7 @@ Key differences
 		var canvas_pos_old = { x: 0, y: 0 };
 		var isDrawing = false;
 
-		update_setting_use_pressure();
-		update_setting_use_tilt(); 
+		update_paint_settings_from_ui(); 
 
 		var EPenButton =
 			{
@@ -156,17 +155,15 @@ Key differences
 		/////////////////////////////////////////////////////////////////////////
 		// Sets a flag to enable/disable use of the pen tilt property.
 		//
-		function update_setting_use_tilt() 
+		function update_paint_settings_from_ui() 
 		{
 			var use_tilt = document.querySelector('input[value="useTilt"]');
-			paint_settings.use_tilt = use_tilt.checked;
-		}
-
-		function update_setting_use_pressure() 
-		{
 			var use_pressure = document.querySelector('input[value="usePressure"]');
+
+			paint_settings.use_tilt = use_tilt.checked;
 			paint_settings.use_pressure = use_pressure.checked;
 		}
+
 
 		/////////////////////////////////////////////////////////////////////////
 		// Clears the drawing canvas.
@@ -401,11 +398,11 @@ Key differences
 			{
 				if (!window.PointerEvent) 
 				{
-					console.log("Browser DOES NOT support pointer events");
+					console.log("INFO: Browser DOES NOT support pointer events");
 					return;
 				}
 
-				console.log("Browser DOES support pointer events");
+				console.log("INFO: Browser DOES support pointer events");
 
 				// HTML5 PointerEvent events.
 				var pointerEvents = [
