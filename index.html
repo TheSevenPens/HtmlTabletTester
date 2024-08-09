@@ -195,11 +195,11 @@ Key differences
 			];
 
 
-			function get_effective_brush_size( pressure )
+			function get_effective_brush_size( paint_rec )
 			{
 				if (setting_use_pressure)
 				{
-					var new_size = pressure * setting_brush_size;
+					var new_size = paint_rec.pressure * setting_brush_size;
 					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE );
 					return (new_size);
 				}
@@ -305,7 +305,7 @@ Key differences
 
 				if (evt.pointerType) 
 				{
-					context.lineWidth = get_effective_brush_size(paint_rec.pressure);
+					context.lineWidth = get_effective_brush_size(paint_rec);
 
 					switch (evt.type) 
 					{
