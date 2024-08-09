@@ -104,12 +104,10 @@ Key differences
 
 		var myCanvas = document.getElementById("myCanvas");
 		var context = myCanvas.getContext("2d");
-		var supportsPointerEvents = window.PointerEvent;
 		var inStroke = false;
 		var canvas_pos_old = { x: 0, y: 0 };
 		var isDrawing = false;
 
-		var buttonProps = new Map();
 
 		var EPenButton =
 			{
@@ -181,41 +179,6 @@ Key differences
 		//
 		window.addEventListener('load', function () 
 		{
-			// These events are handled for browsers that do not
-			// handle PointerEvent.
-			var events = [
-				'MSPointerDown',
-				'MSPointerUp',
-				'MSPointerCancel',
-				'MSPointerMove',
-				'MSPointerOver',
-				'MSPointerOut',
-				'MSPointerEnter',
-				'MSPointerLeave',
-				'MSGotPointerCapture',
-				'MSLostPointerCapture',
-				'touchstart',
-				'touchmove',
-				'touchend',
-				'touchenter',
-				'touchleave',
-				'touchcancel',
-				'mouseover',
-				'mousemove',
-				'mouseout',
-				'mouseenter',
-				'mouseleave',
-				'mousedown',
-				'mouseup',
-				'focus',
-				'blur',
-				'click',
-				'webkitmouseforcewillbegin',
-				'webkitmouseforcedown',
-				'webkitmouseforceup',
-				'webkitmouseforcechanged',
-			];
-
 			// These events are for browsers that handle
 			// HTML5 PointerEvent events.
 			var pointerEvents = [
@@ -231,91 +194,28 @@ Key differences
 				'lostpointercapture'
 			];
 
-			/////////////////////////////////////////////////////////////////////////
-			// Handle event rendering and reporting to output
-			// for traditional mouse/touch/pen handling.
-			//
-			eventDraw = function (evt) 
-			{
-				var canvasRect = myCanvas.getBoundingClientRect();
-				var screenPos = 
-				{
-					x: evt.clientX,
-					y: evt.clientY
-				};
 
-				var pos = 
-				{
-					x: screenPos.x - canvasRect.left,
-					y: screenPos.y - canvasRect.top
-				};
-
-				console.log("screenPos XY:" + screenPos.x + "," + screenPos.y);
-
-				if (pos.x == undefined || pos.y == undefined) 
-				{
-					console.log("WARNING: undefined position");
-					return;
-				}
-
-				var pressure = evt.pressure;
-
-				if (typeof (pressure) == 'undefined') 
-				{
-					pressure = PRESSURE_RANGE.Max;
-				}
-
-				switch (evt.type) 
-				{
-					case "mousedown":
-					case "MSPointerDown":
-					case "touchStart":
-						isDrawing = true;
-						canvas_pos_old = pos;
-						break;
-					case "mouseup":
-					case "MSPointerUp":
-					case "touchEnd":
-						isDrawing = false;
-						break;
-					case "mousemove":
-					case "MSPointerMove":
-					case "touchmove":
-						if (isDrawing) 
-						{
-							context.lineWidth = get_effective_brush_size( pressure );
-
-							context.beginPath();
-							context.lineCap = setting_linecap ;
-							context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
-
-							// Draws Bezier curve from context position to midPoint.
-							var midPoint = lerp_point(canvas_pos_old, pos, 0.5);
-							context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-
-							// This lineTo call eliminates gaps (but leaves flat lines if stroke
-							// is fast enough).
-							context.lineTo(pos.x, pos.y);
-							context.stroke();
-						}
-
-						canvas_pos_old = pos;
-						break;
-
-					default:
-						break;
-				}
-
-
-			}
-
-			function get_effective_brush_size( pressure )
+			function get_effective_brush_size( paint_rec )
 			{
 				if (setting_use_pressure)
 				{
-					console.log(pressure + "  - "  + setting_brush_size );
-					var new_size = pressure * setting_brush_size;
-					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE );
+					var new_size = setting_brush_size;
+
+					var settings_use_pressure = true;
+					if (settings_use_pressure)
+					{
+						new_size = new_size * paint_rec.pressure; 
+						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+					}
+
+					var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+					if (setting_use_tilt)
+					{
+						new_size = new_size + ( 2.0 * setting_brush_size * (t/60.0));
+						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+					}
+
+					console.log( paint_rec.tilt.x + "," + paint_rec.tilt.y,  "," + t );
 					return (new_size);
 				}
 				else
@@ -388,7 +288,7 @@ Key differences
 			function get_pressure( evt )
 			{
 				var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
-				//p = clamp_to_range( p, PRESSURE_RANGE);
+				p = clamp_to_range( p, PRESSURE_RANGE);
 				return p;
 			}
 
@@ -398,30 +298,35 @@ Key differences
 			function pointerEventDraw(evt) 
 			{
 				var canvas_rect = myCanvas.getBoundingClientRect();
-				var screen_pos = new_pos(evt.clientX, evt.clientY);
-				var canvas_pos = new_pos(screen_pos.x - canvas_rect.left, screen_pos.y - canvas_rect.top); 
-				var pressure = get_pressure(evt);  
-				var buttons = evt.buttons;
-				var tilt = 
-				{ 
-					x: evt.tiltX,
-					y: evt.tiltY,
-					azimuth: evt.azimuthAngle,
-					altitude: evt.altitudeAngle
-				};
 
-				var rotate = evt.twist;
+				var paint_rec = 
+				{
+					screen_pos: new_pos(evt.clientX, evt.clientY),
+					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
+					pressure: get_pressure(evt),
+					buttons: evt.buttons,
+					tilt: 
+						{ 
+							x: evt.tiltX,
+							y: evt.tiltY,
+							azimuth: evt.azimuthAngle,
+							altitude: evt.altitudeAngle
+						},
+					rotate: evt.twist
+
+				}
+
+
 
 				if (evt.pointerType) 
 				{
-					context.strokeStyle = get_pen_color(evt);
-					context.lineWidth = get_effective_brush_size(pressure);
+					context.lineWidth = get_effective_brush_size(paint_rec);
 
 					switch (evt.type) 
 					{
 						case "pointerdown":
 							isDrawing = true;
-							canvas_pos_old = canvas_pos;
+							canvas_pos_old = paint_rec.canvas_pos;
 							break;
 
 						case "pointerup":
@@ -433,28 +338,28 @@ Key differences
 							{
 								return;
 							}
-
+							context.strokeStyle = get_pen_color(evt);
 							// If using eraser button, then erase with background color.
-							if (buttons == EPenButton.eraser) 
+							if (paint_rec.buttons == EPenButton.eraser) 
 							{
 								context.fillStyle = setting_canvas_color;
-								context.fillRect(canvas_pos.x, canvas_pos.y, setting_eraser_size, setting_eraser_size);
+								context.fillRect(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y, setting_eraser_size, setting_eraser_size);
 								context.fill
 							}
-							else if (pressure > 0) 
+							else if (paint_rec.pressure > 0) 
 							{
 								context.beginPath();
 								context.lineCap = setting_linecap;
 								context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
 
 								// Draws Bezier curve from context position to midPoint.
-								var midPoint = lerp_point(canvas_pos_old, canvas_pos, 0.5);
+								var midPoint = lerp_point(canvas_pos_old, paint_rec.canvas_pos, 0.5);
 								context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-								context.lineTo(canvas_pos.x, canvas_pos.y);
+								context.lineTo(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y);
 								context.stroke();
 							}
 
-							canvas_pos_old = canvas_pos;
+							canvas_pos_old = paint_rec.canvas_pos;
 							break;
 
 						case "pointerenter":
@@ -489,8 +394,9 @@ Key differences
 			// Note that there are two alternate sets of handlers depending on whether
 			// PointerEvents are handled.
 			//
-			if (supportsPointerEvents) 
+			if (window.PointerEvent) 
 			{
+				console.log("Browser DOES support pointer events");
 				// if Pointer Events are supported, only listen to pointer events
 				for (var idx = 0; idx < pointerEvents.length; idx++) 
 				{
@@ -499,11 +405,7 @@ Key differences
 			}
 			else 
 			{
-				// traditional mouse/touch/pen event handlers
-				for (var idx = 0; idx < events.length; idx++) 
-				{
-					myCanvas.addEventListener(events[idx], eventDraw, false);
-				}
+				console.log("Browser DOES NOT support pointer events");
 			}
 		}, true);  // end window.addEventListener
 	</script>
