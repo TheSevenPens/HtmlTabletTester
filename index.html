@@ -97,10 +97,15 @@ Key differences
 		const setting_download_filename = "TabletTester_Untitled.png";
 		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
 		const setting_linecap = "round";
-		var setting_use_tilt = false;
-		var setting_use_pressure = false;
-		var setting_brush_size = 30;
-		var setting_eraser_size = 60;
+
+		var paint_settings = 
+		{
+			use_tilt: false,
+			use_pressure: false,
+			brush_size: 30,
+			eraser_size: 60
+
+		};
 
 		const PRESSURE_RANGE = new_range(0.0,1.0);
 		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
@@ -155,13 +160,13 @@ Key differences
 		function update_setting_use_tilt() 
 		{
 			var use_tilt = document.querySelector('input[value="useTilt"]');
-			setting_use_tilt = use_tilt.checked;
+			paint_settings.use_tilt = use_tilt.checked;
 		}
 
 		function update_setting_use_pressure() 
 		{
 			var use_pressure = document.querySelector('input[value="usePressure"]');
-			setting_use_pressure = use_pressure.checked;
+			paint_settings.use_pressure = use_pressure.checked;
 		}
 
 		/////////////////////////////////////////////////////////////////////////
@@ -209,23 +214,23 @@ Key differences
 
 			function get_effective_brush_size( paint_rec )
 			{
-				if (!setting_use_pressure && !setting_use_tilt)
+				if (!paint_settings.use_pressure && !paint_settings.use_tilt)
 				{
 					return PRESSURE_RANGE.Max;
 				}
 
-				var new_size = setting_brush_size;
+				var new_size = paint_settings.brush_size;
 				
-				if (setting_use_pressure)
+				if (paint_settings.use_pressure)
 				{
 					new_size = new_size * paint_rec.pressure; 
 					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
 				}
 
 				var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-				if (setting_use_tilt)
+				if (paint_settings.use_tilt)
 				{
-					new_size = new_size + ( 2.0 * setting_brush_size * (t/60.0));
+					new_size = new_size + ( 2.0 * paint_settings.brush_size * (t/60.0));
 					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
 				}
 
