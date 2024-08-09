@@ -91,12 +91,9 @@ Key differences
 			return r;
 		}
 
-
 		const setting_stylus_pen_color = "black";
 		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
-
 		const setting_download_filename = "TabletTester_Untitled.png";
-		const setting_linecap = "round";
 
 		var paint_settings = 
 		{
@@ -109,7 +106,6 @@ Key differences
 
 		const PRESSURE_RANGE = new_range(0.0,1.0);
 		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
-
 
 		var canvas_el = document.getElementById("myCanvas");
 		var canvas_context = canvas_el.getContext("2d");
@@ -131,7 +127,6 @@ Key differences
 				eraser: 0x20		// pen eraser button
 			};
 
-
 		/////////////////////////////////////////////////////////////////////////
 		// Initialize page elements
 		//
@@ -139,9 +134,6 @@ Key differences
 		{
 			setCanvasProps();
 		}
-
-		/////////////////////////////////////////////////////////////////////////
-
 
 		/////////////////////////////////////////////////////////////////////////
 		// Init canvas properties.
@@ -169,7 +161,6 @@ Key differences
 			paint_settings.use_pressure = use_pressure.checked;
 		}
 
-
 		/////////////////////////////////////////////////////////////////////////
 		// Clears the drawing canvas.
 		//
@@ -190,7 +181,6 @@ Key differences
 			link.setAttribute('href', url);
 			link.click();
 		}
-
 
 		/////////////////////////////////////////////////////////////////////////
 		// clamp 
@@ -281,7 +271,6 @@ Key differences
 			return new_size;
 		}
 
-
 		function get_pen_color( ptr_event )
 		{
 			if (ptr_event.pointerType == "pen")
@@ -297,7 +286,6 @@ Key differences
 			p = clamp_to_range( p, PRESSURE_RANGE);
 			return p;
 		}
-
 
 		/////////////////////////////////////////////////////////////////////////
 		// Handle drawing for HTML5 Pointer Events.
@@ -371,8 +359,6 @@ Key differences
 			}
 		}
 
-		
-
 		function on_pointerup( ptr_event ) 
 		{
 			paintstate.isDrawing = false;
@@ -433,6 +419,5 @@ Key differences
 		register_event_handlers();
 
 	</script>
-
 </body>
 </html>
