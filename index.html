@@ -63,8 +63,12 @@ Key differences
 	<div>
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
-		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="setTilt()">
+		
+		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_paint_settings_from_ui()">
 		<label for="tiltCheckbox" >Enable tilt</label>
+
+		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_paint_settings_from_ui()" checked>
+		<label for="pressureCheckbox">Enable pressure</label>
 	</div>
 
 	<div class="canvasDiv">
@@ -87,27 +91,37 @@ Key differences
 			return r;
 		}
 
-		const setting_touch_pen_color = "red";
+
 		const setting_stylus_pen_color = "black";
-		const setting_mouse_pen_color = "blue";
-		const setting_download_filename = "TabletTester_Untitled.png";
 		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
+
+		const setting_download_filename = "TabletTester_Untitled.png";
 		const setting_linecap = "round";
-		var setting_use_tilt = false;
-		var setting_use_pressure = true;
-		var setting_brush_size = 30;
-		var setting_eraser_size = 60;
+
+		var paint_settings = 
+		{
+			use_tilt: false,
+			use_pressure: false,
+			brush_size: 30,
+			eraser_size: 30,
+			linecap: "round"
+		};
 
 		const PRESSURE_RANGE = new_range(0.0,1.0);
 		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
 
 
-		var myCanvas = document.getElementById("myCanvas");
-		var context = myCanvas.getContext("2d");
-		var inStroke = false;
-		var canvas_pos_old = { x: 0, y: 0 };
-		var isDrawing = false;
+		var canvas_el = document.getElementById("myCanvas");
+		var canvas_context = canvas_el.getContext("2d");
 
+		var paintstate = 
+		{
+			inStroke: false,
+			canvas_pos_old: { x: 0, y: 0 },
+			isDrawing: false
+		};
+
+		update_paint_settings_from_ui(); 
 
 		var EPenButton =
 			{
@@ -136,9 +150,9 @@ Key differences
 		//
 		function setCanvasProps() 
 		{
-			if (myCanvas.width < window.innerWidth) 
+			if (canvas_el.width < window.innerWidth) 
 			{
-				myCanvas.width = window.innerWidth - 50;
+				canvas_el.width = window.innerWidth - 50;
 			}
 			clearCanvas();	// ensures background saved with drawn image
 		}
@@ -146,19 +160,23 @@ Key differences
 		/////////////////////////////////////////////////////////////////////////
 		// Sets a flag to enable/disable use of the pen tilt property.
 		//
-		function setTilt() 
+		function update_paint_settings_from_ui() 
 		{
 			var use_tilt = document.querySelector('input[value="useTilt"]');
-			setting_use_tilt = use_tilt.checked;
+			var use_pressure = document.querySelector('input[value="usePressure"]');
+
+			paint_settings.use_tilt = use_tilt.checked;
+			paint_settings.use_pressure = use_pressure.checked;
 		}
+
 
 		/////////////////////////////////////////////////////////////////////////
 		// Clears the drawing canvas.
 		//
 		function clearCanvas() 
 		{
-			context.fillStyle = setting_canvas_color;
-			context.fillRect(0, 0, myCanvas.width, myCanvas.height);
+			canvas_context.fillStyle = setting_canvas_color;
+			canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
 		}
 
 		/////////////////////////////////////////////////////////////////////////
@@ -167,7 +185,7 @@ Key differences
 		function saveCanvas() 
 		{
 			var link = document.getElementById('link');
-			var url = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+			var url = canvas_el.toDataURL("image/png").replace("image/png", "image/octet-stream");
 			link.setAttribute('download', setting_download_filename );
 			link.setAttribute('href', url);
 			link.click();
@@ -175,239 +193,245 @@ Key differences
 
 
 		/////////////////////////////////////////////////////////////////////////
+		// clamp 
+		//
+		function clamp(v, lower, upper) 
+		{
+				return Math.min(Math.max(v, lower), upper);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// clamp to range
+		//
+		function clamp_to_range(v, r) 
+		{
+				return clamp(v, r.Min, r.Max);
+		}
+		
+		/////////////////////////////////////////////////////////////////////////
+		// Linear interpolate between two values
+		//
+		function lerp(a, b, t ) 
+		{
+			var c = (a * t) + (b * (1-t));
+			return c;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Linear interpolate between two points
+		//
+		function lerp_point(a, b, t) 
+		{
+			var p = 
+			{
+				x: lerp(a.x, b.x, t),
+				y: lerp(a.y, b.y, t)
+			};
+
+			return p;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Create a new 2D position object
+		//
+		function new_pos(nx, ny)
+		{
+			var pos =
+			{
+				x: nx,
+				y: ny
+			};
+			return pos;
+		}
+
+		function get_effective_brush_size( paint_rec )
+		{
+			// If the brush size is not dynamic,
+			// simply use the the user's
+			// desired brush size
+			if (!paint_settings.use_pressure && !paint_settings.use_tilt)
+			{
+				return paint_settings.brush_size;
+			}
+
+			// the brush size is dynamic
+			// start with what the user wants
+			var new_size = paint_settings.brush_size;
+			
+			// then scale the brush size by the pressure value
+			if (paint_settings.use_pressure)
+			{
+				new_size = new_size * paint_rec.pressure; 
+				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+			}
+
+			// then apply tilt
+			// NOTE: in this app the "brush" is a circle
+			// For now simply increase the size of the brush
+			// as the pen is more tilted
+ 			var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+			if (paint_settings.use_tilt)
+			{
+				var max_tilt = 60.0;
+				var normalized_tilt = tilt_amt/max_tilt;
+				 new_size = new_size * normalized_tilt;
+				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+			}
+
+			return new_size;
+		}
+
+
+		function get_pen_color( evt )
+		{
+			if (evt.pointerType == "pen")
+			{
+				return (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+			}
+			return setting_stylus_pen_color;
+		}
+
+		function get_pressure( evt )
+		{
+			var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
+			p = clamp_to_range( p, PRESSURE_RANGE);
+			return p;
+		}
+
+
+		/////////////////////////////////////////////////////////////////////////
+		// Handle drawing for HTML5 Pointer Events.
+		//
+		function pointer_event_handler(ptr_event) 
+		{
+
+			if ( 
+				(ptr_event.pointerType != "mouse")
+				&& (ptr_event.pointerType != "pen")
+				&& (ptr_event.pointerType != "touch") 
+				) 
+			{
+				return;
+			}
+
+			var canvas_rect = canvas_el.getBoundingClientRect();
+
+			var pointer_rec = 
+			{
+				screen_pos: new_pos(ptr_event.clientX, ptr_event.clientY),
+				canvas_pos: new_pos(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+				pressure: get_pressure(ptr_event),
+				buttons: ptr_event.buttons,
+				tilt: 
+					{ 
+						x: ptr_event.tiltX,
+						y: ptr_event.tiltY
+					},
+				rotate: ptr_event.twist,
+			}
+
+
+			switch (ptr_event.type) 
+			{
+				case "pointerdown":
+					paintstate.isDrawing = true;
+					paintstate.canvas_pos_old = pointer_rec.canvas_pos;
+					break;
+
+				case "pointermove":
+					if (!paintstate.isDrawing) 
+					{
+						return;
+					}
+					canvas_context.lineWidth = get_effective_brush_size(pointer_rec);
+					canvas_context.strokeStyle = get_pen_color(ptr_event);
+					if (pointer_rec.buttons == EPenButton.eraser) 
+					{
+						canvas_context.fillRect(
+							pointer_rec.canvas_pos.x, 
+							pointer_rec.canvas_pos.y, 
+							paint_settings.eraser_size, paint_settings.eraser_size);
+						canvas_context.fill();
+					}
+					else if (pointer_rec.pressure > 0) 
+					{
+						canvas_context.beginPath();
+						canvas_context.lineCap = paint_settings.linecap;
+						canvas_context.moveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y);
+
+						// Draws Bezier curve from context position to midPoint.
+						var midPoint = lerp_point(paintstate.canvas_pos_old, pointer_rec.canvas_pos, 0.5);
+						canvas_context.quadraticCurveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y, midPoint.x, midPoint.y);
+						canvas_context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
+						canvas_context.stroke();
+					}
+
+					paintstate.canvas_pos_old = pointer_rec.canvas_pos;
+					break;
+			}
+		}
+
+		
+
+		function on_pointerup( evt ) 
+		{
+			paintstate.isDrawing = false;
+		}
+
+		function on_pointerenter( evt ) 
+		{
+			document.body.style.cursor = "crosshair";
+		}
+
+		function on_pointerleave( evt ) 
+		{
+			document.body.style.cursor = "default";
+		}
+
+		function default_ptr_event_handler_do_nothing( evt ) 
+		{
+			// do nothing
+		}
+
+		/////////////////////////////////////////////////////////////////////////
 		// Upon a window load event, registers all events.
 		//
-		window.addEventListener('load', function () 
+		function register_event_handlers()
 		{
-			// These events are for browsers that handle
-			// HTML5 PointerEvent events.
-			var pointerEvents = [
-				'pointerdown',
-				'pointerup',
-				'pointercancel',
-				'pointermove',
-				'pointerover',
-				'pointerout',
-				'pointerenter',
-				'pointerleave',
-				'gotpointercapture',
-				'lostpointercapture'
-			];
+			window.addEventListener('load', register_pointer_event_handlers, true);  
+		}
 
-
-			function get_effective_brush_size( paint_rec )
+		/////////////////////////////////////////////////////////////////////////
+		// Register listeners to canvas
+		//
+		function register_pointer_event_handlers()
+		{
+			if (!window.PointerEvent) 
 			{
-				if (setting_use_pressure)
-				{
-					var new_size = setting_brush_size;
-
-					var settings_use_pressure = true;
-					if (settings_use_pressure)
-					{
-						new_size = new_size * paint_rec.pressure; 
-						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-					}
-
-					var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-					if (setting_use_tilt)
-					{
-						new_size = new_size + ( 2.0 * setting_brush_size * (t/60.0));
-						new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-					}
-
-					console.log( paint_rec.tilt.x + "," + paint_rec.tilt.y,  "," + t );
-					return (new_size);
-				}
-				else
-				{
-					return PRESSURE_RANGE.Max;
-				}
+				console.log("INFO: Browser DOES NOT support pointer events");
+				return;
 			}
 
-			/////////////////////////////////////////////////////////////////////////
-			// clamp to range
-			//
-			function clamp(v, lower, upper) 
-			{
-   				 return Math.min(Math.max(v, lower), upper);
-			}
+			console.log("INFO: Browser DOES support pointer events");
 
-			function clamp_to_range(v, r) 
-			{
-   				 return clamp(v, r.Min, r.Max);
-			}
-			
-			/////////////////////////////////////////////////////////////////////////
-			// Linear interpolate between two values
-			//
-			function lerp(a, b, t ) 
-			{
-				var c = (a * t) + (b * (1-t));
-				return c;
-			}
+			canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
+			canvas_el.addEventListener("pointerup", on_pointerup, false);
 
-			/////////////////////////////////////////////////////////////////////////
-			// Linear interpolate between two points
-			//
-			function lerp_point(a, b, t) 
-			{
-				var p = 
-				{
-					x: lerp(a.x, b.x, t),
-					y: lerp(a.y, b.y, t)
-				};
+			canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
+			canvas_el.addEventListener("pointermove", pointer_event_handler, false);
 
-				return p;
-			}
+			canvas_el.addEventListener("pointerover", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("pointerout", default_ptr_event_handler_do_nothing, false);
 
-			function new_pos( nx, ny)
-			{
-				var pos =
-				{
-					x: nx,
-					y: ny
-				};
-				return pos;
-			}
+			canvas_el.addEventListener("pointerenter", on_pointerenter, false);
+			canvas_el.addEventListener("pointerleave", on_pointerleave, false);
 
-			function get_pen_color( evt )
-			{
-				switch (evt.pointerType) 
-					{
-						case "touch":
-							return setting_touch_pen_color;
-						case "pen":
-							return context.strokeStyle = (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
-						case "mouse":
-							return  setting_mouse_pen_color;
-						default:
-							return "yellow";
-					}
-			}
+			canvas_el.addEventListener("gotpointercapture", default_ptr_event_handler_do_nothing, false);
+			canvas_el.addEventListener("lostpointercapture", default_ptr_event_handler_do_nothing, false);
+		}
 
-			function get_pressure( evt )
-			{
-				var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
-				p = clamp_to_range( p, PRESSURE_RANGE);
-				return p;
-			}
+		register_event_handlers();
 
-			/////////////////////////////////////////////////////////////////////////
-			// Handle drawing for HTML5 Pointer Events.
-			//
-			function pointerEventDraw(evt) 
-			{
-				var canvas_rect = myCanvas.getBoundingClientRect();
-
-				var paint_rec = 
-				{
-					screen_pos: new_pos(evt.clientX, evt.clientY),
-					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
-					pressure: get_pressure(evt),
-					buttons: evt.buttons,
-					tilt: 
-						{ 
-							x: evt.tiltX,
-							y: evt.tiltY,
-							azimuth: evt.azimuthAngle,
-							altitude: evt.altitudeAngle
-						},
-					rotate: evt.twist
-
-				}
-
-
-
-				if (evt.pointerType) 
-				{
-					context.lineWidth = get_effective_brush_size(paint_rec);
-
-					switch (evt.type) 
-					{
-						case "pointerdown":
-							isDrawing = true;
-							canvas_pos_old = paint_rec.canvas_pos;
-							break;
-
-						case "pointerup":
-							isDrawing = false;
-							break;
-
-						case "pointermove":
-							if (!isDrawing) 
-							{
-								return;
-							}
-							context.strokeStyle = get_pen_color(evt);
-							// If using eraser button, then erase with background color.
-							if (paint_rec.buttons == EPenButton.eraser) 
-							{
-								context.fillStyle = setting_canvas_color;
-								context.fillRect(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y, setting_eraser_size, setting_eraser_size);
-								context.fill
-							}
-							else if (paint_rec.pressure > 0) 
-							{
-								context.beginPath();
-								context.lineCap = setting_linecap;
-								context.moveTo(canvas_pos_old.x, canvas_pos_old.y);
-
-								// Draws Bezier curve from context position to midPoint.
-								var midPoint = lerp_point(canvas_pos_old, paint_rec.canvas_pos, 0.5);
-								context.quadraticCurveTo(canvas_pos_old.x, canvas_pos_old.y, midPoint.x, midPoint.y);
-								context.lineTo(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y);
-								context.stroke();
-							}
-
-							canvas_pos_old = paint_rec.canvas_pos;
-							break;
-
-						case "pointerenter":
-							document.body.style.cursor = "crosshair";
-							break;
-
-						case "pointerleave":
-							document.body.style.cursor = "default";
-							break;
-						case "pointerover":
-							// ignore
-							break;
-						case "pointerout":
-							// ignore
-							break;
-						case "gotpointercapture":
-							// ignore
-							break;
-						case "lostpointercapture":
-							// ignore
-							break;
-						default:
-							console.log("WARNING: unhandled event: " + evt.type);
-							break;
-					}
-				}
-			}
-
-
-			/////////////////////////////////////////////////////////////////////////
-			// These event handlers are set up once when the page is loaded.
-			// Note that there are two alternate sets of handlers depending on whether
-			// PointerEvents are handled.
-			//
-			if (window.PointerEvent) 
-			{
-				console.log("Browser DOES support pointer events");
-				// if Pointer Events are supported, only listen to pointer events
-				for (var idx = 0; idx < pointerEvents.length; idx++) 
-				{
-					myCanvas.addEventListener(pointerEvents[idx], pointerEventDraw, false);
-				}
-			}
-			else 
-			{
-				console.log("Browser DOES NOT support pointer events");
-			}
-		}, true);  // end window.addEventListener
 	</script>
 
 </body>
