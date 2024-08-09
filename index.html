@@ -282,18 +282,18 @@ Key differences
 		}
 
 
-		function get_pen_color( evt )
+		function get_pen_color( ptr_event )
 		{
-			if (evt.pointerType == "pen")
+			if (ptr_event.pointerType == "pen")
 			{
-				return (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+				return (ptr_event.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
 			}
 			return setting_stylus_pen_color;
 		}
 
-		function get_pressure( evt )
+		function get_pressure( ptr_event )
 		{
-			var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
+			var p =  (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max;  
 			p = clamp_to_range( p, PRESSURE_RANGE);
 			return p;
 		}
@@ -373,22 +373,22 @@ Key differences
 
 		
 
-		function on_pointerup( evt ) 
+		function on_pointerup( ptr_event ) 
 		{
 			paintstate.isDrawing = false;
 		}
 
-		function on_pointerenter( evt ) 
+		function on_pointerenter( ptr_event ) 
 		{
 			document.body.style.cursor = "crosshair";
 		}
 
-		function on_pointerleave( evt ) 
+		function on_pointerleave( ptr_event ) 
 		{
 			document.body.style.cursor = "default";
 		}
 
-		function default_ptr_event_handler_do_nothing( evt ) 
+		function default_ptr_event_handler_do_nothing( ptr_event ) 
 		{
 			// do nothing
 		}
