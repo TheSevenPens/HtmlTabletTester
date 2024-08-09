@@ -195,20 +195,6 @@ Key differences
 		//
 		window.addEventListener('load', function () 
 		{
-			// These events are for browsers that handle
-			// HTML5 PointerEvent events.
-			var pointerEvents = [
-				'pointerdown',
-				'pointerup',
-				'pointercancel',
-				'pointermove',
-				'pointerover',
-				'pointerout',
-				'pointerenter',
-				'pointerleave',
-				'gotpointercapture',
-				'lostpointercapture'
-			];
 
 
 			function get_effective_brush_size( paint_rec )
@@ -399,6 +385,21 @@ Key differences
 			if (window.PointerEvent) 
 			{
 				console.log("Browser DOES support pointer events");
+
+				// HTML5 PointerEvent events.
+				var pointerEvents = [
+					'pointerdown',
+					'pointerup',
+					'pointercancel',
+					'pointermove',
+					'pointerover',
+					'pointerout',
+					'pointerenter',
+					'pointerleave',
+					'gotpointercapture',
+					'lostpointercapture'
+				];
+
 				// if Pointer Events are supported, only listen to pointer events
 				for (var idx = 0; idx < pointerEvents.length; idx++) 
 				{
@@ -409,6 +410,8 @@ Key differences
 			{
 				console.log("Browser DOES NOT support pointer events");
 			}
+
+
 		}, true);  // end window.addEventListener
 	</script>
 
