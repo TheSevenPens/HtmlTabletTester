@@ -91,11 +91,10 @@ Key differences
 			return r;
 		}
 
-		const setting_touch_pen_color = "red";
 		const setting_stylus_pen_color = "black";
-		const setting_mouse_pen_color = "blue";
-		const setting_download_filename = "TabletTester_Untitled.png";
 		const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
+
+		const setting_download_filename = "TabletTester_Untitled.png";
 		const setting_linecap = "round";
 
 		var paint_settings = 
@@ -285,17 +284,11 @@ Key differences
 
 			function get_pen_color( evt )
 			{
-				switch (evt.pointerType) 
-					{
-						case "touch":
-							return setting_touch_pen_color;
-						case "pen":
-							return context.strokeStyle = (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
-						case "mouse":
-							return  setting_mouse_pen_color;
-						default:
-							return "yellow";
-					}
+				if (evt.pointerType == "pen")
+				{
+					return (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+				}
+				return setting_stylus_pen_color;
 			}
 
 			function get_pressure( evt )
@@ -352,11 +345,13 @@ Key differences
 								return;
 							}
 							context.strokeStyle = get_pen_color(evt);
-							// If using eraser button, then erase with background color.
 							if (paint_rec.buttons == EPenButton.eraser) 
 							{
 								context.fillStyle = setting_canvas_color;
-								context.fillRect(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y, setting_eraser_size, setting_eraser_size);
+								context.fillRect(
+									paint_rec.canvas_pos.x, 
+									paint_rec.canvas_pos.y, 
+									paint_settings.eraser_size, paint_settings.eraser_size);
 								context.fill
 							}
 							else if (paint_rec.pressure > 0) 
