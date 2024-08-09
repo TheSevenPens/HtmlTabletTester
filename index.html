@@ -290,9 +290,11 @@ Key differences
 				{
 					screen_pos: new_pos(evt.clientX, evt.clientY),
 					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
-					pressure: get_pressure(evt)
+					pressure: get_pressure(evt),
+					buttons: evt.buttons
+
 				}
-				var buttons = evt.buttons;
+
 				var tilt = 
 				{ 
 					x: evt.tiltX,
@@ -325,7 +327,7 @@ Key differences
 							}
 							context.strokeStyle = get_pen_color(evt);
 							// If using eraser button, then erase with background color.
-							if (buttons == EPenButton.eraser) 
+							if (paint_rec.buttons == EPenButton.eraser) 
 							{
 								context.fillStyle = setting_canvas_color;
 								context.fillRect(paint_rec.canvas_pos.x, paint_rec.canvas_pos.y, setting_eraser_size, setting_eraser_size);
