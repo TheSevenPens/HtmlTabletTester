@@ -201,7 +201,6 @@ Key differences
 			{
 				if (setting_use_pressure)
 				{
-					console.log(pressure + "  - "  + setting_brush_size );
 					var new_size = pressure * setting_brush_size;
 					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE );
 					return (new_size);
@@ -287,8 +286,14 @@ Key differences
 			{
 				var canvas_rect = myCanvas.getBoundingClientRect();
 				var screen_pos = new_pos(evt.clientX, evt.clientY);
-				var canvas_pos = new_pos(screen_pos.x - canvas_rect.left, screen_pos.y - canvas_rect.top); 
 				var pressure = get_pressure(evt);  
+
+				var paint_rec = 
+				{
+					screen_pos: screen_pos,
+					canvas_pos: new_pos(screen_pos.x - canvas_rect.left, screen_pos.y - canvas_rect.top),
+					pressure: pressure
+				}
 				var buttons = evt.buttons;
 				var tilt = 
 				{ 
