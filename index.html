@@ -191,124 +191,131 @@ Key differences
 
 
 		/////////////////////////////////////////////////////////////////////////
+		// clamp 
+		//
+		function clamp(v, lower, upper) 
+		{
+				return Math.min(Math.max(v, lower), upper);
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// clamp to range
+		//
+		function clamp_to_range(v, r) 
+		{
+				return clamp(v, r.Min, r.Max);
+		}
+		
+		/////////////////////////////////////////////////////////////////////////
+		// Linear interpolate between two values
+		//
+		function lerp(a, b, t ) 
+		{
+			var c = (a * t) + (b * (1-t));
+			return c;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Linear interpolate between two points
+		//
+		function lerp_point(a, b, t) 
+		{
+			var p = 
+			{
+				x: lerp(a.x, b.x, t),
+				y: lerp(a.y, b.y, t)
+			};
+
+			return p;
+		}
+
+		/////////////////////////////////////////////////////////////////////////
+		// Create a new 2D position object
+		//
+		function new_pos( nx, ny)
+		{
+			var pos =
+			{
+				x: nx,
+				y: ny
+			};
+			return pos;
+		}
+
+		function get_effective_brush_size( paint_rec )
+		{
+			if (!paint_settings.use_pressure && !paint_settings.use_tilt)
+			{
+				return PRESSURE_RANGE.Max;
+			}
+
+			var new_size = paint_settings.brush_size;
+			
+			if (paint_settings.use_pressure)
+			{
+				new_size = new_size * paint_rec.pressure; 
+				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+			}
+
+			var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+			if (paint_settings.use_tilt)
+			{
+				new_size = new_size + ( 2.0 * paint_settings.brush_size * (t/60.0));
+				new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+			}
+
+			return (new_size);
+		}
+
+
+		function get_pen_color( evt )
+		{
+			if (evt.pointerType == "pen")
+			{
+				return (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+			}
+			return setting_stylus_pen_color;
+		}
+
+		function get_pressure( evt )
+		{
+			var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
+			p = clamp_to_range( p, PRESSURE_RANGE);
+			return p;
+		}
+
+
+		/////////////////////////////////////////////////////////////////////////
 		// Upon a window load event, registers all events.
 		//
 		window.addEventListener('load', function () 
 		{
 
-
-			function get_effective_brush_size( paint_rec )
-			{
-				if (!paint_settings.use_pressure && !paint_settings.use_tilt)
-				{
-					return PRESSURE_RANGE.Max;
-				}
-
-				var new_size = paint_settings.brush_size;
-				
-				if (paint_settings.use_pressure)
-				{
-					new_size = new_size * paint_rec.pressure; 
-					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-				}
-
-				var t = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-				if (paint_settings.use_tilt)
-				{
-					new_size = new_size + ( 2.0 * paint_settings.brush_size * (t/60.0));
-					new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-				}
-
-				return (new_size);
-			}
-
-			/////////////////////////////////////////////////////////////////////////
-			// clamp to range
-			//
-			function clamp(v, lower, upper) 
-			{
-   				 return Math.min(Math.max(v, lower), upper);
-			}
-
-			function clamp_to_range(v, r) 
-			{
-   				 return clamp(v, r.Min, r.Max);
-			}
-			
-			/////////////////////////////////////////////////////////////////////////
-			// Linear interpolate between two values
-			//
-			function lerp(a, b, t ) 
-			{
-				var c = (a * t) + (b * (1-t));
-				return c;
-			}
-
-			/////////////////////////////////////////////////////////////////////////
-			// Linear interpolate between two points
-			//
-			function lerp_point(a, b, t) 
-			{
-				var p = 
-				{
-					x: lerp(a.x, b.x, t),
-					y: lerp(a.y, b.y, t)
-				};
-
-				return p;
-			}
-
-			function new_pos( nx, ny)
-			{
-				var pos =
-				{
-					x: nx,
-					y: ny
-				};
-				return pos;
-			}
-
-			function get_pen_color( evt )
-			{
-				if (evt.pointerType == "pen")
-				{
-					return (evt.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
-				}
-				return setting_stylus_pen_color;
-			}
-
-			function get_pressure( evt )
-			{
-				var p =  (evt.pointerType == "pen") ? evt.pressure : PRESSURE_RANGE.Max;  
-				p = clamp_to_range( p, PRESSURE_RANGE);
-				return p;
-			}
-
 			/////////////////////////////////////////////////////////////////////////
 			// Handle drawing for HTML5 Pointer Events.
 			//
-			function pointerEventDraw(evt) 
+			function pointer_event_handler(ptr_event) 
 			{
 				var canvas_rect = myCanvas.getBoundingClientRect();
 
 				var pointer_rec = 
 				{
-					screen_pos: new_pos(evt.clientX, evt.clientY),
-					canvas_pos: new_pos(evt.clientX - canvas_rect.left, evt.clientY - canvas_rect.top),
-					pressure: get_pressure(evt),
-					buttons: evt.buttons,
+					screen_pos: new_pos(ptr_event.clientX, ptr_event.clientY),
+					canvas_pos: new_pos(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+					pressure: get_pressure(ptr_event),
+					buttons: ptr_event.buttons,
 					tilt: 
 						{ 
-							x: evt.tiltX,
-							y: evt.tiltY
+							x: ptr_event.tiltX,
+							y: ptr_event.tiltY
 						},
-					rotate: evt.twist,
+					rotate: ptr_event.twist,
 				}
 
-				if (evt.pointerType) 
+				if (ptr_event.pointerType) 
 				{
 
-					switch (evt.type) 
+					switch (ptr_event.type) 
 					{
 						case "pointerdown":
 							isDrawing = true;
@@ -325,7 +332,7 @@ Key differences
 								return;
 							}
 							context.lineWidth = get_effective_brush_size(pointer_rec);
-							context.strokeStyle = get_pen_color(evt);
+							context.strokeStyle = get_pen_color(ptr_event);
 							if (pointer_rec.buttons == EPenButton.eraser) 
 							{
 								context.fillRect(
@@ -370,7 +377,7 @@ Key differences
 							// ignore
 							break;
 						default:
-							console.log("WARNING: unhandled event: " + evt.type);
+							console.log("WARNING: unhandled event: " + ptr_event.type);
 							break;
 					}
 				}
@@ -403,7 +410,7 @@ Key differences
 				// if Pointer Events are supported, only listen to pointer events
 				for (var idx = 0; idx < pointerEvents.length; idx++) 
 				{
-					myCanvas.addEventListener(pointerEvents[idx], pointerEventDraw, false);
+					myCanvas.addEventListener(pointerEvents[idx], pointer_event_handler, false);
 				}
 			}
 			else 
