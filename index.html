@@ -57,7 +57,11 @@ Key differences
 
 		</p>
 
-
+		<p>
+			<label id="pressureLabel">---</label> |
+			<label id="tiltLabel">---</label>	
+		</p>
+		
 	</div>
 
 	<div>
@@ -69,6 +73,7 @@ Key differences
 
 		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_paint_settings_from_ui()" checked>
 		<label for="pressureCheckbox">Enable pressure</label>
+
 	</div>
 
 	<div class="canvasDiv">
@@ -246,6 +251,7 @@ Key differences
 				return;
 			}
 
+
 			var canvas_rect = canvas_el.getBoundingClientRect();
 
 			var pointer_rec = 
@@ -262,6 +268,11 @@ Key differences
 				rotate: ptr_event.twist,
 			}
 
+			var pressurelabel_el = document.getElementById("pressureLabel");
+			pressurelabel_el.innerText = "P:" + pointer_rec.pressure.toFixed(4);
+
+			var tiltlabel_el = document.getElementById("tiltLabel");
+			tiltlabel_el.innerText = "T:" + pointer_rec.tilt.x.toFixed(1) + "x" +pointer_rec.tilt.y.toFixed(1);
 
 			switch (ptr_event.type) 
 			{
