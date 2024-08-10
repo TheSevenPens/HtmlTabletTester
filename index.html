@@ -108,6 +108,8 @@ Key differences
 
 		var canvas_el = document.getElementById("myCanvas");
 		var canvas_context = canvas_el.getContext("2d");
+		var pressurelabel_el = document.getElementById("pressureLabel");
+		var tiltlabel_el = document.getElementById("tiltLabel");
 
 		var paintstate = 
 		{
@@ -268,10 +270,7 @@ Key differences
 				rotate: ptr_event.twist,
 			}
 
-			var pressurelabel_el = document.getElementById("pressureLabel");
 			pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
-
-			var tiltlabel_el = document.getElementById("tiltLabel");
 			tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1);
 
 			switch (ptr_event.type) 
@@ -329,6 +328,9 @@ Key differences
 		function on_pointerleave( ptr_event ) 
 		{
 			document.body.style.cursor = "default";
+			pressurelabel_el.innerText = "---";
+			tiltlabel_el.innerText = "---";
+
 		}
 
 		function default_ptr_event_handler_do_nothing( ptr_event ) 
