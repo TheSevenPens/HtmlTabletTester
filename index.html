@@ -290,13 +290,12 @@ Key differences
 					effective_color = get_pen_color(ptr_event);
 					if (pointer_rec.buttons == EPenButton.eraser) 
 					{
-						var ex = pointer_rec.canvas_pos.x - (paint_settings.eraser_size/2.0);
-						var ey = pointer_rec.canvas_pos.y - (paint_settings.eraser_size/2.0);
-						canvas_context.fillRect(
-							ex, 
-							ey, 
-							paint_settings.eraser_size, paint_settings.eraser_size);
-						canvas_context.fill();
+						draw_centered_box(
+							canvas_context,
+							pointer_rec.canvas_pos,
+							paint_settings.eraser_size,
+							paint_settings.eraser_size,
+							effective_color);
 					}
 					else if (pointer_rec.pressure > 0) 
 					{

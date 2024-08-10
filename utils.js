@@ -72,4 +72,16 @@ function draw_line( canvas_context, frompos, topos, width, color, linecap)
     canvas_context.stroke();
 }
 
+function draw_centered_box( canvas_context, pos, width, height, color)
+{
+    var ex = pos.x - (width/2.0);
+    var ey = pos.y - (height/2.0);
+    canvas_context.fillStyle = color;  
+    canvas_context.fillRect(
+        ex, 
+        ey, 
+        width, height);
+    canvas_context.fill();
+}
+
 
