@@ -279,9 +279,11 @@ Key differences
 					canvas_context.strokeStyle = get_pen_color(ptr_event);
 					if (pointer_rec.buttons == EPenButton.eraser) 
 					{
+						var ex = pointer_rec.canvas_pos.x - (paint_settings.eraser_size/2.0);
+						var ey = pointer_rec.canvas_pos.y - (paint_settings.eraser_size/2.0);
 						canvas_context.fillRect(
-							pointer_rec.canvas_pos.x, 
-							pointer_rec.canvas_pos.y, 
+							ex, 
+							ey, 
 							paint_settings.eraser_size, paint_settings.eraser_size);
 						canvas_context.fill();
 					}
