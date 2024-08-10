@@ -58,6 +58,7 @@ Key differences
 		</p>
 
 		<p>
+			Position: <label id="posLabel">---</label> |
 			Pressure: <label id="pressureLabel">---</label> |
 			Tilt: <label id="tiltLabel">---</label>	
 		</p>
@@ -110,6 +111,7 @@ Key differences
 		var canvas_context = canvas_el.getContext("2d");
 		var pressurelabel_el = document.getElementById("pressureLabel");
 		var tiltlabel_el = document.getElementById("tiltLabel");
+		var poslabel_el = document.getElementById("posLabel");
 
 		var paintstate = 
 		{
@@ -272,6 +274,8 @@ Key differences
 
 			pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
 			tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1);
+			poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
+			
 
 			switch (ptr_event.type) 
 			{
