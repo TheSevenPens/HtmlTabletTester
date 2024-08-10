@@ -59,3 +59,17 @@ function new_pos(nx, ny)
     return pos;
 }
 
+function draw_line( canvas_context, frompos, topos, width, color, linecap)
+{
+    canvas_context.lineWidth = width;
+    canvas_context.strokeStyle = color;    
+    canvas_context.beginPath();
+    canvas_context.lineCap = linecap;
+    canvas_context.moveTo(frompos.x, frompos.y);
+    var midPoint = lerp_point(frompos, topos, 0.5);
+    canvas_context.quadraticCurveTo(frompos.x, frompos.y, midPoint.x, midPoint.y);
+    canvas_context.lineTo(topos.x, topos.y);
+    canvas_context.stroke();
+}
+
+

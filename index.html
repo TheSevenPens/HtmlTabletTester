@@ -285,8 +285,9 @@ Key differences
 					{
 						return;
 					}
-					canvas_context.lineWidth = get_effective_brush_size(pointer_rec);
-					canvas_context.strokeStyle = get_pen_color(ptr_event);
+
+					effective_brush_size = get_effective_brush_size(pointer_rec);
+					effective_color = get_pen_color(ptr_event);
 					if (pointer_rec.buttons == EPenButton.eraser) 
 					{
 						var ex = pointer_rec.canvas_pos.x - (paint_settings.eraser_size/2.0);
@@ -299,15 +300,12 @@ Key differences
 					}
 					else if (pointer_rec.pressure > 0) 
 					{
-						canvas_context.beginPath();
-						canvas_context.lineCap = paint_settings.linecap;
-						canvas_context.moveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y);
-
-						// Draws Bezier curve from context position to midPoint.
-						var midPoint = lerp_point(paintstate.canvas_pos_old, pointer_rec.canvas_pos, 0.5);
-						canvas_context.quadraticCurveTo(paintstate.canvas_pos_old.x, paintstate.canvas_pos_old.y, midPoint.x, midPoint.y);
-						canvas_context.lineTo(pointer_rec.canvas_pos.x, pointer_rec.canvas_pos.y);
-						canvas_context.stroke();
+						draw_line( canvas_context, 
+							paintstate.canvas_pos_old, 
+							pointer_rec.canvas_pos, 
+							effective_brush_size,
+							effective_color,
+							paint_settings.linecap);
 					}
 
 					paintstate.canvas_pos_old = pointer_rec.canvas_pos;
