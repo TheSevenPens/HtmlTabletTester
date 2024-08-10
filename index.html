@@ -58,8 +58,8 @@ Key differences
 		</p>
 
 		<p>
-			<label id="pressureLabel">---</label> |
-			<label id="tiltLabel">---</label>	
+			Pressure: <label id="pressureLabel">---</label> |
+			Tilt: <label id="tiltLabel">---</label>	
 		</p>
 		
 	</div>
@@ -269,10 +269,10 @@ Key differences
 			}
 
 			var pressurelabel_el = document.getElementById("pressureLabel");
-			pressurelabel_el.innerText = "P:" + pointer_rec.pressure.toFixed(4);
+			pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
 
 			var tiltlabel_el = document.getElementById("tiltLabel");
-			tiltlabel_el.innerText = "T:" + pointer_rec.tilt.x.toFixed(1) + "x" +pointer_rec.tilt.y.toFixed(1);
+			tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1);
 
 			switch (ptr_event.type) 
 			{
