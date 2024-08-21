@@ -260,8 +260,8 @@ Key differences
 
 			var pointer_rec = 
 			{
-				screen_pos: new_pos(ptr_event.clientX, ptr_event.clientY),
-				canvas_pos: new_pos(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+				screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
+				canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
 				pressure: get_pressure(ptr_event),
 				buttons: ptr_event.buttons,
 				tilt: 

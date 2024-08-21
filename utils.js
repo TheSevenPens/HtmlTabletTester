@@ -49,15 +49,16 @@ function lerp_point(a, b, t)
 /////////////////////////////////////////////////////////////////////////
 // Create a new 2D position object
 //
-function new_pos(nx, ny)
+class Position
 {
-    var pos =
+    constructor(x, y) 
     {
-        x: nx,
-        y: ny
-    };
-    return pos;
+        // Assign the RGB values as a property of `this`.
+        this.x = x;
+        this.y = y;
+    }
 }
+
 
 function draw_line( canvas_context, frompos, topos, width, color, linecap)
 {
