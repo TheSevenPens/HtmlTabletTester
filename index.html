@@ -104,8 +104,8 @@ Key differences
 			linecap: "round"
 		};
 
-		const PRESSURE_RANGE = new_range(0.0,1.0);
-		const BRUSHSIZE_RANGE = new_range(1.0,100.0);
+		const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
+		const BRUSHSIZE_RANGE = new OrderedRange(1.0,100.0);
 
 		var canvas_el = document.getElementById("myCanvas");
 		var canvas_context = canvas_el.getContext("2d");
@@ -292,13 +292,13 @@ Key differences
 
 					effective_brush_size = get_effective_brush_size(pointer_rec);
 					effective_color = get_pen_color(ptr_event);
+					eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
 					if (pointer_rec.buttons == EPenButton.eraser) 
 					{
 						draw_centered_box(
 							canvas_context,
 							pointer_rec.canvas_pos,
-							paint_settings.eraser_size,
-							paint_settings.eraser_size,
+							eraser_size ,
 							effective_color);
 					}
 					else if (pointer_rec.pressure > 0) 

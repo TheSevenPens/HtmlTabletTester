@@ -1,10 +1,37 @@
-function new_range(min,max)
+/////////////////////////////////////////////////////////////////////////
+// for ranges that have a lower and upper value
+//
+class OrderedRange
 {
-    var r ={ 
-        Min: min,
-        Max: max 
+    constructor(min,max)
+    {
+        this.Min = min;
+        this.Max = max;
     }
-    return r;
+}
+
+/////////////////////////////////////////////////////////////////////////
+// 2D position
+//
+class Position
+{
+    constructor(x, y) 
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////
+// 2D size
+//
+class Size
+{
+    constructor(w, h) 
+    {
+        this.width = w;
+        this.height = h;
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -46,18 +73,7 @@ function lerp_point(a, b, t)
     return p;
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Create a new 2D position object
-//
-class Position
-{
-    constructor(x, y) 
-    {
-        // Assign the RGB values as a property of `this`.
-        this.x = x;
-        this.y = y;
-    }
-}
+
 
 
 function draw_line( canvas_context, frompos, topos, width, color, linecap)
@@ -73,15 +89,15 @@ function draw_line( canvas_context, frompos, topos, width, color, linecap)
     canvas_context.stroke();
 }
 
-function draw_centered_box( canvas_context, pos, width, height, color)
+function draw_centered_box( canvas_context, pos, size, color)
 {
-    var ex = pos.x - (width/2.0);
-    var ey = pos.y - (height/2.0);
+    var ex = pos.x - (size.width/2.0);
+    var ey = pos.y - (size.height/2.0);
     canvas_context.fillStyle = color;  
     canvas_context.fillRect(
         ex, 
         ey, 
-        width, height);
+        size.width, size.height);
     canvas_context.fill();
 }
 
