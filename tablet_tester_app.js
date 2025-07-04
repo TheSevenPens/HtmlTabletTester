@@ -271,6 +271,14 @@ function default_ptr_event_handler_do_nothing( ptr_event )
 function register_event_handlers()
 {
     window.addEventListener('load', register_pointer_event_handlers, true);  
+
+    // Hotkey for DELETE or BACKSPACE
+        document.addEventListener('keydown', 
+            (e) => {
+           if (e.key === 'Delete' || e.key === 'Backspace') {
+               e.preventDefault(); // Prevent browser back navigation
+              clearCanvas();
+         } });
 }
 
 /////////////////////////////////////////////////////////////////////////
