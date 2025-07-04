@@ -73,6 +73,10 @@ function lerp_point(a, b, t)
     return p;
 }
 
+function round_to_3_decimal_places(v) 
+{
+  return Math.round(v * 1000) / 1000;
+}
 
 
 

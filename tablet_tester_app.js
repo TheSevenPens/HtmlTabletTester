@@ -121,6 +121,7 @@ function update_currect_dab_settings( paint_rec )
     {
         new_size = new_size * paint_rec.pressure; 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
     }
     else if (paint_settings.brush_size_control == "TILT")
@@ -130,7 +131,13 @@ function update_currect_dab_settings( paint_rec )
         var normalized_tilt = tilt_amt/max_tilt;
             new_size = new_size * normalized_tilt;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        current_dab_settings.brush_size = new_size;
+        new_size = round_to_3_decimal_places( new_size );
+        curr
+        elseent_dab_settings.brush_size = new_size;
+    }
+    else
+    {
+        // unhandled case
     }
 }
 
@@ -260,12 +267,12 @@ function register_event_handlers()
     window.addEventListener('load', register_pointer_event_handlers, true);  
 
     // Hotkey for DELETE or BACKSPACE
-        document.addEventListener('keydown', 
-            (e) => {
-           if (e.key === 'Delete' || e.key === 'Backspace') {
-               e.preventDefault(); // Prevent browser back navigation
-              clearCanvas();
-         } });
+    document.addEventListener('keydown', 
+        (e) => {
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            e.preventDefault(); // Prevent browser back navigation
+            clearCanvas();
+        } });
 }
 
 /////////////////////////////////////////////////////////////////////////
