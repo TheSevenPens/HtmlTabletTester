@@ -186,6 +186,11 @@ function update_currect_dab_settings( paint_rec, ptr_event )
                 // CANVAS COLOR TO COLOR
                 current_dab_settings.brush_color = setting_canvas_color;
             }
+            else if (paint_settings.brush_color=="RED")
+            {
+                // CANVAS COLOR TO COLOR
+                current_dab_settings.brush_color = "rgba(250, 0, 0, 1.0)";;
+            }
             else
             {
                 // STANDARD BRUSH COLOR
