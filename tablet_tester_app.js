@@ -108,6 +108,11 @@ function saveCanvas()
 
 function update_currect_dab_settings( paint_rec, ptr_event )
 {
+
+    var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
+    var max_tilt = 60.0;
+    var normalized_tilt = tilt_amt/max_tilt;
+
     var new_size = paint_settings.brush_size;
 
     // If the brush size is not dynamic,
@@ -128,10 +133,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "TILT")
     {
-        var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-        var max_tilt = 60.0;
-        var normalized_tilt = tilt_amt/max_tilt;
-            new_size = new_size * normalized_tilt;
+        new_size = new_size * normalized_tilt;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
@@ -154,12 +156,22 @@ function update_currect_dab_settings( paint_rec, ptr_event )
         else
         {
             // DRAWING
-            if (true)
+            if (false)
             {
                 // PRESSURE TO COLOR
                 // Low pressure is a blue/green
                 // high pressure is read
                 var hue = lerp(360, 150, paint_rec.pressure);
+                var dab_color = `hsl(${hue}, 100%, 50%)`;
+                current_dab_settings.brush_color = dab_color;
+
+            }
+            else if (true)
+            {
+                // TILT TO COLOR
+                // Low pressure is a blue/green
+                // high pressure is read
+                var hue = lerp(360, 150, normalized_tilt);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
