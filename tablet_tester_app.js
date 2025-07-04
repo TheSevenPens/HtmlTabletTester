@@ -9,6 +9,7 @@ var paint_settings =
     use_tilt: false,
     use_pressure: false,
     brush_size: 50,
+    brush_size_control: "PRESSURE",
     eraser_size: 30,
     linecap: "round"
 };
@@ -73,17 +74,14 @@ function setCanvasProps()
 //
 function update_paint_settings_from_ui() 
 {
-    var use_tilt = document.querySelector('input[value="useTilt"]');
-    var use_pressure = document.querySelector('input[value="usePressure"]');
+    var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
+    paint_settings.brush_size_control = brush_size_control_el.value; 
 
 
     var brush_size_el = document.getElementById('brushSizeSelect');
     var brush_size = parseInt(brush_size_el.value);
     
     paint_settings.brush_size = brush_size; 
-
-    paint_settings.use_tilt = use_tilt.checked;
-    paint_settings.use_pressure = use_pressure.checked;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -114,27 +112,20 @@ function update_currect_dab_settings( paint_rec )
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
-    if (!paint_settings.use_pressure && !paint_settings.use_tilt)
+
+    if (paint_settings.brush_size_control == "USER")
     {
         current_dab_settings.brush_size = new_size;
-        return;
     }
-    
-    // then scale the brush size by the pressure value
-    if (paint_settings.use_pressure)
+    else if (paint_settings.brush_size_control == "PRESSURE")
     {
         new_size = new_size * paint_rec.pressure; 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        current_dab_settings.brush_size = new_size;
+        current_dab_settings.brush_size = new_size;        
     }
-
-    // then apply tilt
-    // NOTE: in this app the "brush" is a circle
-    // For now simply increase the size of the brush
-    // as the pen is more tilted
-    var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-    if (paint_settings.use_tilt)
+    else if (paint_settings.brush_size_control == "TILT")
     {
+        var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
         var max_tilt = 60.0;
         var normalized_tilt = tilt_amt/max_tilt;
             new_size = new_size * normalized_tilt;

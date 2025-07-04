@@ -59,9 +59,9 @@ Key differences
 	<div class='parent'>
 		<h2 >7P Tablet Tester</h2>
 		<p>
-			<a href="https://thesevenpens.github.io/HtmlTabletTester/" target="_blank" rel="noopener noreferrer" >Documentation</a>
+			<a href="https://thesevenpens.github.io/HtmlTabletTester/" target="_blank" rel="noopener noreferrer" >Docs</a>
 			|
-			<a href="https://github.com/TheSevenPens/HtmlTabletTester" target="_blank" rel="noopener noreferrer" >GitHub repo</a>
+			<a href="https://github.com/TheSevenPens/HtmlTabletTester" target="_blank" rel="noopener noreferrer" >Code</a>
 
 		</p>
 
@@ -78,6 +78,7 @@ Key differences
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
 
+		<label>Brush Size </label>
 		<select id="brushSizeSelect" value="brushSize" onchange="update_paint_settings_from_ui()">
         	<option value="1">1</option>
         	<option value="5">5</option>
@@ -87,11 +88,11 @@ Key differences
         	<option value="300">300</option>
     	</select>
 
-		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_paint_settings_from_ui()" checked>
-		<label for="pressureCheckbox">Use pressure</label>
-
-		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_paint_settings_from_ui()">
-		<label for="tiltCheckbox" >Use tilt</label>
+		<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paint_settings_from_ui()">
+        	<option value="USER">User input</option>
+        	<option value="PRESSURE" selected>Pressure</option>
+        	<option value="TILT">Tilt</option>
+    	</select>
 
 	</div>
 
