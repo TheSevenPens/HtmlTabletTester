@@ -105,7 +105,7 @@ function saveCanvas()
     link.click();
 }
 
-function update_currect_dab_settings( paint_rec )
+function update_currect_dab_settings( paint_rec, ptr_event )
 {
     var new_size = paint_settings.brush_size;
 
@@ -208,7 +208,7 @@ function pointer_event_handler(ptr_event)
                 return;
             }
 
-            update_currect_dab_settings(pointer_rec);
+            update_currect_dab_settings(pointer_rec, ptr_event);
 
             effective_color = get_pen_color(ptr_event);
             eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
