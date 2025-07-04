@@ -144,18 +144,16 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     // HANDLE DAB COLOR
     if (ptr_event.pointerType == "pen")
     {
-        current_dab_settings.brush_color = (ptr_event.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+        if (ptr_event.buttons == EPenButton.eraser)
+        {
+            current_dab_settings.brush_color = setting_canvas_color;
+        }
+        else
+        {
+            current_dab_settings.brush_color = setting_stylus_pen_color;
+        }
     }
  
-}
-
-function get_pen_color( ptr_event )
-{
-    if (ptr_event.pointerType == "pen")
-    {
-        return (ptr_event.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
-    }
-    return setting_stylus_pen_color;
 }
 
 function get_pressure( ptr_event )
