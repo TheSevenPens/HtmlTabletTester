@@ -80,8 +80,6 @@ function update_paint_settings_from_ui()
     var brush_size_el = document.getElementById('brushSizeSelect');
     var brush_size = parseInt(brush_size_el.value);
     
-    console.log("TBS", typeof(brush_size));
-    console.log("BS", brush_size);
     paint_settings.brush_size = brush_size; 
 
     paint_settings.use_tilt = use_tilt.checked;
