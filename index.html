@@ -80,16 +80,17 @@ Key differences
 
 		<label>Size </label>
 		<select id="brushSizeSelect" value="brushSize" onchange="update_paint_settings_from_ui()">
-        	<option value="1">1</option>
-        	<option value="5">5</option>
-        	<option value="10">10</option>
-        	<option value="50" selected >50</option>
-        	<option value="100">100</option>
-        	<option value="300">300</option>
+        	<option value="1">1px</option>
+        	<option value="5">5px</option>
+        	<option value="10">10px</option>
+        	<option value="50" selected >50px</option>
+        	<option value="100">100px</option>
+        	<option value="300">300px</option>
     	</select>
 
+		<label>Scale size by </label>
 		<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paint_settings_from_ui()">
-        	<option value="USER">User input</option>
+        	<option value="USER">Don't scale</option>
         	<option value="PRESSURE" selected>Pressure</option>
         	<option value="TILT">Tilt</option>
     	</select>
