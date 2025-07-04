@@ -29,6 +29,8 @@ var pressurelabel_el = document.getElementById("pressureLabel");
 var tiltlabel_el = document.getElementById("tiltLabel");
 var poslabel_el = document.getElementById("posLabel");
 var sizelabel_el = document.getElementById("sizeLabel");
+var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
+var brush_size_el = document.getElementById('brushSizeSelect');
 
 var paintstate = 
 {
@@ -75,13 +77,8 @@ function setCanvasProps()
 //
 function update_paint_settings_from_ui() 
 {
-    var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
     paint_settings.brush_size_control = brush_size_control_el.value; 
-
-
-    var brush_size_el = document.getElementById('brushSizeSelect');
-    var brush_size = parseInt(brush_size_el.value);
-    
+    var brush_size = parseInt(brush_size_el.value);   
     paint_settings.brush_size = brush_size; 
 }
 
