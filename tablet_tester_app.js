@@ -181,6 +181,11 @@ function update_currect_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
+            else if (paint_settings.brush_color=="ERASER")
+            {
+                // CANVAS COLOR TO COLOR
+                current_dab_settings.brush_color = setting_canvas_color;
+            }
             else
             {
                 // STANDARD BRUSH COLOR
