@@ -2,7 +2,7 @@
 
 const setting_stylus_pen_color = "black";
 const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
-const setting_download_filename = "TabletTester_Untitled.png";
+const setting_download_filename = "TabletTester_Untitled";
 
 var paint_settings = 
 {
@@ -94,6 +94,11 @@ function clearCanvas()
     canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
 }
 
+function getCanvasName()
+{
+    return setting_download_filename + "_" + Date.now().toString() + ".png";
+}
+
 /////////////////////////////////////////////////////////////////////////
 // Saves the image on the drawing canvas and then downloads a png.
 //
@@ -101,7 +106,7 @@ function saveCanvas()
 {
     var link = document.getElementById('link');
     var url = canvas_el.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    link.setAttribute('download', setting_download_filename );
+    link.setAttribute('download', getCanvasName());
     link.setAttribute('href', url);
     link.click();
 }
