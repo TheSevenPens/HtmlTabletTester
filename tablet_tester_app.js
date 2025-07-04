@@ -17,6 +17,7 @@ var paint_settings =
 var current_dab_settings = 
 {
     brush_size: 1,
+    brush_color: setting_stylus_pen_color
 };
 
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
@@ -113,6 +114,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     // simply use the the user's
     // desired brush size
 
+    // HANDLE DAB SIZE
     if (paint_settings.brush_size_control == "USER")
     {
         current_dab_settings.brush_size = new_size;
@@ -138,6 +140,13 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     {
         // unhandled case
     }
+
+    // HANDLE DAB COLOR
+    if (ptr_event.pointerType == "pen")
+    {
+        current_dab_settings.brush_color = (ptr_event.buttons == EPenButton.eraser) ? setting_canvas_color : setting_stylus_pen_color;
+    }
+ 
 }
 
 function get_pen_color( ptr_event )
@@ -210,7 +219,6 @@ function pointer_event_handler(ptr_event)
 
             update_currect_dab_settings(pointer_rec, ptr_event);
 
-            effective_color = get_pen_color(ptr_event);
             eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
             if (pointer_rec.buttons == EPenButton.eraser) 
             {
@@ -218,7 +226,7 @@ function pointer_event_handler(ptr_event)
                     canvas_context,
                     pointer_rec.canvas_pos,
                     eraser_size ,
-                    effective_color);
+                    current_dab_settings.brush_color);
             }
             else if (pointer_rec.pressure > 0) 
             {
@@ -226,7 +234,7 @@ function pointer_event_handler(ptr_event)
                     paintstate.canvas_pos_old, 
                     pointer_rec.canvas_pos, 
                     current_dab_settings.brush_size,
-                    effective_color,
+                    current_dab_settings.brush_color,
                     paint_settings.linecap);
             }
 
