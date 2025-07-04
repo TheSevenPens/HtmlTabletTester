@@ -132,8 +132,7 @@ function update_currect_dab_settings( paint_rec )
             new_size = new_size * normalized_tilt;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
-        curr
-        elseent_dab_settings.brush_size = new_size;
+        current_dab_settings.brush_size = new_size;
     }
     else
     {
