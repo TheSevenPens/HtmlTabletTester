@@ -17,7 +17,8 @@ var paint_settings =
 var current_dab_settings = 
 {
     brush_size: 1,
-    brush_color: setting_stylus_pen_color
+    brush_color: setting_stylus_pen_color,
+    brush_color: "DEFAULT"
 };
 
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
@@ -31,6 +32,7 @@ var poslabel_el = document.getElementById("posLabel");
 var sizelabel_el = document.getElementById("sizeLabel");
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
 var brush_size_el = document.getElementById('brushSizeSelect');
+var brush_color_control_el =  document.getElementById('brushColorControlSelect');
 
 var paintstate = 
 {
@@ -80,6 +82,7 @@ function update_paint_settings_from_ui()
     paint_settings.brush_size_control = brush_size_control_el.value; 
     var brush_size = parseInt(brush_size_el.value);   
     paint_settings.brush_size = brush_size; 
+    paint_settings.brush_color = brush_color_control_el.value
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -153,7 +156,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
         else
         {
             // DRAWING
-            if (false)
+            if (paint_settings.brush_color=="PRESSURE")
             {
                 // PRESSURE TO COLOR
                 // Low pressure is a blue/green
@@ -163,7 +166,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
-            else if (true)
+            else if (paint_settings.brush_color=="TILT")
             {
                 // TILT TO COLOR
                 // Low pressure is a blue/green

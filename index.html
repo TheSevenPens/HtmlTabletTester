@@ -78,7 +78,7 @@ Key differences
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
 
-		<label>Brush Size </label>
+		<label>Size </label>
 		<select id="brushSizeSelect" value="brushSize" onchange="update_paint_settings_from_ui()">
         	<option value="1">1</option>
         	<option value="5">5</option>
@@ -91,6 +91,13 @@ Key differences
 		<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paint_settings_from_ui()">
         	<option value="USER">User input</option>
         	<option value="PRESSURE" selected>Pressure</option>
+        	<option value="TILT">Tilt</option>
+    	</select>
+
+		<label>Color </label>
+		<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paint_settings_from_ui()">
+        	<option value="DEFAULT" selected>Default</option>
+        	<option value="PRESSURE">Pressure</option>
         	<option value="TILT">Tilt</option>
     	</select>
 
