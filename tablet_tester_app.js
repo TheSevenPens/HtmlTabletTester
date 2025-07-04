@@ -146,11 +146,29 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     {
         if (ptr_event.buttons == EPenButton.eraser)
         {
+            // ERASING
             current_dab_settings.brush_color = setting_canvas_color;
+
+
         }
         else
         {
-            current_dab_settings.brush_color = setting_stylus_pen_color;
+            // DRAWING
+            if (true)
+            {
+                // PRESSURE TO COLOR
+                // Low pressure is a blue/green
+                // high pressure is read
+                var hue = lerp(360, 150, paint_rec.pressure);
+                var dab_color = `hsl(${hue}, 100%, 50%)`;
+                current_dab_settings.brush_color = dab_color;
+
+            }
+            else
+            {
+                // STANDARD BRUSH COLOR
+                current_dab_settings.brush_color = setting_stylus_pen_color;
+            }
         }
     }
  
