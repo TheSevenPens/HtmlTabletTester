@@ -68,7 +68,8 @@ Key differences
 		<p>
 			Position: <label id="posLabel">---</label> |
 			Pressure: <label id="pressureLabel">---</label> |
-			Tilt: <label id="tiltLabel">---</label>	
+			Tilt: <label id="tiltLabel">---</label>	|
+			Size: <label id="sizeLabel">---</label>	|
 		</p>
 		
 	</div>
@@ -77,8 +78,17 @@ Key differences
 		<button type="button" onclick="clearCanvas()">Clear</button>
 		<button type="button" onclick="saveCanvas()">Save</button>
 
+		<select id="brushSizeSelect" value="brushSize" onchange="update_paint_settings_from_ui()">
+        	<option value="1">1</option>
+        	<option value="5">5</option>
+        	<option value="10">10</option>
+        	<option value="50" selected >50</option>
+        	<option value="100">100</option>
+        	<option value="300">300</option>
+    	</select>
+
 		<input type="checkbox" id="pressureCheckbox" value="usePressure" onclick="update_paint_settings_from_ui()" checked>
-		<label for="pressureCheckbox">Use  pressure</label>
+		<label for="pressureCheckbox">Use pressure</label>
 
 		<input type="checkbox" id="tiltCheckbox" value="useTilt" onclick="update_paint_settings_from_ui()">
 		<label for="tiltCheckbox" >Use tilt</label>

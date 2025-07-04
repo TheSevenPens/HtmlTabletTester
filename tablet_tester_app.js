@@ -8,19 +8,25 @@ var paint_settings =
 {
     use_tilt: false,
     use_pressure: false,
-    brush_size: 30,
+    brush_size: 50,
     eraser_size: 30,
     linecap: "round"
 };
 
+var current_dab_settings = 
+{
+    brush_size: 1,
+};
+
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
-const BRUSHSIZE_RANGE = new OrderedRange(1.0,100.0);
+const BRUSHSIZE_RANGE = new OrderedRange(1.0,300.0);
 
 var canvas_el = document.getElementById("myCanvas");
 var canvas_context = canvas_el.getContext("2d");
 var pressurelabel_el = document.getElementById("pressureLabel");
 var tiltlabel_el = document.getElementById("tiltLabel");
 var poslabel_el = document.getElementById("posLabel");
+var sizelabel_el = document.getElementById("sizeLabel");
 
 var paintstate = 
 {
@@ -70,6 +76,14 @@ function update_paint_settings_from_ui()
     var use_tilt = document.querySelector('input[value="useTilt"]');
     var use_pressure = document.querySelector('input[value="usePressure"]');
 
+
+    var brush_size_el = document.getElementById('brushSizeSelect');
+    var brush_size = parseInt(brush_size_el.value);
+    
+    //console.log("TBS", typeof(brush_size));
+    //console.log("BS", brush_size);
+    paint_settings.brush_size = brush_size; 
+
     paint_settings.use_tilt = use_tilt.checked;
     paint_settings.use_pressure = use_pressure.checked;
 }
@@ -95,26 +109,27 @@ function saveCanvas()
     link.click();
 }
 
-
-function get_effective_brush_size( paint_rec )
+function update_currect_dab_settings( paint_rec )
 {
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
     if (!paint_settings.use_pressure && !paint_settings.use_tilt)
     {
-        return paint_settings.brush_size;
+        return;
     }
 
     // the brush size is dynamic
     // start with what the user wants
     var new_size = paint_settings.brush_size;
+    console.log("BRUSH SIZE",  paint_settings.brush_size)
     
     // then scale the brush size by the pressure value
     if (paint_settings.use_pressure)
     {
         new_size = new_size * paint_rec.pressure; 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        current_dab_settings.brush_size = new_size;
     }
 
     // then apply tilt
@@ -128,9 +143,8 @@ function get_effective_brush_size( paint_rec )
         var normalized_tilt = tilt_amt/max_tilt;
             new_size = new_size * normalized_tilt;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        current_dab_settings.brush_size = new_size;
     }
-
-    return new_size;
 }
 
 function get_pen_color( ptr_event )
@@ -184,7 +198,9 @@ function pointer_event_handler(ptr_event)
     pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
     tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1);
     poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
+    sizelabel_el.innerText = current_dab_settings.brush_size.toString();
     
+
 
     switch (ptr_event.type) 
     {
@@ -199,7 +215,8 @@ function pointer_event_handler(ptr_event)
                 return;
             }
 
-            effective_brush_size = get_effective_brush_size(pointer_rec);
+            update_currect_dab_settings(pointer_rec);
+
             effective_color = get_pen_color(ptr_event);
             eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
             if (pointer_rec.buttons == EPenButton.eraser) 
@@ -215,7 +232,7 @@ function pointer_event_handler(ptr_event)
                 draw_line( canvas_context, 
                     paintstate.canvas_pos_old, 
                     pointer_rec.canvas_pos, 
-                    effective_brush_size,
+                    current_dab_settings.brush_size,
                     effective_color,
                     paint_settings.linecap);
             }
