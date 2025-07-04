@@ -80,8 +80,8 @@ function update_paint_settings_from_ui()
     var brush_size_el = document.getElementById('brushSizeSelect');
     var brush_size = parseInt(brush_size_el.value);
     
-    //console.log("TBS", typeof(brush_size));
-    //console.log("BS", brush_size);
+    console.log("TBS", typeof(brush_size));
+    console.log("BS", brush_size);
     paint_settings.brush_size = brush_size; 
 
     paint_settings.use_tilt = use_tilt.checked;
@@ -111,18 +111,16 @@ function saveCanvas()
 
 function update_currect_dab_settings( paint_rec )
 {
+    var new_size = paint_settings.brush_size;
+
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
     if (!paint_settings.use_pressure && !paint_settings.use_tilt)
     {
+        current_dab_settings.brush_size = new_size;
         return;
     }
-
-    // the brush size is dynamic
-    // start with what the user wants
-    var new_size = paint_settings.brush_size;
-    console.log("BRUSH SIZE",  paint_settings.brush_size)
     
     // then scale the brush size by the pressure value
     if (paint_settings.use_pressure)
