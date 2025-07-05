@@ -33,10 +33,8 @@ var sizelabel_el = document.getElementById("sizeVal");
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
 var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
-
 var pressure_smoothing_el = document.getElementById('pressureSmoothing');
 var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
-
 
 
 var paint_state = 
@@ -169,6 +167,9 @@ function update_dab_settings( paint_rec, ptr_event )
         // unhandled case
     }
 
+    // Eraser size
+    current_dab_settings.eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
+
     // HANDLE DAB COLOR
     if (ptr_event.pointerType == "pen")
     {
@@ -219,6 +220,10 @@ function update_dab_settings( paint_rec, ptr_event )
             }
         }
     }
+
+    // Update eraser size
+    // TODO: Marge this with mainline pressure handling code
+  
  
 }
 
@@ -290,13 +295,13 @@ function pointer_event_handler(ptr_event)
 
             update_dab_settings(pointer_rec, ptr_event);
 
-            eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
+
             if (pointer_rec.buttons == EPenButton.eraser) 
             {
                 draw_centered_box(
                     canvas_context,
                     pointer_rec.canvas_pos,
-                    eraser_size ,
+                    current_dab_settings.eraser_size ,
                     current_dab_settings.brush_color);
             }
             else if (pointer_rec.pressure > 0) 
