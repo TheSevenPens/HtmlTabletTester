@@ -78,14 +78,16 @@ function round_to_3_decimal_places(v)
   return Math.round(v * 1000) / 1000;
 }
 
-function mapRangeWithCurve(input) 
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function GetSmoothingValue(input) 
 {
     // first map it with a curve
-    var t= input;
-    var output1 =  t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-    // second restrict to a slightly smalle range 
-    var output2 = lerp( 0.97, 0.0, output1);
+    var output1 =  easeOutCubic( input );
+    // second restrict to a slightly smaller range 
+    var output2 = lerp( 0.985, 0.0, output1);
     return output2;
 }
 

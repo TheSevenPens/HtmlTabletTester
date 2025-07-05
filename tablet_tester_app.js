@@ -43,7 +43,8 @@ var paintstate =
 {
     inStroke: false,
     canvas_pos_old: { x: 0, y: 0 },
-    isDrawing: false
+    isDrawing: false,
+    pressure_smoothed_old: -1.0
 };
 
 update_paint_settings_from_ui(); 
@@ -89,7 +90,7 @@ function update_paint_settings_from_ui()
     paint_settings.brush_size = brush_size; 
     paint_settings.brush_color = brush_color_control_el.value;
 
-    paint_settings.pressure_smoothing = mapRangeWithCurve( pressure_smoothing_el.value ) ;
+    paint_settings.pressure_smoothing = GetSmoothingValue( pressure_smoothing_el.value ) ;
 
     pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
 }
@@ -120,7 +121,7 @@ function saveCanvas()
     link.click();
 }
 
-function update_currect_dab_settings( paint_rec, ptr_event )
+function update_dab_settings( paint_rec, ptr_event )
 {
 
     var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
@@ -129,6 +130,17 @@ function update_currect_dab_settings( paint_rec, ptr_event )
 
     var new_size = paint_settings.brush_size;
 
+
+    if (paintstate.pressure_smoothed_old <0.0)
+    {
+        var pressure_effective  = paint_rec.pressure;
+    }
+    else
+    {
+        var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
+        var pressure_effective = ( pressure_smoothing_alpha * paint_rec.pressure ) + ((1.0 - pressure_smoothing_alpha) * paintstate.pressure_smoothed_old);
+    }
+    paintstate.pressure_smoothed_old = pressure_effective;
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
@@ -140,7 +152,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
-        new_size = new_size * paint_rec.pressure; 
+        new_size = new_size * pressure_effective; 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
@@ -175,7 +187,7 @@ function update_currect_dab_settings( paint_rec, ptr_event )
                 // PRESSURE TO COLOR
                 // Low pressure is a blue/green
                 // high pressure is read
-                var hue = lerp(360, 150, paint_rec.pressure);
+                var hue = lerp(360, 150, pressure_effective);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
@@ -260,6 +272,7 @@ function pointer_event_handler(ptr_event)
     else
     {
         sizelabel_el.innerText = "xxx";
+        paintstate.pressure_smoothed_old = -1.0;
     }
 
     switch (ptr_event.type) 
@@ -275,7 +288,7 @@ function pointer_event_handler(ptr_event)
                 return;
             }
 
-            update_currect_dab_settings(pointer_rec, ptr_event);
+            update_dab_settings(pointer_rec, ptr_event);
 
             eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
             if (pointer_rec.buttons == EPenButton.eraser) 
