@@ -21,6 +21,10 @@ Key differences
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		}
 
+		body {
+			font-size: 12px; /* Sets default font size for all non-heading text */
+		}
+
 		h1, h2, h3, p {
 			padding: 0;
 			margin: 0;
@@ -30,6 +34,10 @@ Key differences
 			text-align: center;
 			margin-left: auto;
 			margin-right: auto;
+		}
+
+		.monospace {
+			font-family: "Consolas", "Monaco", "Courier New", Courier, monospace;
 		}
 
 		div {
@@ -66,10 +74,10 @@ Key differences
 		</p>
 
 		<p>
-			Position: <label id="posLabel">---</label> |
-			Pressure: <label id="pressureLabel">---</label> |
-			Tilt: <label id="tiltLabel">---</label>	|
-			Size: <label id="sizeLabel">---</label>	|
+			Position: <label id="posLabel"> <span id="posVal" class="monospace">---</span> </label> |
+			Pressure: <label id="pressureLabel"> <span id="pressureVal" class="monospace">---</span> </label> |
+			Tilt: <label id="tiltLabel"> <span id="tiltVal" class="monospace">---</span> </label>	|
+			Size: <label id="sizeLabel"> <span id="sizeVal" class="monospace">---</span></label>	|
 		</p>
 		
 	</div>

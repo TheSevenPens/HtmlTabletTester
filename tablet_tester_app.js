@@ -26,10 +26,10 @@ const BRUSHSIZE_RANGE = new OrderedRange(1.0,300.0);
 
 var canvas_el = document.getElementById("myCanvas");
 var canvas_context = canvas_el.getContext("2d");
-var pressurelabel_el = document.getElementById("pressureLabel");
-var tiltlabel_el = document.getElementById("tiltLabel");
-var poslabel_el = document.getElementById("posLabel");
-var sizelabel_el = document.getElementById("sizeLabel");
+var pressurelabel_el = document.getElementById("pressureVal");
+var tiltlabel_el = document.getElementById("tiltVal");
+var poslabel_el = document.getElementById("posVal");
+var sizelabel_el = document.getElementById("sizeVal");
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
 var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
@@ -241,11 +241,17 @@ function pointer_event_handler(ptr_event)
     }
 
     pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
-    tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1);
+    tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1) ;
     poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
-    sizelabel_el.innerText = current_dab_settings.brush_size.toString();
-    
 
+    if (pointer_rec.pressure > 0)
+    {
+        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
+    }
+    else
+    {
+        sizelabel_el.innerText = "xxx";
+    }
 
     switch (ptr_event.type) 
     {
@@ -300,11 +306,11 @@ function on_pointerleave( ptr_event )
 {
     document.body.style.cursor = "default";
 
-
-    poslabel_el.innerText = "---";
-    sizelabel_el.innerText = "---";
-    pressurelabel_el.innerText = "---";
-    tiltlabel_el.innerText = "---";
+    const empty = "---";
+    poslabel_el.innerText = empty;
+    sizelabel_el.innerText = empty;
+    pressurelabel_el.innerText = empty;
+    tiltlabel_el.innerText = empty;
 
 }
 
