@@ -89,9 +89,9 @@ function update_paint_settings_from_ui()
     paint_settings.brush_size = brush_size; 
     paint_settings.brush_color = brush_color_control_el.value;
 
-    paint_settings.pressure_smoothing = pressure_smoothing_el.value;
+    paint_settings.pressure_smoothing = mapRangeWithCurve( pressure_smoothing_el.value ) ;
 
-    pressureSmoothingValue_el.innerText = pressure_smoothing_el.value;
+    pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
 }
 
 /////////////////////////////////////////////////////////////////////////

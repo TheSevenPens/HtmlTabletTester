@@ -78,7 +78,16 @@ function round_to_3_decimal_places(v)
   return Math.round(v * 1000) / 1000;
 }
 
+function mapRangeWithCurve(input) 
+{
+    // first map it with a curve
+    var t= input;
+    var output1 =  t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
+    // second restrict to a slightly smalle range 
+    var output2 = lerp( 0.97, 0.0, output1);
+    return output2;
+}
 
 function draw_line( canvas_context, frompos, topos, width, color, linecap)
 {
