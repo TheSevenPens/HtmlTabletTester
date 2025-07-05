@@ -80,6 +80,7 @@ Key differences
 			Size: <label id="sizeLabel"> <span id="sizeVal" class="monospace">---</span></label>	|
 		</p>
 		
+
 	</div>
 
 	<div>
@@ -111,6 +112,11 @@ Key differences
         	<option value="TILT">Tilt</option>
         	<option value="ERASER">Eraser</option>
     	</select>
+
+		<br>
+
+		<label for="pressureSmoothingSlider">PRS EMA Smoothing: <span id="pressureSmoothingValue">0.50</span></label>
+		<input type="range" id="pressureSmoothing" min="0" max="1" step="0.01" value="0.5" oninput="update_paint_settings_from_ui()" >
 
 	</div>
 

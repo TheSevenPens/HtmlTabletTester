@@ -34,6 +34,11 @@ var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
 var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
 
+var pressure_smoothing_el = document.getElementById('pressureSmoothing');
+var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
+
+
+
 var paintstate = 
 {
     inStroke: false,
@@ -82,7 +87,11 @@ function update_paint_settings_from_ui()
     paint_settings.brush_size_control = brush_size_control_el.value; 
     var brush_size = parseInt(brush_size_el.value);   
     paint_settings.brush_size = brush_size; 
-    paint_settings.brush_color = brush_color_control_el.value
+    paint_settings.brush_color = brush_color_control_el.value;
+
+    paint_settings.pressure_smoothing = pressure_smoothing_el.value;
+
+    pressureSmoothingValue_el.innerText = pressure_smoothing_el.value;
 }
 
 /////////////////////////////////////////////////////////////////////////
