@@ -39,7 +39,7 @@ var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue"
 
 
 
-var paintstate = 
+var paint_state = 
 {
     inStroke: false,
     canvas_pos_old: { x: 0, y: 0 },
@@ -131,16 +131,16 @@ function update_dab_settings( paint_rec, ptr_event )
     var new_size = paint_settings.brush_size;
 
 
-    if (paintstate.pressure_smoothed_old <0.0)
+    if (paint_state.pressure_smoothed_old <0.0)
     {
         var pressure_effective  = paint_rec.pressure;
     }
     else
     {
         var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
-        var pressure_effective = ( pressure_smoothing_alpha * paint_rec.pressure ) + ((1.0 - pressure_smoothing_alpha) * paintstate.pressure_smoothed_old);
+        var pressure_effective = ( pressure_smoothing_alpha * paint_rec.pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
     }
-    paintstate.pressure_smoothed_old = pressure_effective;
+    paint_state.pressure_smoothed_old = pressure_effective;
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
@@ -272,18 +272,18 @@ function pointer_event_handler(ptr_event)
     else
     {
         sizelabel_el.innerText = "xxx";
-        paintstate.pressure_smoothed_old = -1.0;
+        paint_state.pressure_smoothed_old = -1.0;
     }
 
     switch (ptr_event.type) 
     {
         case "pointerdown":
-            paintstate.isDrawing = true;
-            paintstate.canvas_pos_old = pointer_rec.canvas_pos;
+            paint_state.isDrawing = true;
+            paint_state.canvas_pos_old = pointer_rec.canvas_pos;
             break;
 
         case "pointermove":
-            if (!paintstate.isDrawing) 
+            if (!paint_state.isDrawing) 
             {
                 return;
             }
@@ -302,21 +302,21 @@ function pointer_event_handler(ptr_event)
             else if (pointer_rec.pressure > 0) 
             {
                 draw_line( canvas_context, 
-                    paintstate.canvas_pos_old, 
+                    paint_state.canvas_pos_old, 
                     pointer_rec.canvas_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
                     paint_settings.linecap);
             }
 
-            paintstate.canvas_pos_old = pointer_rec.canvas_pos;
+            paint_state.canvas_pos_old = pointer_rec.canvas_pos;
             break;
     }
 }
 
 function on_pointerup( ptr_event ) 
 {
-    paintstate.isDrawing = false;
+    paint_state.isDrawing = false;
 }
 
 function on_pointerenter( ptr_event ) 
