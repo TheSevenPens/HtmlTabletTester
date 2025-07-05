@@ -299,6 +299,10 @@ function on_pointerenter( ptr_event )
 function on_pointerleave( ptr_event ) 
 {
     document.body.style.cursor = "default";
+
+
+    poslabel_el.innerText = "---";
+    sizelabel_el.innerText = "---";
     pressurelabel_el.innerText = "---";
     tiltlabel_el.innerText = "---";
 
