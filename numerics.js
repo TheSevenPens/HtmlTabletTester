@@ -73,6 +73,11 @@ function lerp_point(a, b, t)
     return p;
 }
 
+function round_to_4_decimal_places(v) 
+{
+  return Math.round(v * 10000) / 10000;
+}
+
 function round_to_3_decimal_places(v) 
 {
   return Math.round(v * 1000) / 1000;
@@ -88,32 +93,9 @@ function GetSmoothingValue(input)
     var output1 =  easeOutCubic( input );
     // second restrict to a slightly smaller range 
     var output2 = lerp( 0.985, 0.0, output1);
-    return output2;
-}
+    // round it so that we easier-to-read numbers for the user
+    var output3 = round_to_4_decimal_places(output2); 
 
-function draw_line( canvas_context, frompos, topos, width, color, linecap)
-{
-    canvas_context.lineWidth = width;
-    canvas_context.strokeStyle = color;    
-    canvas_context.beginPath();
-    canvas_context.lineCap = linecap;
-    canvas_context.moveTo(frompos.x, frompos.y);
-    var midPoint = lerp_point(frompos, topos, 0.5);
-    canvas_context.quadraticCurveTo(frompos.x, frompos.y, midPoint.x, midPoint.y);
-    canvas_context.lineTo(topos.x, topos.y);
-    canvas_context.stroke();
+    return output3;
 }
-
-function draw_centered_box( canvas_context, pos, size, color)
-{
-    var ex = pos.x - (size.width/2.0);
-    var ey = pos.y - (size.height/2.0);
-    canvas_context.fillStyle = color;  
-    canvas_context.fillRect(
-        ex, 
-        ey, 
-        size.width, size.height);
-    canvas_context.fill();
-}
-
 
