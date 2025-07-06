@@ -37,6 +37,9 @@ function get_paint_rec( canvas_rect, ptr_event)
 {
     var canvas_rect = canvas_el.getBoundingClientRect();
    
+    // get the pressure reported in the event
+    // if it is pointer pen event, just use that pressure
+    // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
 
     var paint_rec = 
@@ -51,7 +54,7 @@ function get_paint_rec( canvas_rect, ptr_event)
                 x: ptr_event.tiltX,
                 y: ptr_event.tiltY
             },
-        rotate: ptr_event.twist,
+        barrelrotation: ptr_event.twist,
     }
     return paint_rec;
 }

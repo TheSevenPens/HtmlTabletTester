@@ -20,6 +20,7 @@ var pressure_smoothing_el = document.getElementById('pressureSmoothing');
 var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
 var pressureCurveExponentSlider_el = document.getElementById("pressureCurveExponentSlider");
 var pressureCurveExponentValue_el = document.getElementById("pressureCurveExponentValue");
+var barrelRotationVal_el = document.getElementById("barrelRotationVal");
 
 
 
@@ -144,6 +145,7 @@ function set_livestats(pointer_rec)
     pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
     tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1) ;
     poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
+    barrelRotationVal_el.innerText = pointer_rec.barrelrotation.toString();
 
     if (pointer_rec.pressure > 0)
     {
@@ -162,6 +164,7 @@ function set_livestats_to_empty( )
     sizelabel_el.innerText = empty;
     pressurelabel_el.innerText = empty;
     tiltlabel_el.innerText = empty;
+
 
 }
 
