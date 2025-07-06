@@ -8,6 +8,7 @@ var paint_settings =
 {
     brush_size: 50,
     brush_size_control: "PRESSURE",
+    brush_color_control: "DEFAULT",
     eraser_size: 30,
     linecap: "round"
 };
@@ -16,7 +17,6 @@ var current_dab_settings =
 {
     brush_size: 1,
     brush_color: setting_stylus_pen_color,
-    brush_color: "DEFAULT"
 };
 
 var paint_state = 
@@ -111,7 +111,7 @@ function update_dab_settings( paint_rec, ptr_event )
         else
         {
             // DRAWING
-            if (paint_settings.brush_color=="PRESSURE")
+            if (paint_settings.brush_color_control =="PRESSURE")
             {
                 // PRESSURE TO COLOR
                 // Low pressure is a blue/green
@@ -121,7 +121,7 @@ function update_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
-            else if (paint_settings.brush_color=="TILT")
+            else if (paint_settings.brush_color_control =="TILT")
             {
                 // TILT TO COLOR
                 // Low pressure is a blue/green
@@ -131,12 +131,12 @@ function update_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
-            else if (paint_settings.brush_color=="ERASER")
+            else if (paint_settings.brush_color_control =="ERASER")
             {
                 // CANVAS COLOR TO COLOR
                 current_dab_settings.brush_color = setting_canvas_color;
             }
-            else if (paint_settings.brush_color=="RED")
+            else if (paint_settings.brush_color_control =="RED")
             {
                 // CANVAS COLOR TO COLOR
                 current_dab_settings.brush_color = "rgba(250, 0, 0, 1.0)";;
@@ -148,11 +148,7 @@ function update_dab_settings( paint_rec, ptr_event )
             }
         }
     }
-
-
 }
-
-
 
 function perform_paint( ptr_event, paint_rec )
 {
