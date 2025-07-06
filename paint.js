@@ -29,11 +29,11 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
-function get_pointer_rec( canvas_rect, ptr_event)
+function get_paint_rec( canvas_rect, ptr_event)
 {
     var canvas_rect = canvas_el.getBoundingClientRect();
 
-    var pointer_rec = 
+    var paint_rec = 
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
@@ -46,7 +46,7 @@ function get_pointer_rec( canvas_rect, ptr_event)
             },
         rotate: ptr_event.twist,
     }
-    return pointer_rec;
+    return paint_rec;
 }
 
 function update_dab_settings( paint_rec, ptr_event )
@@ -156,9 +156,9 @@ function update_dab_settings( paint_rec, ptr_event )
 
 
 
-function pointer_paint( ptr_event, pointer_rec )
+function perform_paint( ptr_event, paint_rec )
 {
-        if (pointer_rec.pressure <= 0)
+        if (paint_rec.pressure <= 0)
     {
         // No pressure input
         // set the old smoothed pressure to an invalid value
@@ -169,7 +169,7 @@ function pointer_paint( ptr_event, pointer_rec )
     {
         case "pointerdown":
             paint_state.isDrawing = true;
-            paint_state.canvas_pos_old = pointer_rec.canvas_pos;
+            paint_state.canvas_pos_old = paint_rec.canvas_pos;
             break;
 
         case "pointermove":
@@ -178,28 +178,28 @@ function pointer_paint( ptr_event, pointer_rec )
                 return;
             }
 
-            update_dab_settings(pointer_rec, ptr_event);
+            update_dab_settings(paint_rec, ptr_event);
 
 
-            if (pointer_rec.buttons == EPenButton.eraser) 
+            if (paint_rec.buttons == EPenButton.eraser) 
             {
                 draw_centered_box(
                     canvas_context,
-                    pointer_rec.canvas_pos,
+                    paint_rec.canvas_pos,
                     current_dab_settings.eraser_size ,
                     current_dab_settings.brush_color);
             }
-            else if (pointer_rec.pressure > 0) 
+            else if (paint_rec.pressure > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 
-                    pointer_rec.canvas_pos, 
+                    paint_rec.canvas_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
                     paint_settings.linecap);
             }
 
-            paint_state.canvas_pos_old = pointer_rec.canvas_pos;
+            paint_state.canvas_pos_old = paint_rec.canvas_pos;
             break;
     }
 

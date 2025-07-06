@@ -104,6 +104,7 @@ function saveCanvas()
 function pointer_event_handler(ptr_event) 
 {
 
+    // Ignore events we don't care about
     if ( 
         (ptr_event.pointerType != "mouse")
         && (ptr_event.pointerType != "pen")
@@ -113,10 +114,15 @@ function pointer_event_handler(ptr_event)
         return;
     }
 
+    // The paint system needs to know the dimensions of the canvas it will draw on 
     var canvas_rect = canvas_el.getBoundingClientRect();
-    var pointer_rec = get_pointer_rec( canvas_rect, ptr_event );
-    set_livestats(pointer_rec)
-    pointer_paint( ptr_event, pointer_rec );
+    // given the canvas and the pointer event the paint_rec 
+    // has all the information needed to draw
+    var paint_rec = get_paint_rec( canvas_rect, ptr_event );
+    // Live stats such as pointer position need to updated 
+    set_livestats( paint_rec)
+    // perform the actual paint
+    perform_paint( ptr_event, paint_rec );
 }
 
  
