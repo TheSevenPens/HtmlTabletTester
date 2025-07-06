@@ -221,18 +221,9 @@ function update_dab_settings( paint_rec, ptr_event )
         }
     }
 
-    // Update eraser size
-    // TODO: Marge this with mainline pressure handling code
-  
- 
+
 }
 
-function get_pressure( ptr_event )
-{
-    var p =  (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max;  
-    p = clamp_to_range( p, PRESSURE_RANGE);
-    return p;
-}
 
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
@@ -256,7 +247,7 @@ function pointer_event_handler(ptr_event)
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
-        pressure: get_pressure(ptr_event),
+        pressure: clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE),
         buttons: ptr_event.buttons,
         tilt: 
             { 
@@ -266,17 +257,12 @@ function pointer_event_handler(ptr_event)
         rotate: ptr_event.twist,
     }
 
-    pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
-    tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1) ;
-    poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
+    set_livestats(pointer_rec)
 
-    if (pointer_rec.pressure > 0)
+    if (pointer_rec.pressure <= 0)
     {
-        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
-    }
-    else
-    {
-        sizelabel_el.innerText = "xxx";
+        // No pressure input
+        // set the old smoothed pressure to an invalid value
         paint_state.pressure_smoothed_old = -1.0;
     }
 
@@ -319,6 +305,7 @@ function pointer_event_handler(ptr_event)
     }
 }
 
+ 
 function on_pointerup( ptr_event ) 
 {
     paint_state.isDrawing = false;
@@ -332,7 +319,27 @@ function on_pointerenter( ptr_event )
 function on_pointerleave( ptr_event ) 
 {
     document.body.style.cursor = "default";
+    set_livestats_to_empty();
+}
 
+function set_livestats(pointer_rec)
+{
+    pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
+    tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1) ;
+    poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
+
+    if (pointer_rec.pressure > 0)
+    {
+        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
+    }
+    else
+    {
+        sizelabel_el.innerText = "xxx";
+    }
+}
+
+function set_livestats_to_empty( ) 
+{
     const empty = "---";
     poslabel_el.innerText = empty;
     sizelabel_el.innerText = empty;
