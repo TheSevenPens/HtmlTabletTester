@@ -113,27 +113,10 @@ function pointer_event_handler(ptr_event)
         return;
     }
 
-
     var canvas_rect = canvas_el.getBoundingClientRect();
-
-    var pointer_rec = 
-    {
-        screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
-        canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
-        pressure: clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE),
-        buttons: ptr_event.buttons,
-        tilt: 
-            { 
-                x: ptr_event.tiltX,
-                y: ptr_event.tiltY
-            },
-        rotate: ptr_event.twist,
-    }
-
+    var pointer_rec = get_pointer_rec( canvas_rect, ptr_event );
     set_livestats(pointer_rec)
-
     pointer_paint( ptr_event, pointer_rec );
-
 }
 
  

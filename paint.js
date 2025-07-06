@@ -29,6 +29,25 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
+function get_pointer_rec( canvas_rect, ptr_event)
+{
+    var canvas_rect = canvas_el.getBoundingClientRect();
+
+    var pointer_rec = 
+    {
+        screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
+        canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+        pressure: clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE),
+        buttons: ptr_event.buttons,
+        tilt: 
+            { 
+                x: ptr_event.tiltX,
+                y: ptr_event.tiltY
+            },
+        rotate: ptr_event.twist,
+    }
+    return pointer_rec;
+}
 
 function update_dab_settings( paint_rec, ptr_event )
 {
