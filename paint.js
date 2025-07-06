@@ -6,8 +6,6 @@ const BRUSHSIZE_RANGE = new OrderedRange(1.0,300.0);
 
 var paint_settings = 
 {
-    use_tilt: false,
-    use_pressure: false,
     brush_size: 50,
     brush_size_control: "PRESSURE",
     eraser_size: 30,
