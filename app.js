@@ -73,8 +73,8 @@ function update_paint_settings_from_ui()
     pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
 
     // PRESSURE CURVE
-    var pressureExponent = parseFloat(pressureCurveExponentSlider_el.value);
-    pressureCurveExponentValue_el.innerText = pressureExponent.toFixed(1);
+    paint_settings.pressureCurveExponent = parseFloat(pressureCurveExponentSlider_el.value);
+    pressureCurveExponentValue_el.innerText = paint_settings.pressureCurveExponent.toFixed(1);
     //        drawCurveVisualization();
 }
 

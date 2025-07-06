@@ -30,7 +30,7 @@ var paint_state =
 function applyPressureCurve(pressure) 
 {
     var pressureExponent = 3.0;
-    return Math.pow(pressure, pressureExponent);
+    return Math.pow(pressure, paint_settings.pressureCurveExponent);
 }
 
 function get_paint_rec( canvas_rect, ptr_event)
