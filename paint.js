@@ -27,15 +27,24 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
+function applyPressureCurve(pressure) 
+{
+    var pressureExponent = 3.0;
+    return Math.pow(pressure, pressureExponent);
+}
+
 function get_paint_rec( canvas_rect, ptr_event)
 {
     var canvas_rect = canvas_el.getBoundingClientRect();
+   
+    pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
 
     var paint_rec = 
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
-        pressure: clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE),
+        pressure_raw: pressure_raw,
+        pressure: applyPressureCurve(pressure_raw),
         buttons: ptr_event.buttons,
         tilt: 
             { 

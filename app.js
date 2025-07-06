@@ -18,7 +18,8 @@ var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
 var pressure_smoothing_el = document.getElementById('pressureSmoothing');
 var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
-
+var pressureCurveExponentSlider_el = document.getElementById("pressureCurveExponentSlider");
+var pressureCurveExponentValue_el = document.getElementById("pressureCurveExponentValue");
 
 
 
@@ -70,6 +71,11 @@ function update_paint_settings_from_ui()
     // the opposite of what is supposed to happen in this method.
     // Move somewhere else
     pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
+
+    // PRESSURE CURVE
+    var pressureExponent = parseFloat(pressureCurveExponentSlider_el.value);
+    pressureCurveExponentValue_el.innerText = pressureExponent.toFixed(1);
+    //        drawCurveVisualization();
 }
 
 function getCanvasName()
