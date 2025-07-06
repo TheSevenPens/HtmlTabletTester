@@ -164,6 +164,7 @@ function set_livestats_to_empty( )
     sizelabel_el.innerText = empty;
     pressurelabel_el.innerText = empty;
     tiltlabel_el.innerText = empty;
+    barrelRotationVal_el.innerText = empty;
 
 
 }
