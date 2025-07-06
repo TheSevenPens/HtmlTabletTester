@@ -164,13 +164,14 @@ function default_ptr_event_handler_do_nothing( ptr_event )
     // do nothing
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Upon a window load event, registers all events.
-//
 function register_event_handlers()
 {
-    window.addEventListener('load', register_pointer_event_handlers, true);  
+    window.addEventListener('load', register_window_load_event_listeners, true);  
+    register_document_hotkey_event_listeners();
+}
 
+function register_document_hotkey_event_listeners()
+{
     // Hotkey for DELETE or BACKSPACE
     document.addEventListener('keydown', 
         (e) => {
@@ -178,12 +179,10 @@ function register_event_handlers()
             e.preventDefault(); // Prevent browser back navigation
             clearCanvas();
         } });
+
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Register listeners to canvas
-//
-function register_pointer_event_handlers()
+function register_window_load_event_listeners()
 {
     if (!window.PointerEvent) 
     {
