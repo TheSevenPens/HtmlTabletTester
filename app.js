@@ -72,15 +72,6 @@ function update_paint_settings_from_ui()
     pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Clears the drawing canvas.
-//
-function clearCanvas() 
-{
-    canvas_context.fillStyle = setting_canvas_color;
-    canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
-}
-
 function getCanvasName()
 {
     return setting_download_filename + "_" + Date.now().toString() + ".png";
@@ -97,8 +88,6 @@ function saveCanvas()
     link.setAttribute('href', url);
     link.click();
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
