@@ -143,6 +143,16 @@ function update_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
+            else if (paint_settings.brush_color_control =="BARRELROTATION")
+            {
+                // TILT TO COLOR
+                // Low pressure is a blue/green
+                // high pressure is read
+                var hue = lerp(360, 150, paint_rec.barrelrotation/360.0);
+                var dab_color = `hsl(${hue}, 100%, 50%)`;
+                current_dab_settings.brush_color = dab_color;
+
+            }
             else if (paint_settings.brush_color_control =="ERASER")
             {
                 // CANVAS COLOR TO COLOR
