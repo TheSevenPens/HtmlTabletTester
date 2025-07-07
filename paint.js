@@ -27,22 +27,21 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
-function applyPressureCurve(pressure) 
+function applyPressureCurve(input_pressure) 
 {
-    var z = paint_settings.pressureCurveExponent;
+    var z = paint_settings.pressureCurveAmount;
     if (z==0.0)
     {
-        return pressure;
+        return input_pressure;
     }
     else if (z>0.0)
     {
-        return  Math.pow(pressure, 1.0 - z);
+        return  Math.pow(input_pressure, 1.0 - z);
     }
     else if (z<0.0)
     {
-        return  Math.pow(pressure, 1.0/ (1.0 + z));
+        return  Math.pow(input_pressure, 1.0/ (1.0 + z));
     }
-    //return Math.pow(pressure, paint_settings.pressureCurveExponent);
 }
 
 function get_paint_rec( canvas_rect, ptr_event)
