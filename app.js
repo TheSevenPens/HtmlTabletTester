@@ -83,7 +83,7 @@ function update_paint_settings_from_ui()
     //        drawCurveVisualization();
 
 
-    drawCurveVisualization();
+    drawPressureCurve();
 }
 
 function getCanvasName()
@@ -164,12 +164,9 @@ function set_livestats(pointer_rec)
     }
 }
 
-function drawCurveVisualization() 
+function drawPressureCurve() 
 {
-    console.log("DCV");
     curveCtx.clearRect(0, 0, curveCanvas.width, curveCanvas.height);
-
-    // Draw the pressure curve
     curveCtx.beginPath();
     curveCtx.moveTo(0, curveCanvas.height);
     for (let x = 0; x <= curveCanvas.width; x++) {
@@ -190,18 +187,8 @@ function drawCurveVisualization()
     curveCtx.strokeStyle = 'black';
     curveCtx.lineWidth = 1;
     curveCtx.stroke();
-
-//    // Draw pressure indicator only when drawing and pressure > 0
-//    if (paint_state.isDrawing && paint_rec.pressure_raw > 0) {
-//        const x = currentPressure * curveCanvas.width;
-//        const curvedPressure = applyPressureCurve(currentPressure);
-//        const y = curveCanvas.height * (1 - curvedPressure);
-//        curveCtx.beginPath();
-//       curveCtx.arc(x, y, 5, 0, 2 * Math.PI);
-//        curveCtx.fillStyle = 'red';
-//        curveCtx.fill();
-//    }
 }
+
 function set_livestats_to_empty( ) 
 {
     const empty = "---";
