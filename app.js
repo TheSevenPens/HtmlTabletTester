@@ -7,8 +7,12 @@ const setting_download_filename = "TabletTester_Untitled";
 
 
 
-var canvas_el = document.getElementById("myCanvas");
-var canvas_context = canvas_el.getContext("2d");
+const canvas_el = document.getElementById("myCanvas");
+const canvas_context = canvas_el.getContext("2d");
+
+const curveCanvas = document.getElementById('curveCanvas');
+const curveCtx = curveCanvas.getContext('2d');
+
 var pressurelabel_el = document.getElementById("pressureVal");
 var tiltlabel_el = document.getElementById("tiltVal");
 var poslabel_el = document.getElementById("posVal");
@@ -77,6 +81,9 @@ function update_paint_settings_from_ui()
     paint_settings.pressureCurveExponent = parseFloat(pressureCurveExponentSlider_el.value);
     pressureCurveExponentValue_el.innerText = paint_settings.pressureCurveExponent.toFixed(1);
     //        drawCurveVisualization();
+
+
+    drawCurveVisualization();
 }
 
 function getCanvasName()
@@ -157,6 +164,44 @@ function set_livestats(pointer_rec)
     }
 }
 
+function drawCurveVisualization() 
+{
+    console.log("DCV");
+    curveCtx.clearRect(0, 0, curveCanvas.width, curveCanvas.height);
+
+    // Draw the pressure curve
+    curveCtx.beginPath();
+    curveCtx.moveTo(0, curveCanvas.height);
+    for (let x = 0; x <= curveCanvas.width; x++) {
+        const pressure = x / curveCanvas.width;
+        const curvedPressure = applyPressureCurve(pressure);
+        const y = curveCanvas.height * (1 - curvedPressure);
+        curveCtx.lineTo(x, y);
+    }
+    curveCtx.strokeStyle = 'blue';
+    curveCtx.lineWidth = 2;
+    curveCtx.stroke();
+
+    // Draw axes
+    curveCtx.beginPath();
+    curveCtx.moveTo(0, 0);
+    curveCtx.lineTo(0, curveCanvas.height);
+    curveCtx.lineTo(curveCanvas.width, curveCanvas.height);
+    curveCtx.strokeStyle = 'black';
+    curveCtx.lineWidth = 1;
+    curveCtx.stroke();
+
+//    // Draw pressure indicator only when drawing and pressure > 0
+//    if (paint_state.isDrawing && paint_rec.pressure_raw > 0) {
+//        const x = currentPressure * curveCanvas.width;
+//        const curvedPressure = applyPressureCurve(currentPressure);
+//        const y = curveCanvas.height * (1 - curvedPressure);
+//        curveCtx.beginPath();
+//       curveCtx.arc(x, y, 5, 0, 2 * Math.PI);
+//        curveCtx.fillStyle = 'red';
+//        curveCtx.fill();
+//    }
+}
 function set_livestats_to_empty( ) 
 {
     const empty = "---";
