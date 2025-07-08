@@ -13,19 +13,22 @@ const canvas_context = canvas_el.getContext("2d");
 const curveCanvas = document.getElementById('curveCanvas');
 const curveCtx = curveCanvas.getContext('2d');
 
-var pressurelabel_el = document.getElementById("pressureVal");
-var tiltxval_el = document.getElementById("tiltXVal");
-var tiltyval_el = document.getElementById("tiltYVal");
-var poslabel_el = document.getElementById("posVal");
-var sizelabel_el = document.getElementById("sizeVal");
+
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
-var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
-var pressure_smoothing_el = document.getElementById('pressureSmoothing');
-var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
 var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountSlider");
-var pressureCurveAmountValue_el = document.getElementById("pressureCurveAmountValue");
-var barrelRotationVal_el = document.getElementById("barrelRotationVal");
+var pressure_smoothing_el = document.getElementById('pressureSmoothing');
+
+// LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
+var pressure_val_el = document.getElementById("pressureVal");
+var tiltx_val_el = document.getElementById("tiltXVal");
+var tilty_val_el = document.getElementById("tiltYVal");
+var pos_val_el = document.getElementById("posVal");
+var size_val_el = document.getElementById("sizeVal");
+var brush_size_el = document.getElementById('brushSizeSelect');
+var pressure_smoothing_val_el = document.getElementById("pressureSmoothingValue");
+var pressure_curve_amount_val_el = document.getElementById("pressureCurveAmountValue");
+var barrel_rotation_val_el = document.getElementById("barrelRotationVal");
 
 update_paintsettings(); 
 
@@ -66,19 +69,19 @@ function setCanvasProps()
 
 function update_livestats_ui(paint_rec)
 {
-    pressurelabel_el.innerText = paint_rec.pressure.toFixed(4);
-    tiltxval_el.innerText = paint_rec.tilt.x.toFixed(1);
-    tiltyval_el.innerText = paint_rec.tilt.y.toFixed(1) ;
-    poslabel_el.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
-    barrelRotationVal_el.innerText = paint_rec.barrelrotation.toString();
+    pressure_val_el.innerText = paint_rec.pressure.toFixed(4);
+    tiltx_val_el.innerText = paint_rec.tilt.x.toFixed(1);
+    tilty_val_el.innerText = paint_rec.tilt.y.toFixed(1) ;
+    pos_val_el.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
+    barrel_rotation_val_el.innerText = paint_rec.barrelrotation.toString();
 
     if (paint_rec.pressure > 0)
     {
-        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
+        size_val_el.innerText = current_dab_settings.brush_size.toString()+"px";
     }
     else
     {
-        sizelabel_el.innerText = "xxx";
+        size_val_el.innerText = "xxx";
     }
 
 }
@@ -94,11 +97,11 @@ function update_paintsettings()
     // TODO: This line below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
     // Move somewhere else
-    pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
+    pressure_smoothing_val_el.innerText = paint_settings.pressure_smoothing.toString();
 
     // PRESSURE CURVE
     paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
-    pressureCurveAmountValue_el.innerText = paint_settings.pressureCurveAmount.toFixed(1);
+    pressure_curve_amount_val_el.innerText = paint_settings.pressureCurveAmount.toFixed(1);
 
     drawPressureCurve();
 }
@@ -194,12 +197,12 @@ function drawPressureCurve()
 function set_livestats_to_empty( ) 
 {
     const empty = "---";
-    poslabel_el.innerText = empty;
-    sizelabel_el.innerText = empty;
-    pressurelabel_el.innerText = empty;
-    tiltxval_el.innerText = empty;
-    tiltyval_el.innerText = empty;
-    barrelRotationVal_el.innerText = empty;
+    pos_val_el.innerText = empty;
+    size_val_el.innerText = empty;
+    pressure_val_el.innerText = empty;
+    tiltx_val_el.innerText = empty;
+    tilty_val_el.innerText = empty;
+    barrel_rotation_val_el.innerText = empty;
 
 
 }
