@@ -59,11 +59,8 @@ function get_paint_rec( canvas_rect, ptr_event)
         pressure_raw: pressure_raw,
         pressure: applyPressureCurve(pressure_raw),
         buttons: ptr_event.buttons,
-        tilt: 
-            { 
-                x: ptr_event.tiltX,
-                y: ptr_event.tiltY,
-            },
+        tiltx: ptr_event.tiltX,
+        tilty: ptr_event.tiltY,
         barrelrotation: ptr_event.twist,
     }
     return paint_rec;
@@ -72,7 +69,7 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    const normalized_tilt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y))/60.0;
+    const normalized_tilt = Math.max( Math.abs(paint_rec.tiltx), Math.abs(paint_rec.tilty))/60.0;
 
     var new_size = paint_settings.brush_size;
 

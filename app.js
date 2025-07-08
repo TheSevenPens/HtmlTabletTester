@@ -25,6 +25,8 @@ var livestats =
     pressure: document.getElementById("pressureVal"),
     tiltx: document.getElementById("tiltXVal"),
     tilty: document.getElementById("tiltYVal"),
+    tiltazimuth: document.getElementById("tiltAzimuthVal"),
+    tiltaltitude: document.getElementById("tiltAltitudeVal"),
     pos: document.getElementById("posVal"),
     size: document.getElementById("sizeVal"),
     brush_size: document.getElementById('brushSizeSelect'),
@@ -73,8 +75,10 @@ function setCanvasProps()
 function update_livestats_ui(paint_rec)
 {
     livestats.pressure.innerText = paint_rec.pressure.toFixed(4);
-    livestats.tiltx.innerText = paint_rec.tilt.x.toFixed(1);
-    livestats.tilty.innerText = paint_rec.tilt.y.toFixed(1) ;
+    livestats.tiltx.innerText = paint_rec.tiltx.toFixed(1);
+    livestats.tilty.innerText = paint_rec.tilty.toFixed(1) ;
+    livestats.tiltazimuth.innerText = paint_rec.tiltx.toFixed(1);
+    livestats.tiltaltitude.innerText = paint_rec.tilty.toFixed(1) ;
     livestats.pos.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
     livestats.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
 
@@ -96,15 +100,14 @@ function update_paintsettings()
     paint_settings.brush_size = brush_size; 
     paint_settings.brush_color_control = brush_color_control_el.value;
     paint_settings.pressure_smoothing = GetSmoothingValue( pressure_smoothing_el.value ) ;
+    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
 
-    // TODO: This line below updated UI from the settings which is
+    // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
     // Move somewhere else
     livestats.pressure_smoothing.innerText = paint_settings.pressure_smoothing.toString();
-
-    // PRESSURE CURVE
-    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
     livestats.pressure_curve_amount.innerText = paint_settings.pressureCurveAmount.toFixed(1);
+
 
     drawPressureCurve();
 }
