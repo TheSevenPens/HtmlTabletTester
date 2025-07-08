@@ -1,7 +1,7 @@
 const setting_stylus_pen_color = "black";
 
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
-const BRUSHSIZE_RANGE = new OrderedRange(1.0,300.0);
+const BRUSHSIZE_RANGE = new OrderedRange(0.1,300.0);
 
 
 var paint_settings = 
@@ -27,10 +27,21 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
-function applyPressureCurve(pressure) 
+function applyPressureCurve(input_pressure) 
 {
-    var pressureExponent = 3.0;
-    return Math.pow(pressure, paint_settings.pressureCurveExponent);
+    var z = -1.0 *  paint_settings.pressureCurveAmount;
+    if (z==0.0)
+    {
+        return input_pressure;
+    }
+    else if (z>0.0)
+    {
+        return  Math.pow(input_pressure, 1.0 - z);
+    }
+    else if (z<0.0)
+    {
+        return  Math.pow(input_pressure, 1.0/ (1.0 + z));
+    }
 }
 
 function get_paint_rec( canvas_rect, ptr_event)

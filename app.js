@@ -22,8 +22,8 @@ var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
 var pressure_smoothing_el = document.getElementById('pressureSmoothing');
 var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
-var pressureCurveExponentSlider_el = document.getElementById("pressureCurveExponentSlider");
-var pressureCurveExponentValue_el = document.getElementById("pressureCurveExponentValue");
+var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountSlider");
+var pressureCurveAmountValue_el = document.getElementById("pressureCurveAmountValue");
 var barrelRotationVal_el = document.getElementById("barrelRotationVal");
 
 
@@ -78,8 +78,8 @@ function update_paint_settings_from_ui()
     pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
 
     // PRESSURE CURVE
-    paint_settings.pressureCurveExponent = parseFloat(pressureCurveExponentSlider_el.value);
-    pressureCurveExponentValue_el.innerText = paint_settings.pressureCurveExponent.toFixed(1);
+    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
+    pressureCurveAmountValue_el.innerText = paint_settings.pressureCurveAmount.toFixed(1);
     //        drawCurveVisualization();
 
 
@@ -175,8 +175,8 @@ function drawPressureCurve()
         const y = curveCanvas.height * (1 - curvedPressure);
         curveCtx.lineTo(x, y);
     }
-    curveCtx.strokeStyle = 'blue';
-    curveCtx.lineWidth = 2;
+    curveCtx.strokeStyle = 'rgb(150,180,255)';
+    curveCtx.lineWidth = 7;
     curveCtx.stroke();
 
     // Draw axes
