@@ -29,9 +29,7 @@ var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountS
 var pressureCurveAmountValue_el = document.getElementById("pressureCurveAmountValue");
 var barrelRotationVal_el = document.getElementById("barrelRotationVal");
 
-
-
-update_paint_settings_from_ui(); 
+update_paintsettings(); 
 
 var EPenButton =
     {
@@ -64,10 +62,33 @@ function setCanvasProps()
     clearCanvas();	// ensures background saved with drawn image
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Sets a flag to enable/disable use of the pen tilt property.
-//
-function update_paint_settings_from_ui() 
+// 
+// LIVESTATS UI
+// 
+
+function update_livestats_ui(paint_rec)
+{
+    pressurelabel_el.innerText = paint_rec.pressure.toFixed(4);
+    tiltlabelx_el.innerText = paint_rec.tilt.x.toFixed(1);
+    tiltlabely_el.innerText = paint_rec.tilt.y.toFixed(1) ;
+    poslabel_el.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
+    barrelRotationVal_el.innerText = paint_rec.barrelrotation.toString();
+
+    if (paint_rec.pressure > 0)
+    {
+        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
+    }
+    else
+    {
+        sizelabel_el.innerText = "xxx";
+    }
+
+
+    tiltlabelaltitude_el.innerText = paint_rec.tilt.altitude.toFixed(1) ;
+    tiltlabelazimuth_el.innerText = paint_rec.tilt.azimuth.toFixed(1) ;
+}
+
+function update_paintsettings() 
 {
     paint_settings.brush_size_control = brush_size_control_el.value; 
     var brush_size = parseInt(brush_size_el.value);   
@@ -128,7 +149,7 @@ function pointer_event_handler(ptr_event)
     // has all the information needed to draw
     var paint_rec = get_paint_rec( canvas_rect, ptr_event );
     // Live stats such as pointer position need to updated 
-    set_livestats( paint_rec)
+    update_livestats_ui( paint_rec)
     // perform the actual paint
     perform_paint( ptr_event, paint_rec );
 }
@@ -150,27 +171,7 @@ function on_pointerleave( ptr_event )
     set_livestats_to_empty();
 }
 
-function set_livestats(pointer_rec)
-{
-    pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
-    tiltlabelx_el.innerText = pointer_rec.tilt.x.toFixed(1);
-    tiltlabely_el.innerText = pointer_rec.tilt.y.toFixed(1) ;
-    poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
-    barrelRotationVal_el.innerText = pointer_rec.barrelrotation.toString();
 
-    if (pointer_rec.pressure > 0)
-    {
-        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
-    }
-    else
-    {
-        sizelabel_el.innerText = "xxx";
-    }
-
-
-    tiltlabelaltitude_el.innerText = pointer_rec.tilt.altitude.toFixed(1) ;
-    tiltlabelazimuth_el.innerText = pointer_rec.tilt.azimuth.toFixed(1) ;
-}
 
 function drawPressureCurve() 
 {
