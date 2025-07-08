@@ -39,6 +39,7 @@ function paint_stroke_start()
 function paint_stroke_stop()
 {
     paint_state.isDrawing = false;
+    paint_stats.stroke_count = paint_stats.stroke_count + 1;
 }
 
 function applyPressureCurve(input_pressure) 
