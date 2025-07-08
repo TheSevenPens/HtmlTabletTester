@@ -43,6 +43,7 @@ function applyPressureCurve(input_pressure)
     }
 }
 
+
 function get_paint_rec( canvas_rect, ptr_event)
 {
     var canvas_rect = canvas_el.getBoundingClientRect();
@@ -61,8 +62,8 @@ function get_paint_rec( canvas_rect, ptr_event)
         buttons: ptr_event.buttons,
         tiltx: ptr_event.tiltX,
         tilty: ptr_event.tiltY,
-        tiltazimuth: ptr_event.azimuthAngle,
-        tiltaltitude: ptr_event.altitudeAngle * 57.2958,
+        tiltazimuth: radians_to_degrees( ptr_event.azimuthAngle ),
+        tiltaltitude: radians_to_degrees( ptr_event.altitudeAngle ),
         barrelrotation: ptr_event.twist,
     }
     return paint_rec;

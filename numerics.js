@@ -99,3 +99,7 @@ function GetSmoothingValue(input)
     return output3;
 }
 
+function radians_to_degrees(r)
+{
+    return (r * 57.2958);
+}
