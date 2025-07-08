@@ -13,22 +13,29 @@ const canvas_context = canvas_el.getContext("2d");
 const curveCanvas = document.getElementById('curveCanvas');
 const curveCtx = curveCanvas.getContext('2d');
 
-var pressurelabel_el = document.getElementById("pressureVal");
-var tiltlabel_el = document.getElementById("tiltVal");
-var poslabel_el = document.getElementById("posVal");
-var sizelabel_el = document.getElementById("sizeVal");
+
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
-var brush_size_el = document.getElementById('brushSizeSelect');
 var brush_color_control_el =  document.getElementById('brushColorControlSelect');
-var pressure_smoothing_el = document.getElementById('pressureSmoothing');
-var pressureSmoothingValue_el = document.getElementById("pressureSmoothingValue");
 var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountSlider");
-var pressureCurveAmountValue_el = document.getElementById("pressureCurveAmountValue");
-var barrelRotationVal_el = document.getElementById("barrelRotationVal");
+var pressure_smoothing_el = document.getElementById('pressureSmoothing');
 
+// LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
+var livestats =
+{
+    pressure: document.getElementById("pressureVal"),
+    tiltx: document.getElementById("tiltXVal"),
+    tilty: document.getElementById("tiltYVal"),
+    tiltazimuth: document.getElementById("tiltAzimuthVal"),
+    tiltaltitude: document.getElementById("tiltAltitudeVal"),
+    pos: document.getElementById("posVal"),
+    size: document.getElementById("sizeVal"),
+    brush_size: document.getElementById('brushSizeSelect'),
+    pressure_smoothing: document.getElementById("pressureSmoothingValue"),
+    pressure_curve_amount: document.getElementById("pressureCurveAmountValue"),
+    barrel_rotation: document.getElementById("barrelRotationVal")
+}
 
-
-update_paint_settings_from_ui(); 
+update_paintsettings(); 
 
 var EPenButton =
     {
@@ -61,26 +68,45 @@ function setCanvasProps()
     clearCanvas();	// ensures background saved with drawn image
 }
 
-/////////////////////////////////////////////////////////////////////////
-// Sets a flag to enable/disable use of the pen tilt property.
-//
-function update_paint_settings_from_ui() 
+// 
+// LIVESTATS UI
+// 
+
+function update_livestats_ui(paint_rec)
+{
+    livestats.pressure.innerText = paint_rec.pressure.toFixed(4);
+    livestats.tiltx.innerText = paint_rec.tiltx.toFixed(1);
+    livestats.tilty.innerText = paint_rec.tilty.toFixed(1) ;
+    livestats.tiltazimuth.innerText = paint_rec.tiltazimuth.toFixed(1);
+    livestats.tiltaltitude.innerText = paint_rec.tiltaltitude.toFixed(1) ;
+    livestats.pos.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
+    livestats.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
+
+    if (paint_rec.pressure > 0)
+    {
+        livestats.size.innerText = current_dab_settings.brush_size.toString()+"px";
+    }
+    else
+    {
+        livestats.size.innerText = "xxx";
+    }
+
+}
+
+function update_paintsettings() 
 {
     paint_settings.brush_size_control = brush_size_control_el.value; 
-    var brush_size = parseInt(brush_size_el.value);   
+    var brush_size = parseInt(livestats.brush_size.value);   
     paint_settings.brush_size = brush_size; 
     paint_settings.brush_color_control = brush_color_control_el.value;
     paint_settings.pressure_smoothing = GetSmoothingValue( pressure_smoothing_el.value ) ;
+    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
 
-    // TODO: This line below updated UI from the settings which is
+    // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
     // Move somewhere else
-    pressureSmoothingValue_el.innerText = paint_settings.pressure_smoothing.toString();
-
-    // PRESSURE CURVE
-    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
-    pressureCurveAmountValue_el.innerText = paint_settings.pressureCurveAmount.toFixed(1);
-    //        drawCurveVisualization();
+    livestats.pressure_smoothing.innerText = paint_settings.pressure_smoothing.toString();
+    livestats.pressure_curve_amount.innerText = paint_settings.pressureCurveAmount.toFixed(1);
 
 
     drawPressureCurve();
@@ -125,7 +151,7 @@ function pointer_event_handler(ptr_event)
     // has all the information needed to draw
     var paint_rec = get_paint_rec( canvas_rect, ptr_event );
     // Live stats such as pointer position need to updated 
-    set_livestats( paint_rec)
+    update_livestats_ui( paint_rec)
     // perform the actual paint
     perform_paint( ptr_event, paint_rec );
 }
@@ -147,22 +173,7 @@ function on_pointerleave( ptr_event )
     set_livestats_to_empty();
 }
 
-function set_livestats(pointer_rec)
-{
-    pressurelabel_el.innerText = pointer_rec.pressure.toFixed(4);
-    tiltlabel_el.innerText = pointer_rec.tilt.x.toFixed(1) + "x" + pointer_rec.tilt.y.toFixed(1) ;
-    poslabel_el.innerText = pointer_rec.canvas_pos.x.toFixed(1) + "x" + pointer_rec.canvas_pos.y.toFixed(1);
-    barrelRotationVal_el.innerText = pointer_rec.barrelrotation.toString();
 
-    if (pointer_rec.pressure > 0)
-    {
-        sizelabel_el.innerText = current_dab_settings.brush_size.toString()+"px";
-    }
-    else
-    {
-        sizelabel_el.innerText = "xxx";
-    }
-}
 
 function drawPressureCurve() 
 {
@@ -192,11 +203,12 @@ function drawPressureCurve()
 function set_livestats_to_empty( ) 
 {
     const empty = "---";
-    poslabel_el.innerText = empty;
-    sizelabel_el.innerText = empty;
-    pressurelabel_el.innerText = empty;
-    tiltlabel_el.innerText = empty;
-    barrelRotationVal_el.innerText = empty;
+    livestats.pos.innerText = empty;
+    livestats.size.innerText = empty;
+    livestats.pressure.innerText = empty;
+    livestats.tiltx.innerText = empty;
+    livestats.tilty.innerText = empty;
+    livestats.barrel_rotation.innerText = empty;
 
 
 }

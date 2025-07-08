@@ -21,7 +21,6 @@ var current_dab_settings =
 
 var paint_state = 
 {
-    inStroke: false,
     canvas_pos_old: { x: 0, y: 0 },
     isDrawing: false,
     pressure_smoothed_old: -1.0
@@ -44,6 +43,7 @@ function applyPressureCurve(input_pressure)
     }
 }
 
+
 function get_paint_rec( canvas_rect, ptr_event)
 {
     var canvas_rect = canvas_el.getBoundingClientRect();
@@ -60,11 +60,10 @@ function get_paint_rec( canvas_rect, ptr_event)
         pressure_raw: pressure_raw,
         pressure: applyPressureCurve(pressure_raw),
         buttons: ptr_event.buttons,
-        tilt: 
-            { 
-                x: ptr_event.tiltX,
-                y: ptr_event.tiltY
-            },
+        tiltx: ptr_event.tiltX,
+        tilty: ptr_event.tiltY,
+        tiltazimuth: radians_to_degrees( ptr_event.azimuthAngle ),
+        tiltaltitude: radians_to_degrees( ptr_event.altitudeAngle ),
         barrelrotation: ptr_event.twist,
     }
     return paint_rec;
@@ -73,12 +72,9 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-    var max_tilt = 60.0;
-    var normalized_tilt = tilt_amt/max_tilt;
+    const normalized_tilt =  Math.abs(paint_rec.tiltaltitude)/90.0;
 
     var new_size = paint_settings.brush_size;
-
 
     if (paint_state.pressure_smoothed_old <0.0)
     {
@@ -106,9 +102,9 @@ function update_dab_settings( paint_rec, ptr_event )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
     }
-    else if (paint_settings.brush_size_control == "TILT")
+    else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * normalized_tilt;
+        new_size = new_size * ((1.0 - normalized_tilt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
@@ -144,7 +140,7 @@ function update_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
-            else if (paint_settings.brush_color_control =="TILT")
+            else if (paint_settings.brush_color_control =="TILTALT")
             {
                 // TILT TO COLOR
                 // Low pressure is a blue/green
