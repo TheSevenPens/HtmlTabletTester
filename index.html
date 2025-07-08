@@ -101,8 +101,6 @@ Key differences
 			<br>
 			TiltX: <label> <span id="tiltValX" class="monospace">---</span> </label>	|
 			TiltY: <label> <span id="tiltValY" class="monospace">---</span> </label>	|
-			TiltAzimuth: <label> <span id="tiltValAzimuth" class="monospace">---</span></label>	|
-			TiltAltitude: <label> <span id="tiltValAltitude" class="monospace">---</span></label>	|
 		</p>
 		
 
@@ -113,7 +111,7 @@ Key differences
 		<button type="button" onclick="saveCanvas()">Save</button>
 
 		<label>Size </label>
-		<select id="brushSizeSelect" value="brushSize" onchange="update_paint_settings_from_ui()">
+		<select id="brushSizeSelect" value="brushSize" onchange="update_paintsettings()">
         	<option value="1">1px</option>
         	<option value="5">5px</option>
         	<option value="10">10px</option>
@@ -123,14 +121,14 @@ Key differences
     	</select>
 
 		<label>Scale size by </label>
-		<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paint_settings_from_ui()">
+		<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paintsettings()">
         	<option value="USER">Don't scale</option>
         	<option value="PRESSURE" selected>Pressure</option>
         	<option value="TILT">Tilt</option>
     	</select>
 
 		<label>Color </label>
-		<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paint_settings_from_ui()">
+		<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paintsettings()">
         	<option value="DEFAULT" selected>Black</option>
         	<option value="RED">Red</option>
         	<option value="PRESSURE">Pressure</option>

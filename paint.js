@@ -63,8 +63,6 @@ function get_paint_rec( canvas_rect, ptr_event)
             { 
                 x: ptr_event.tiltX,
                 y: ptr_event.tiltY,
-                azimuth: Math.atan2(ptr_event.tiltY, ptr_event.tiltX) * 180 / Math.PI,
-                altitude: Math.sqrt((ptr_event.tiltX) * ptr_event.tiltX + (ptr_event.tiltY * ptr_event.tiltY))
             },
         barrelrotation: ptr_event.twist,
     }
@@ -74,12 +72,9 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    var tilt_amt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y) )
-    var max_tilt = 60.0;
-    var normalized_tilt = tilt_amt/max_tilt;
+    const normalized_tilt = Math.max( Math.abs(paint_rec.tilt.x), Math.abs(paint_rec.tilt.y))/60.0;
 
     var new_size = paint_settings.brush_size;
-
 
     if (paint_state.pressure_smoothed_old <0.0)
     {
@@ -110,7 +105,6 @@ function update_dab_settings( paint_rec, ptr_event )
     else if (paint_settings.brush_size_control == "TILT")
     {
         new_size = new_size * normalized_tilt;
-        new_size = new_size * paint_rec.tilt.altitude/90.0;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
