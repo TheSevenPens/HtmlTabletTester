@@ -16,6 +16,8 @@ const curveCtx = curveCanvas.getContext('2d');
 var pressurelabel_el = document.getElementById("pressureVal");
 var tiltlabelx_el = document.getElementById("tiltValX");
 var tiltlabely_el = document.getElementById("tiltValY");
+var tiltlabelaltitude_el = document.getElementById("tiltValAltitude");
+var tiltlabelazimuth_el = document.getElementById("tiltValAzimuth");
 var poslabel_el = document.getElementById("posVal");
 var sizelabel_el = document.getElementById("sizeVal");
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
@@ -164,6 +166,10 @@ function set_livestats(pointer_rec)
     {
         sizelabel_el.innerText = "xxx";
     }
+
+
+    tiltlabelaltitude_el.innerText = pointer_rec.tilt.altitude.toFixed(1) ;
+    tiltlabelazimuth_el.innerText = pointer_rec.tilt.azimuth.toFixed(1) ;
 }
 
 function drawPressureCurve() 
