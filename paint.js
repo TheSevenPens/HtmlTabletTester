@@ -61,6 +61,8 @@ function get_paint_rec( canvas_rect, ptr_event)
         buttons: ptr_event.buttons,
         tiltx: ptr_event.tiltX,
         tilty: ptr_event.tiltY,
+        tiltazimuth: ptr_event.azimuthAngle,
+        tiltaltitude: ptr_event.altitudeAngle * 57.2958,
         barrelrotation: ptr_event.twist,
     }
     return paint_rec;
@@ -69,8 +71,9 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    const normalized_tilt = Math.max( Math.abs(paint_rec.tiltx), Math.abs(paint_rec.tilty))/60.0;
-
+    //const normalized_tilt = Math.max( Math.abs(paint_rec.tiltx), Math.abs(paint_rec.tilty))/60.0;
+    const normalized_tilt =  Math.abs(paint_rec.tiltaltitude)/60.0;
+    console.log(paint_rec.tilty, paint_rec.tiltaltitude );
     var new_size = paint_settings.brush_size;
 
     if (paint_state.pressure_smoothed_old <0.0)

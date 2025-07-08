@@ -77,8 +77,8 @@ function update_livestats_ui(paint_rec)
     livestats.pressure.innerText = paint_rec.pressure.toFixed(4);
     livestats.tiltx.innerText = paint_rec.tiltx.toFixed(1);
     livestats.tilty.innerText = paint_rec.tilty.toFixed(1) ;
-    livestats.tiltazimuth.innerText = paint_rec.tiltx.toFixed(1);
-    livestats.tiltaltitude.innerText = paint_rec.tilty.toFixed(1) ;
+    livestats.tiltazimuth.innerText = paint_rec.tiltazimuth.toFixed(1);
+    livestats.tiltaltitude.innerText = paint_rec.tiltaltitude.toFixed(1) ;
     livestats.pos.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
     livestats.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
 
