@@ -72,9 +72,8 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    //const normalized_tilt = Math.max( Math.abs(paint_rec.tiltx), Math.abs(paint_rec.tilty))/60.0;
-    const normalized_tilt =  Math.abs(paint_rec.tiltaltitude)/60.0;
-    console.log(paint_rec.tilty, paint_rec.tiltaltitude );
+    const normalized_tilt =  Math.abs(paint_rec.tiltaltitude)/90.0;
+
     var new_size = paint_settings.brush_size;
 
     if (paint_state.pressure_smoothed_old <0.0)
@@ -103,9 +102,9 @@ function update_dab_settings( paint_rec, ptr_event )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
     }
-    else if (paint_settings.brush_size_control == "TILT")
+    else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * normalized_tilt;
+        new_size = new_size * ((1.0 - normalized_tilt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
@@ -141,7 +140,7 @@ function update_dab_settings( paint_rec, ptr_event )
                 current_dab_settings.brush_color = dab_color;
 
             }
-            else if (paint_settings.brush_color_control =="TILT")
+            else if (paint_settings.brush_color_control =="TILTALT")
             {
                 // TILT TO COLOR
                 // Low pressure is a blue/green
