@@ -110,6 +110,7 @@ function update_dab_settings( paint_rec, ptr_event )
     else if (paint_settings.brush_size_control == "TILT")
     {
         new_size = new_size * normalized_tilt;
+        new_size = new_size * paint_rec.tilt.altitude/90.0;
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;

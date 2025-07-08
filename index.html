@@ -143,14 +143,14 @@ Key differences
 
 		<label for="pressureSmoothingSlider">Pressure smoothing: <span id="pressureSmoothingValue">---</span></label>
 		<br>
-		<input type="range" id="pressureSmoothing" min="0.0" max="1.0" step="0.01" value="0.0" oninput="update_paint_settings_from_ui()">
+		<input type="range" id="pressureSmoothing" min="0.0" max="1.0" step="0.01" value="0.0" oninput="update_paintsettings()">
 		<br>
 		<label>Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
 		<br>
 
         <input type="range" id="pressureCurveAmountSlider" min="-0.90" max="0.90" step="0.1" value="0.0"
 			list="pressureCurveTickmarks"
-			oninput="update_paint_settings_from_ui()">
+			oninput="update_paintsettings()">
 		<datalist id="pressureCurveTickmarks">
 		<option value="0.0"></option>
 		</datalist>
