@@ -14,8 +14,8 @@ const curveCanvas = document.getElementById('curveCanvas');
 const curveCtx = curveCanvas.getContext('2d');
 
 var pressurelabel_el = document.getElementById("pressureVal");
-var tiltlabelx_el = document.getElementById("tiltValX");
-var tiltlabely_el = document.getElementById("tiltValY");
+var tiltxval_el = document.getElementById("tiltXVal");
+var tiltyval_el = document.getElementById("tiltYVal");
 var poslabel_el = document.getElementById("posVal");
 var sizelabel_el = document.getElementById("sizeVal");
 var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
@@ -67,8 +67,8 @@ function setCanvasProps()
 function update_livestats_ui(paint_rec)
 {
     pressurelabel_el.innerText = paint_rec.pressure.toFixed(4);
-    tiltlabelx_el.innerText = paint_rec.tilt.x.toFixed(1);
-    tiltlabely_el.innerText = paint_rec.tilt.y.toFixed(1) ;
+    tiltxval_el.innerText = paint_rec.tilt.x.toFixed(1);
+    tiltyval_el.innerText = paint_rec.tilt.y.toFixed(1) ;
     poslabel_el.innerText = paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
     barrelRotationVal_el.innerText = paint_rec.barrelrotation.toString();
 
@@ -197,8 +197,8 @@ function set_livestats_to_empty( )
     poslabel_el.innerText = empty;
     sizelabel_el.innerText = empty;
     pressurelabel_el.innerText = empty;
-    tiltlabelx_el.innerText = empty;
-    tiltlabely_el.innerText = empty;
+    tiltxval_el.innerText = empty;
+    tiltyval_el.innerText = empty;
     barrelRotationVal_el.innerText = empty;
 
 
