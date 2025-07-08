@@ -14,10 +14,13 @@ const curveCanvas = document.getElementById('curveCanvas');
 const curveCtx = curveCanvas.getContext('2d');
 
 
-var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
-var brush_color_control_el =  document.getElementById('brushColorControlSelect');
-var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountSlider");
-var pressure_smoothing_el = document.getElementById('pressureSmoothing');
+var controls = 
+{
+    brush_size_control_el:  document.getElementById('brushSizeControlSelect'),
+    brush_color_control_el:  document.getElementById('brushColorControlSelect'),
+    pressureCurveAmountSlider_el: document.getElementById("pressureCurveAmountSlider"),
+    pressure_smoothing_el: document.getElementById('pressureSmoothing')
+}
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
 var livestats =
@@ -95,12 +98,12 @@ function update_livestats_ui(paint_rec)
 
 function update_paintsettings() 
 {
-    paint_settings.brush_size_control = brush_size_control_el.value; 
+    paint_settings.brush_size_control = controls.brush_size_control_el.value; 
     var brush_size = parseInt(livestats.brush_size.value);   
     paint_settings.brush_size = brush_size; 
-    paint_settings.brush_color_control = brush_color_control_el.value;
-    paint_settings.pressure_smoothing = GetSmoothingValue( pressure_smoothing_el.value ) ;
-    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
+    paint_settings.brush_color_control = controls.brush_color_control_el.value;
+    paint_settings.pressure_smoothing = GetSmoothingValue( controls.pressure_smoothing_el.value ),
+    paint_settings.pressureCurveAmount = parseFloat(controls.pressureCurveAmountSlider_el.value)
 
     // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
