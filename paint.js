@@ -21,7 +21,6 @@ var current_dab_settings =
 
 var paint_state = 
 {
-    inStroke: false,
     canvas_pos_old: { x: 0, y: 0 },
     isDrawing: false,
     pressure_smoothed_old: -1.0
@@ -63,7 +62,9 @@ function get_paint_rec( canvas_rect, ptr_event)
         tilt: 
             { 
                 x: ptr_event.tiltX,
-                y: ptr_event.tiltY
+                y: ptr_event.tiltY,
+                azimuth: Math.atan2(ptr_event.tiltY, ptr_event.tiltX) * 180 / Math.PI,
+                altitude: Math.sqrt((ptr_event.tiltX) * ptr_event.tiltX + (ptr_event.tiltY * ptr_event.tiltY))
             },
         barrelrotation: ptr_event.twist,
     }
