@@ -1,6 +1,6 @@
 function clearCanvas() 
 {
-    canvas_context.fillStyle = setting_canvas_color;
+    canvas_context.fillStyle = appsettings.canvas_color;
     canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
 }
 

@@ -1,11 +1,12 @@
 /////////////////////////////////////////////////////////////////////////
 
 
-const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
-const setting_download_filename = "TabletTester_Untitled";
 
-
-
+var appsettings =
+{
+    canvas_color: "rgba(230, 230, 250, 1.0)",
+    download_filename: "TabletTester_Untitled"
+}
 
 const canvas_el = document.getElementById("myCanvas");
 const canvas_context = canvas_el.getContext("2d");
@@ -117,7 +118,7 @@ function update_paintsettings()
 
 function getCanvasName()
 {
-    return setting_download_filename + "_" + Date.now().toString() + ".png";
+    return appsettings.download_filename + "_" + Date.now().toString() + ".png";
 }
 
 /////////////////////////////////////////////////////////////////////////
