@@ -1,11 +1,12 @@
 /////////////////////////////////////////////////////////////////////////
 
 
-const setting_canvas_color = "rgba(230, 230, 250, 1.0)";
-const setting_download_filename = "TabletTester_Untitled";
 
-
-
+var appsettings =
+{
+    canvas_color: "rgba(230, 230, 250, 1.0)",
+    download_filename: "TabletTester_Untitled"
+}
 
 const canvas_el = document.getElementById("myCanvas");
 const canvas_context = canvas_el.getContext("2d");
@@ -14,10 +15,13 @@ const curveCanvas = document.getElementById('curveCanvas');
 const curveCtx = curveCanvas.getContext('2d');
 
 
-var brush_size_control_el =  document.getElementById('brushSizeControlSelect');
-var brush_color_control_el =  document.getElementById('brushColorControlSelect');
-var pressureCurveAmountSlider_el = document.getElementById("pressureCurveAmountSlider");
-var pressure_smoothing_el = document.getElementById('pressureSmoothing');
+var controls = 
+{
+    brush_size:  document.getElementById('brushSizeControlSelect'),
+    brush_color:  document.getElementById('brushColorControlSelect'),
+    pressureCurveAmountSlider: document.getElementById("pressureCurveAmountSlider"),
+    pressure_smoothing: document.getElementById('pressureSmoothing')
+}
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
 var livestats =
@@ -95,12 +99,12 @@ function update_livestats_ui(paint_rec)
 
 function update_paintsettings() 
 {
-    paint_settings.brush_size_control = brush_size_control_el.value; 
+    paint_settings.brush_size_control = controls.brush_size.value; 
     var brush_size = parseInt(livestats.brush_size.value);   
     paint_settings.brush_size = brush_size; 
-    paint_settings.brush_color_control = brush_color_control_el.value;
-    paint_settings.pressure_smoothing = GetSmoothingValue( pressure_smoothing_el.value ) ;
-    paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
+    paint_settings.brush_color_control = controls.brush_color.value;
+    paint_settings.pressure_smoothing = GetSmoothingValue( controls.pressure_smoothing.value ),
+    paint_settings.pressureCurveAmount = parseFloat(controls.pressureCurveAmountSlider.value)
 
     // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
@@ -114,7 +118,7 @@ function update_paintsettings()
 
 function getCanvasName()
 {
-    return setting_download_filename + "_" + Date.now().toString() + ".png";
+    return appsettings.download_filename + "_" + Date.now().toString() + ".png";
 }
 
 /////////////////////////////////////////////////////////////////////////
