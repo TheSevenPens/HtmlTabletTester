@@ -104,8 +104,6 @@ function update_paintsettings()
     // PRESSURE CURVE
     paint_settings.pressureCurveAmount = parseFloat(pressureCurveAmountSlider_el.value);
     pressureCurveAmountValue_el.innerText = paint_settings.pressureCurveAmount.toFixed(1);
-    //        drawCurveVisualization();
-
 
     drawPressureCurve();
 }
