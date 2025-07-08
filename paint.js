@@ -1,7 +1,7 @@
 const setting_stylus_pen_color = "black";
 
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
-const BRUSHSIZE_RANGE = new OrderedRange(1.0,300.0);
+const BRUSHSIZE_RANGE = new OrderedRange(0.1,300.0);
 
 
 var paint_settings = 
@@ -29,7 +29,7 @@ var paint_state =
 
 function applyPressureCurve(input_pressure) 
 {
-    var z = paint_settings.pressureCurveAmount;
+    var z = -1.0 *  paint_settings.pressureCurveAmount;
     if (z==0.0)
     {
         return input_pressure;
