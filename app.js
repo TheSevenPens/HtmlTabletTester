@@ -157,13 +157,13 @@ function pointer_event_handler(ptr_event)
     // Live stats such as pointer position need to updated 
     update_livestats_ui( paint_rec)
     // perform the actual paint
-    perform_paint( ptr_event, paint_rec );
+    paint_dab( ptr_event, paint_rec );
 }
 
  
 function on_pointerup( ptr_event ) 
 {
-    paint_state.isDrawing = false;
+    paint_stroke_stop();
 }
 
 function on_pointerenter( ptr_event ) 
