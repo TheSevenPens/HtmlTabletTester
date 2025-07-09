@@ -26,6 +26,30 @@ var paint_state =
     pressure_smoothed_old: -1.0
 };
 
+var paint_stats=
+{
+    stroke_count: 0,
+    ptrevent_count: 0,
+    start_time: 0,
+    end_time: 0,
+    duration: 0,
+};
+
+function paint_stroke_start()
+{
+    paint_state.isDrawing = true;
+    paint_stats.ptrevent_count = 0; 
+    paint_stats.start_time = performance.now();
+}
+
+function paint_stroke_stop()
+{
+    paint_state.isDrawing = false;
+    paint_stats.stroke_count = paint_stats.stroke_count + 1;
+    paint_stats.end_time = performance.now();
+    paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
+}
+
 function applyPressureCurve(input_pressure) 
 {
     var z = -1.0 *  paint_settings.pressureCurveAmount;
@@ -46,6 +70,7 @@ function applyPressureCurve(input_pressure)
 
 function get_paint_rec( canvas_rect, ptr_event)
 {
+    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
     var canvas_rect = canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event
@@ -179,7 +204,9 @@ function update_dab_settings( paint_rec, ptr_event )
     }
 }
 
-function perform_paint( ptr_event, paint_rec )
+
+
+function paint_dab( ptr_event, paint_rec )
 {
         if (paint_rec.pressure <= 0)
     {
@@ -191,7 +218,7 @@ function perform_paint( ptr_event, paint_rec )
     switch (ptr_event.type) 
     {
         case "pointerdown":
-            paint_state.isDrawing = true;
+            paint_stroke_start();
             paint_state.canvas_pos_old = paint_rec.canvas_pos;
             break;
 

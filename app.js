@@ -39,19 +39,26 @@ var livestats =
     barrel_rotation: document.getElementById("barrelRotationVal")
 }
 
-update_paintsettings(); 
+
+
+var paintstats_fields  =
+{
+    stroke_count: document.getElementById("strokeCountVal"),
+    ptrevent_count: document.getElementById("pointerEventCountVal"),
+    stroke_duration: document.getElementById("strokeDurationVal")
+
+}
 
 var EPenButton =
-    {
-        tip: 0x1,		// left mouse, touch contact, pen contact
-        barrel: 0x2,		// right mouse, pen barrel button
-        middle: 0x4,		// middle mouse
-        eraser: 0x20		// pen eraser button
-    };
+{
+    tip: 0x1,		// left mouse, touch contact, pen contact
+    barrel: 0x2,		// right mouse, pen barrel button
+    middle: 0x4,		// middle mouse
+    eraser: 0x20		// pen eraser button
+};
 
-/////////////////////////////////////////////////////////////////////////
-// Initialize page elements
-//
+update_paintsettings(); 
+
 function initPage() 
 {
     setCanvasProps();
@@ -112,7 +119,6 @@ function update_paintsettings()
     livestats.pressure_smoothing.innerText = paint_settings.pressure_smoothing.toString();
     livestats.pressure_curve_amount.innerText = paint_settings.pressureCurveAmount.toFixed(1);
 
-
     drawPressureCurve();
 }
 
@@ -133,18 +139,20 @@ function saveCanvas()
     link.click();
 }
 
+function is_target_pointer_event( ptr_event )
+{
+    return ( (ptr_event.pointerType ==  "mouse")
+        || (ptr_event.pointerType == "pen")
+        ||  (ptr_event.pointerType == "touch"));
+}
+
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
 //
 function pointer_event_handler(ptr_event) 
 {
-
     // Ignore events we don't care about
-    if ( 
-        (ptr_event.pointerType != "mouse")
-        && (ptr_event.pointerType != "pen")
-        && (ptr_event.pointerType != "touch") 
-        ) 
+    if (!is_target_pointer_event(ptr_event))
     {
         return;
     }
@@ -157,13 +165,16 @@ function pointer_event_handler(ptr_event)
     // Live stats such as pointer position need to updated 
     update_livestats_ui( paint_rec)
     // perform the actual paint
-    perform_paint( ptr_event, paint_rec );
+    paint_dab( ptr_event, paint_rec );
 }
-
  
 function on_pointerup( ptr_event ) 
 {
-    paint_state.isDrawing = false;
+    paint_stroke_stop();
+    paintstats_fields.stroke_count.innerText = paint_stats.stroke_count;
+    paintstats_fields.ptrevent_count.innerText = paint_stats.ptrevent_count;
+    paintstats_fields.stroke_duration.innerText = paint_stats.duration;
+    
 }
 
 function on_pointerenter( ptr_event ) 
@@ -176,8 +187,6 @@ function on_pointerleave( ptr_event )
     document.body.style.cursor = "default";
     set_livestats_to_empty();
 }
-
-
 
 function drawPressureCurve() 
 {
@@ -267,4 +276,3 @@ function register_window_load_event_listeners()
 }
 
 register_event_handlers();
-
