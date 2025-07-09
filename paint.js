@@ -92,7 +92,6 @@ function get_paint_rec( canvas_rect, ptr_event)
         barrelrotation: ptr_event.twist,
     }
 
-    console.log("1", paint_rec.barrelrotation);
     return paint_rec;
 }
 
