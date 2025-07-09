@@ -29,17 +29,25 @@ var paint_state =
 var paint_stats=
 {
     stroke_count: 0,
+    ptrevent_count: 0,
+    start_time: 0,
+    end_time: 0,
+    duration: 0,
 };
 
 function paint_stroke_start()
 {
     paint_state.isDrawing = true;
+    paint_stats.ptrevent_count = 0; 
+    paint_stats.start_time = performance.now();
 }
 
 function paint_stroke_stop()
 {
     paint_state.isDrawing = false;
     paint_stats.stroke_count = paint_stats.stroke_count + 1;
+    paint_stats.end_time = performance.now();
+    paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
 }
 
 function applyPressureCurve(input_pressure) 
@@ -62,6 +70,7 @@ function applyPressureCurve(input_pressure)
 
 function get_paint_rec( canvas_rect, ptr_event)
 {
+    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
     var canvas_rect = canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event

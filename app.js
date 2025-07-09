@@ -39,9 +39,14 @@ var livestats =
     barrel_rotation: document.getElementById("barrelRotationVal")
 }
 
+
+
 var paintstats_fields  =
 {
     stroke_count: document.getElementById("strokeCountVal"),
+    ptrevent_count: document.getElementById("pointerEventCountVal"),
+    stroke_duration: document.getElementById("strokeDurationVal")
+
 }
 
 var EPenButton =
@@ -167,6 +172,9 @@ function on_pointerup( ptr_event )
 {
     paint_stroke_stop();
     paintstats_fields.stroke_count.innerText = paint_stats.stroke_count;
+    paintstats_fields.ptrevent_count.innerText = paint_stats.ptrevent_count;
+    paintstats_fields.stroke_duration.innerText = paint_stats.duration;
+    
 }
 
 function on_pointerenter( ptr_event ) 
