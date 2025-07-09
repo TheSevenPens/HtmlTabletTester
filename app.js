@@ -43,19 +43,17 @@ var paintstats_fields  =
 {
     stroke_count: document.getElementById("strokeCountVal"),
 }
-update_paintsettings(); 
 
 var EPenButton =
-    {
-        tip: 0x1,		// left mouse, touch contact, pen contact
-        barrel: 0x2,		// right mouse, pen barrel button
-        middle: 0x4,		// middle mouse
-        eraser: 0x20		// pen eraser button
-    };
+{
+    tip: 0x1,		// left mouse, touch contact, pen contact
+    barrel: 0x2,		// right mouse, pen barrel button
+    middle: 0x4,		// middle mouse
+    eraser: 0x20		// pen eraser button
+};
 
-/////////////////////////////////////////////////////////////////////////
-// Initialize page elements
-//
+update_paintsettings(); 
+
 function initPage() 
 {
     setCanvasProps();
@@ -116,7 +114,6 @@ function update_paintsettings()
     livestats.pressure_smoothing.innerText = paint_settings.pressure_smoothing.toString();
     livestats.pressure_curve_amount.innerText = paint_settings.pressureCurveAmount.toFixed(1);
 
-
     drawPressureCurve();
 }
 
@@ -165,7 +162,6 @@ function pointer_event_handler(ptr_event)
     // perform the actual paint
     paint_dab( ptr_event, paint_rec );
 }
-
  
 function on_pointerup( ptr_event ) 
 {
@@ -183,8 +179,6 @@ function on_pointerleave( ptr_event )
     document.body.style.cursor = "default";
     set_livestats_to_empty();
 }
-
-
 
 function drawPressureCurve() 
 {
@@ -274,4 +268,3 @@ function register_window_load_event_listeners()
 }
 
 register_event_handlers();
-
