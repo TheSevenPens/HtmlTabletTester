@@ -137,18 +137,20 @@ function saveCanvas()
     link.click();
 }
 
+function is_target_pointer_event( ptr_event )
+{
+    return ( (ptr_event.pointerType ==  "mouse")
+        || (ptr_event.pointerType == "pen")
+        ||  (ptr_event.pointerType == "touch"));
+}
+
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
 //
 function pointer_event_handler(ptr_event) 
 {
-
     // Ignore events we don't care about
-    if ( 
-        (ptr_event.pointerType != "mouse")
-        && (ptr_event.pointerType != "pen")
-        && (ptr_event.pointerType != "touch") 
-        ) 
+    if (!is_target_pointer_event(ptr_event))
     {
         return;
     }
