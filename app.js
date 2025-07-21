@@ -228,6 +228,8 @@ function set_livestats_to_empty( )
     livestats.tiltx.innerText = empty;
     livestats.tilty.innerText = empty;
     livestats.barrel_rotation.innerText = empty;
+    livestats.tiltaltitude.innerText = empty;
+    livestats.tiltazimuth.innerText = empty;
 
 
 }
