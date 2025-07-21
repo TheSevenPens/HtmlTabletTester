@@ -131,6 +131,27 @@ function update_dab_settings( paint_rec, ptr_event )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
     }
+    else if (paint_settings.brush_size_control == "TILTX")
+    {
+        new_size = new_size * normalized_tiltx;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
+    else if (paint_settings.brush_size_control == "TILTY")
+    {
+        new_size = new_size * normalized_tilty;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
+    else if (paint_settings.brush_size_control == "TILTAZ")
+    {
+        new_size = new_size * normalized_tiltaz;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
         new_size = new_size * ((1.0 - normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
