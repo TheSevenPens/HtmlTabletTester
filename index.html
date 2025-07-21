@@ -102,6 +102,10 @@ Key differences
 
 
 <body onload="initPage()" onresize="setCanvasProps()" oncontextmenu="return false;">
+
+
+
+
 	<div class='parent'>
 		<h2 >SevenPens Tablet Tester v0.71</h2>
 		<p>
@@ -112,6 +116,45 @@ Key differences
 		</p>
 
 		<div class="controlscontainer">
+
+			<div class="controlscolumn">
+
+
+				
+			<span style="font-weight:bold">STROKE FORMAT</span>
+			<br>
+			<label>Size </label>
+			<select id="brushSizeSelect" value="brushSize" onchange="update_paintsettings()">
+				<option value="1">1px</option>
+				<option value="5">5px</option>
+				<option value="10">10px</option>
+				<option value="50" selected >50px</option>
+				<option value="100">100px</option>
+				<option value="300">300px</option>
+			</select>
+			<br>
+			<label>Scale size by </label>
+			<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paintsettings()">
+				<option value="USER">Don't scale</option>
+				<option value="PRESSURE" selected>Pressure</option>
+				<option value="TILTALT">Tilt (altitude)</option>
+			</select>
+			<br>
+			<label>Color </label>
+			<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paintsettings()">
+				<option value="DEFAULT" selected>Black</option>
+				<option value="RED">Red</option>
+				<option value="PRESSURE">Pressure</option>
+				<option value="TILTAZ">Tilt (azimuth)</option>
+				<option value="TILTALT">Tilt (altitude)</option>
+				<option value="BARRELROTATION">Barrel rotation</option>
+				<option value="ERASER">Eraser</option>
+			</select>
+				
+			</div>
+
+
+
 			<div class="controlscolumn">
 				<span style="font-weight:bold">POINTER INFO</span>
 				<br>
@@ -146,41 +189,13 @@ Key differences
 			</div>
 		</div>
 
-		
-	<div class="controlscontainer">
-		<div class="controlscolumn">
 
-			<span style="font-weight:bold">STROKE FORMAT</span>
-			<br>
-			<label>Size </label>
-			<select id="brushSizeSelect" value="brushSize" onchange="update_paintsettings()">
-				<option value="1">1px</option>
-				<option value="5">5px</option>
-				<option value="10">10px</option>
-				<option value="50" selected >50px</option>
-				<option value="100">100px</option>
-				<option value="300">300px</option>
-			</select>
-			<br>
-			<label>Scale size by </label>
-			<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paintsettings()">
-				<option value="USER">Don't scale</option>
-				<option value="PRESSURE" selected>Pressure</option>
-				<option value="TILTALT">Tilt (altitude)</option>
-			</select>
-			<br>
-			<label>Color </label>
-			<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paintsettings()">
-				<option value="DEFAULT" selected>Black</option>
-				<option value="RED">Red</option>
-				<option value="PRESSURE">Pressure</option>
-				<option value="TILTAZ">Tilt (azimuth)</option>
-				<option value="TILTALT">Tilt (altitude)</option>
-				<option value="BARRELROTATION">Barrel rotation</option>
-				<option value="ERASER">Eraser</option>
-			</select>
+	<label>
+        <input type="checkbox" id="toggleCheckbox" onclick="toggleDiv()" checked> Advanced controls
+    </label>
+	
+	<div class="controlscontainer" id="advancedcontrols">
 
-		</div>
 		<div class="controlscolumn">
 			<span style="font-weight:bold">ADVANCED PRESSURE CONTROL</span>
 			<br>

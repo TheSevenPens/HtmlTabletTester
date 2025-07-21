@@ -213,6 +213,12 @@ function drawPressureCurve()
     curveCtx.stroke();
 }
 
+function toggleDiv() {
+    const checkbox = document.getElementById('toggleCheckbox');
+    const div = document.getElementById('advancedcontrols');
+    div.style.display = checkbox.checked ? 'flex' : 'none';
+}
+
 function set_livestats_to_empty( ) 
 {
     const empty = "---";
