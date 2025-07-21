@@ -200,7 +200,7 @@ function drawPressureCurve()
         curveCtx.lineTo(x, y);
     }
     curveCtx.strokeStyle = 'rgb(150,180,255)';
-    curveCtx.lineWidth = 7;
+    curveCtx.lineWidth = 3;
     curveCtx.stroke();
 
     // Draw axes
