@@ -76,8 +76,8 @@ function update_livestats_ui(paint_rec) {
   livestats_ux.pressure.innerText = paint_rec.pressure.toFixed(4);
   livestats_ux.tilt_x.innerText = paint_rec.tilt_x.toFixed(1);
   livestats_ux.tilt_y.innerText = paint_rec.tilt_y.toFixed(1);
-  livestats_ux.tilt_azimuth.innerText = paint_rec.tiltazimuth.toFixed(1);
-  livestats_ux.tilt_altitude.innerText = paint_rec.tiltaltitude.toFixed(1);
+  livestats_ux.tilt_azimuth.innerText = paint_rec.tilt_azimuth.toFixed(1);
+  livestats_ux.tilt_altitude.innerText = paint_rec.tilt_altitude.toFixed(1);
   livestats_ux.pos_canvas.innerText =
     paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
   livestats_ux.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
