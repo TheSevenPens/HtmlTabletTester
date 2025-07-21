@@ -75,6 +75,24 @@ Key differences
             background-color: white;
             margin-top: 10px;
         }
+
+		.controlscontainer {
+			display: flex; /* Enables Flexbox */
+			justify-content: space-between; /* Distributes items evenly */
+			align-items: top; /* Vertically centers items */
+			gap: 10px; /* Adds spacing between items */
+			padding: 5px;
+			background-color: #f0f0f0;
+			/*height: 200px; /* For visibility */
+		}
+
+		.controlscolumn {
+      background-color: #e1e8e1;
+      color: rgb(0, 0, 0);
+      padding: 10px;
+      text-align: left;
+      flex: 1; /* Each item takes equal space */
+    }
 	</style>
 
 
@@ -93,22 +111,41 @@ Key differences
 
 		</p>
 
+		<div class="controlscontainer">
+			<div class="controlscolumn">
+
+				Position: <label> <span id="posVal" class="monospace">---</span> </label> 
+				<br>
+				Pressure: <label> <span id="pressureVal" class="monospace">---</span> </label> 
+				<br>
+				Barrel rotation: <label> <span id="barrelRotationVal" class="monospace">---</span> </label>	
+				<br>
+				TiltX: <label> <span id="tiltXVal" class="monospace">---</span> </label> |
+				TiltY: <label> <span id="tiltYVal" class="monospace">---</span> </label> 
+				<br>
+				TiltAzimuth: <label> <span id="tiltAzimuthVal" class="monospace">---</span> </label> |
+				TiltAltitude: <label> <span id="tiltAltitudeVal" class="monospace">---</span> </label> 	
+
+			</div>
+			<div class="controlscolumn">
+
+				STROKE STATS
+				<br> Count: <label> <span id="strokeCountVal" class="monospace">---</span> </label>
+				<br>
+				Pointer events: <label> <span id="pointerEventCountVal" class="monospace">---</span> </label>	
+				<br>
+				Duration: <label> <span id="strokeDurationVal" class="monospace">---</span>ms </label>
+
+			</div>
+			<div class="controlscolumn">
+				
+				Size: <label> <span id="sizeVal" class="monospace">---</span></label>	
+				<br>
+			</div>
+		</div>
 		<p>
-			Position: <label> <span id="posVal" class="monospace">---</span> </label> |
-			Pressure: <label> <span id="pressureVal" class="monospace">---</span> </label> |
-			Barrel rotation: <label> <span id="barrelRotationVal" class="monospace">---</span> </label>	|
-			Size: <label> <span id="sizeVal" class="monospace">---</span></label>	
-			<br>
-			TiltX: <label> <span id="tiltXVal" class="monospace">---</span> </label> |
-			TiltY: <label> <span id="tiltYVal" class="monospace">---</span> </label> |
-			TiltAzimuth: <label> <span id="tiltAzimuthVal" class="monospace">---</span> </label> |
-			TiltAltitude: <label> <span id="tiltAltitudeVal" class="monospace">---</span> </label> |	
-			<br>
-			Stroke count: <label> <span id="strokeCountVal" class="monospace">---</span> </label>
-			<br>
-			Pointer event count in last stroke: <label> <span id="pointerEventCountVal" class="monospace">---</span> </label>	
-			<br>
-			Stroke duration: <label> <span id="strokeDurationVal" class="monospace">---</span>ms </label>	
+
+	
 
 		</p>
 		
