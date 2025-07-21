@@ -140,42 +140,26 @@ function update_dab_settings( paint_rec, ptr_event )
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
         new_size = new_size * paint_rec.pressure_processed; 
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;        
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
         new_size = new_size * paint_rec.normalized_tiltx;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
         new_size = new_size * paint_rec.normalized_tilty;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
         new_size = new_size * paint_rec.normalized_tiltaz;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
         new_size = new_size * ((1.0 - paint_rec.normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
     }
-    else
-    {
-        // unhandled case
-    }
+    new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+    new_size = round_to_3_decimal_places( new_size );
+    current_dab_settings.brush_size = new_size;
 
     // Eraser size
     current_dab_settings.eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
