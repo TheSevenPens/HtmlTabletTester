@@ -97,8 +97,8 @@ function get_paint_rec( canvas_rect, ptr_event)
         barrelrotation: ptr_event.twist,
         normalized_tiltalt:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
         normalized_tiltaz:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
-        normalized_tiltx:  Math.abs(paint_rec.tiltx)/max_tiltx,
-        normalized_tilty:  Math.abs(paint_rec.tilty)/max_tilty,
+        normalized_tiltx:  Math.abs(ptr_event.tiltX)/max_tiltx,
+        normalized_tilty:  Math.abs(ptr_event.tiltY)/max_tilty,
 
     }
 
