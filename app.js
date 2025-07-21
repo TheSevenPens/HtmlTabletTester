@@ -80,7 +80,7 @@ function update_livestats_ui(paint_rec) {
   livestats_ux.tilt_altitude.innerText = paint_rec.tilt_altitude.toFixed(1);
   livestats_ux.pos_canvas.innerText =
     paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
-  livestats_ux.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
+  livestats_ux.barrel_rotation.innerText = paint_rec.barrel_rotation.toString();
 
   if (paint_rec.pressure > 0) {
     livestats_ux.size.innerText =

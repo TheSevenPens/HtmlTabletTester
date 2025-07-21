@@ -98,11 +98,11 @@ function get_paint_rec( canvas_rect, ptr_event)
         tilt_y: ptr_event.tiltY,
         tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
         tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
-        barrelrotation: ptr_event.twist,
-        normalized_tiltalt:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
-        normalized_tiltaz:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
-        normalized_tiltx:  Math.abs(ptr_event.tiltX)/max_tiltx,
-        normalized_tilty:  Math.abs(ptr_event.tiltY)/max_tilty,
+        barrel_rotation: ptr_event.twist,
+        tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
+        tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
+        tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tiltx,
+        tilt_y_normalized:  Math.abs(ptr_event.tiltY)/max_tilty,
 
     }
 
@@ -143,19 +143,19 @@ function update_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
-        new_size = new_size * paint_rec.normalized_tiltx;  
+        new_size = new_size * paint_rec.tilt_x_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
-        new_size = new_size * paint_rec.normalized_tilty;  
+        new_size = new_size * paint_rec.tilt_y_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
-        new_size = new_size * paint_rec.normalized_tiltaz;  
+        new_size = new_size * paint_rec.tilt_azimuth_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - paint_rec.normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - paint_rec.tilt_altitude_normalized) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
     }
     new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
     new_size = round_to_3_decimal_places( new_size );
@@ -186,37 +186,37 @@ function update_dab_settings( paint_rec, ptr_event )
             }
             else if (paint_settings.brush_color_control =="TILTALT")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltalt);
+                var hue = lerp(360, 150, paint_rec.tilt_altitude_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTAZ")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltaz);
+                var hue = lerp(360, 150, paint_rec.tilt_azimuth_normalized);
                 dab_color = getCETColor( paint_rec.tiltazimuth) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTX")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltx);
+                var hue = lerp(360, 150, paint_rec.tilt_x_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTY")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tilty);
+                var hue = lerp(360, 150, paint_rec.tilt_y_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="BARRELROTATION")
             {
-                var hue = lerp(360, 150, paint_rec.barrelrotation/360.0);
+                var hue = lerp(360, 150, paint_rec.barrel_rotation/360.0);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
-                dab_color = getCETColor( paint_rec.barrelrotation) ;
+                dab_color = getCETColor( paint_rec.barrel_rotation) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
