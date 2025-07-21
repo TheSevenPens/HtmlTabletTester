@@ -100,8 +100,8 @@ function update_dab_settings( paint_rec, ptr_event )
 
     const normalized_tiltalt =  Math.abs(paint_rec.tiltaltitude)/90.0;
     const normalized_tiltaz =  Math.abs(paint_rec.tiltazimuth)/360.0;
-    const normalized_tiltx =  Math.abs(paint_rec.tiltx)/90.0;
-    const normalized_tilty =  Math.abs(paint_rec.tilty)/90.0;
+    const normalized_tiltx =  Math.abs(paint_rec.tiltx)/60.0;
+    const normalized_tilty =  Math.abs(paint_rec.tilty)/60.0;
 
     var new_size = paint_settings.brush_size;
 
