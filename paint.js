@@ -78,6 +78,11 @@ function get_paint_rec( canvas_rect, ptr_event)
     // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
 
+    const max_tiltalt = 90.0;
+    const max_tiltaz = 360.0;
+    const max_tiltx = 60.0;
+    const max_tilty = 60.0;
+
     var paint_rec = 
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
@@ -90,6 +95,11 @@ function get_paint_rec( canvas_rect, ptr_event)
         tiltazimuth: radians_to_degrees( ptr_event.azimuthAngle ),
         tiltaltitude: radians_to_degrees( ptr_event.altitudeAngle ),
         barrelrotation: ptr_event.twist,
+        normalized_tiltalt:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
+        normalized_tiltaz:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
+        normalized_tiltx:  Math.abs(paint_rec.tiltx)/max_tiltx,
+        normalized_tilty:  Math.abs(paint_rec.tilty)/max_tilty,
+
     }
 
     return paint_rec;
@@ -97,16 +107,6 @@ function get_paint_rec( canvas_rect, ptr_event)
 
 function update_dab_settings( paint_rec, ptr_event )
 {
-
-    const max_tiltalt = 90.0;
-    const max_tiltaz = 360.0;
-    const max_tiltx = 60.0;
-    const max_tilty = 60.0;
-    const normalized_tiltalt =  Math.abs(paint_rec.tiltaltitude)/max_tiltalt;
-    const normalized_tiltaz =  Math.abs(paint_rec.tiltazimuth)/max_tiltaz;
-    const normalized_tiltx =  Math.abs(paint_rec.tiltx)/max_tiltx;
-    const normalized_tilty =  Math.abs(paint_rec.tilty)/max_tilty;
-
     var new_size = paint_settings.brush_size;
 
     if (paint_state.pressure_smoothed_old <0.0)
@@ -137,28 +137,28 @@ function update_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
-        new_size = new_size * normalized_tiltx;  
+        new_size = new_size * paint_rec.normalized_tiltx;  
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
-        new_size = new_size * normalized_tilty;  
+        new_size = new_size * paint_rec.normalized_tilty;  
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
-        new_size = new_size * normalized_tiltaz;  
+        new_size = new_size * paint_rec.normalized_tiltaz;  
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - paint_rec.normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
@@ -193,28 +193,28 @@ function update_dab_settings( paint_rec, ptr_event )
             }
             else if (paint_settings.brush_color_control =="TILTALT")
             {
-                var hue = lerp(360, 150, normalized_tiltalt);
+                var hue = lerp(360, 150, paint_rec.normalized_tiltalt);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTAZ")
             {
-                var hue = lerp(360, 150, normalized_tiltaz);
+                var hue = lerp(360, 150, paint_rec.normalized_tiltaz);
                 dab_color = getCETColor( paint_rec.tiltazimuth) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTX")
             {
-                var hue = lerp(360, 150, normalized_tiltx);
+                var hue = lerp(360, 150, paint_rec.normalized_tiltx);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTY")
             {
-                var hue = lerp(360, 150, normalized_tilty);
+                var hue = lerp(360, 150, paint_rec.normalized_tilty);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
