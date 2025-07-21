@@ -213,8 +213,8 @@ function drawPressureCurve()
     curveCtx.stroke();
 }
 
-function toggleDiv() {
-    const checkbox = document.getElementById('toggleCheckbox');
+function toggleAdvancedDiv() {
+    const checkbox = document.getElementById('toggleAdvancedControlsCheckbox');
     const div = document.getElementById('advancedcontrols');
     div.style.display = checkbox.checked ? 'flex' : 'none';
 }
