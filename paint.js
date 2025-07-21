@@ -89,6 +89,7 @@ function get_paint_rec( canvas_rect, ptr_event)
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
         pressure_raw: pressure_raw,
         pressure: applyPressureCurve(pressure_raw),
+        pressure_processed: applyPressureCurve(pressure_raw),
         buttons: ptr_event.buttons,
         tiltx: ptr_event.tiltX,
         tilty: ptr_event.tiltY,
@@ -105,20 +106,27 @@ function get_paint_rec( canvas_rect, ptr_event)
     return paint_rec;
 }
 
-function update_dab_settings( paint_rec, ptr_event )
+function process_pressure( pressure_raw )
 {
-    var new_size = paint_settings.brush_size;
-
     if (paint_state.pressure_smoothed_old <0.0)
     {
-        var pressure_effective  = paint_rec.pressure;
+        var pressure_effective  = pressure_raw;
     }
     else
     {
         var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
-        var pressure_effective = ( pressure_smoothing_alpha * paint_rec.pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
+        var pressure_effective = ( pressure_smoothing_alpha * pressure_raw ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
     }
     paint_state.pressure_smoothed_old = pressure_effective;
+    return pressure_effective;
+}
+
+function update_dab_settings( paint_rec, ptr_event )
+{
+    pressure_effective = process_pressure( paint_rec.pressure_raw );
+
+    var new_size = paint_settings.brush_size;
+
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
