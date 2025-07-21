@@ -98,7 +98,10 @@ function get_paint_rec( canvas_rect, ptr_event)
 function update_dab_settings( paint_rec, ptr_event )
 {
 
-    const normalized_tilt =  Math.abs(paint_rec.tiltaltitude)/90.0;
+    const normalized_tiltalt =  Math.abs(paint_rec.tiltaltitude)/90.0;
+    const normalized_tiltaz =  Math.abs(paint_rec.tiltazimuth)/360.0;
+    const normalized_tiltx =  Math.abs(paint_rec.tiltx)/90.0;
+    const normalized_tilty =  Math.abs(paint_rec.tilty)/90.0;
 
     var new_size = paint_settings.brush_size;
 
@@ -128,9 +131,30 @@ function update_dab_settings( paint_rec, ptr_event )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
     }
+    else if (paint_settings.brush_size_control == "TILTX")
+    {
+        new_size = new_size * normalized_tiltx;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
+    else if (paint_settings.brush_size_control == "TILTY")
+    {
+        new_size = new_size * normalized_tilty;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
+    else if (paint_settings.brush_size_control == "TILTAZ")
+    {
+        new_size = new_size * normalized_tiltaz;  
+        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+        new_size = round_to_3_decimal_places( new_size );
+        current_dab_settings.brush_size = new_size;
+    }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - normalized_tilt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;
@@ -158,9 +182,6 @@ function update_dab_settings( paint_rec, ptr_event )
             // DRAWING
             if (paint_settings.brush_color_control =="PRESSURE")
             {
-                // PRESSURE TO COLOR
-                // Low pressure is a blue/green
-                // high pressure is read
                 var hue = lerp(360, 150, pressure_effective);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
@@ -168,30 +189,34 @@ function update_dab_settings( paint_rec, ptr_event )
             }
             else if (paint_settings.brush_color_control =="TILTALT")
             {
-                // TILT TO COLOR
-                // Low pressure is a blue/green
-                // high pressure is read
-                var hue = lerp(360, 150, normalized_tilt);
+                var hue = lerp(360, 150, normalized_tiltalt);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTAZ")
             {
-                // TILT TO COLOR
-                // Low pressure is a blue/green
-                // high pressure is read
-                var hue = lerp(360, 150, normalized_tilt);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
+                var hue = lerp(360, 150, normalized_tiltaz);
                 dab_color = getCETColor( paint_rec.tiltazimuth) ;
+                current_dab_settings.brush_color = dab_color;
+
+            }
+            else if (paint_settings.brush_color_control =="TILTX")
+            {
+                var hue = lerp(360, 150, normalized_tiltx);
+                var dab_color = `hsl(${hue}, 100%, 50%)`;
+                current_dab_settings.brush_color = dab_color;
+
+            }
+            else if (paint_settings.brush_color_control =="TILTY")
+            {
+                var hue = lerp(360, 150, normalized_tilty);
+                var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="BARRELROTATION")
             {
-                // TILT TO COLOR
-                // Low pressure is a blue/green
-                // high pressure is read
                 var hue = lerp(360, 150, paint_rec.barrelrotation/360.0);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 dab_color = getCETColor( paint_rec.barrelrotation) ;
