@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- 
+
 <!--
 
 This is derived from the Wacom Scribble Demo: https://github.com/Wacom-Developer/wacom-device-kit-web
@@ -11,233 +11,282 @@ Key differences
 
 -->
 <html>
-<head>
-	<script src="numerics.js"></script> 
-	<script src="draw.js"></script> 
-	<script src="paint.js"></script> 
+  <head>
+    <script src="numerics.js"></script>
+    <script src="draw.js"></script>
+    <script src="paint.js"></script>
 
-	<title>SevenPens Tablet tester</title>
-	<style>
+    <title>SevenPens Tablet tester</title>
+    <style>
+      * {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-		* {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
+      body {
+        font-size: 12px; /* Sets default font size for all non-heading text */
+      }
 
-		body {
-			font-size: 12px; /* Sets default font size for all non-heading text */
-		}
+      h1,
+      h2,
+      h3,
+      p {
+        padding: 0;
+        margin: 0;
+      }
 
-		h1, h2, h3, p {
-			padding: 0;
-			margin: 0;
-		}
+      .canvasDiv {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-		.canvasDiv {
-			text-align: center;
-			margin-left: auto;
-			margin-right: auto;
-		}
+      .monospace {
+        font-family: "Consolas", "Monaco", "Courier New", Courier, monospace;
+      }
 
-		.monospace {
-			font-family: "Consolas", "Monaco", "Courier New", Courier, monospace;
-		}
+      div {
+        /*border: 1px solid black;*/
+        padding: 5px;
+        padding-top: 5px;
+        margin-bottom: 5px;
+      }
 
-		div {
-			/*border: 1px solid black;*/
-			padding: 5px;
-			padding-top: 5px;
-			margin-bottom: 5px;
-		}
+      button {
+        font-size: 12px;
+      }
 
-		button 
-		{
-			font-size: 12px;
-		}
+      select {
+        font-size: 12px;
+      }
 
-		select 
-		{
-			font-size: 12px;
-		}
-
-
-		#myCanvas {
-			touch-action: none; /*prevent canvas scrolling and system touch behavior*/
-			overscroll-behavior: none; /*added at suggestion of nahkd*/
-			display: block;
-			/* This doesn't ensure background color saved in image.
+      #myCanvas {
+        touch-action: none; /*prevent canvas scrolling and system touch behavior*/
+        overscroll-behavior: none; /*added at suggestion of nahkd*/
+        display: block;
+        /* This doesn't ensure background color saved in image.
 				background-color: tan;
 				See https://stackoverflow.com/questions/6957034/save-canvas-with-background-image
 			*/
-		}
+      }
 
-		#curveCanvas {
-            border: 1px solid #000;
-            background-color: white;
-            margin-top: 10px;
-        }
+      #curveCanvas {
+        border: 1px solid #000;
+        background-color: white;
+        margin-top: 10px;
+      }
 
-		.controlscontainer {
-			display: flex; /* Enables Flexbox */
-			justify-content: space-between; /* Distributes items evenly */
-			align-items: top; /* Vertically centers items */
-			gap: 2px; /* Adds spacing between items */
-			padding: 2px;
-			background-color: #f0f0f0;
-			/*height: 200px; /* For visibility */
-		}
+      .controlscontainer {
+        display: flex; /* Enables Flexbox */
+        justify-content: space-between; /* Distributes items evenly */
+        align-items: top; /* Vertically centers items */
+        gap: 2px; /* Adds spacing between items */
+        padding: 2px;
+        /*background-color: #f0f0f0;*/
+        /*height: 200px; /* For visibility */
+      }
 
-		.controlscolumn {
-      background-color: #e1e8e1;
-      color: rgb(0, 0, 0);
-      padding: 2px;
-      text-align: left;
-      flex: 1; /* Each item takes equal space */
-    }
-	</style>
+      .controlscolumn {
+        background-color: #f7f7f7;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #e4e4e4;
+        color: rgb(0, 0, 0);
+        padding: 2px;
+        text-align: left;
+        flex: 1; /* Each item takes equal space */
+      }
+    </style>
+  </head>
 
+  <body
+    onload="initPage()"
+    onresize="setCanvasProps()"
+    oncontextmenu="return false;"
+  >
+    <div class="parent">
+      <h2>SevenPens Tablet Tester v0.75</h2>
+      <p>
+        <a
+          href="https://thesevenpens.github.io/HtmlTabletTester/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >DOCS</a
+        >
+        |
+        <a
+          href="https://github.com/TheSevenPens/HtmlTabletTester"
+          target="_blank"
+          rel="noopener noreferrer"
+          >CODE</a
+        >
+      </p>
 
+      <div class="controlscontainer">
+        <div class="controlscolumn">
+          <span style="font-weight: bold">STROKE FORMAT</span>
+          <br />
+          <label>Size </label>
+          <select
+            id="brushSizeSelect"
+            value="brushSize"
+            onchange="update_paintsettings()"
+          >
+            <option value="1">1px</option>
+            <option value="5">5px</option>
+            <option value="10">10px</option>
+            <option value="50" selected>50px</option>
+            <option value="100">100px</option>
+            <option value="300">300px</option>
+          </select>
+          <br />
+          <label>Scale size by </label>
+          <select
+            id="brushSizeControlSelect"
+            value="brushSizeControl"
+            onchange="update_paintsettings()"
+          >
+            <option value="USER">Don't scale</option>
+            <option value="PRESSURE" selected>Pressure</option>
+            <option value="TILTALT">Tilt (altitude)</option>
+          </select>
+          <br />
+          <label>Color </label>
+          <select
+            id="brushColorControlSelect"
+            value="brushColorControl"
+            onchange="update_paintsettings()"
+          >
+            <option value="DEFAULT" selected>Black</option>
+            <option value="RED">Red</option>
+            <option value="PRESSURE">Pressure</option>
+            <option value="TILTAZ">Tilt (azimuth)</option>
+            <option value="TILTALT">Tilt (altitude)</option>
+            <option value="BARRELROTATION">Barrel rotation</option>
+            <option value="ERASER">Eraser</option>
+          </select>
 
+          <br />
+          <label>
+            <input
+              type="checkbox"
+              id="toggleCheckbox"
+              onclick="toggleDiv()"
+              checked
+            />
+            ADVANCED
+          </label>
+        </div>
 
-</head>
+        <div class="controlscolumn">
+          <span style="font-weight: bold">POINTER INFO</span>
+          <br />
+          Position:
+          <label> <span id="posVal" class="monospace">---</span> </label>
+          <br />
+          Pressure:
+          <label> <span id="pressureVal" class="monospace">---</span> </label>
+          <br />
+          Barrel rotation:
+          <label>
+            <span id="barrelRotationVal" class="monospace">---</span>
+          </label>
+          <br />
+          TiltX:
+          <label> <span id="tiltXVal" class="monospace">---</span> </label> |
+          TiltY:
+          <label> <span id="tiltYVal" class="monospace">---</span> </label>
+          <br />
+          TiltAzimuth:
+          <label>
+            <span id="tiltAzimuthVal" class="monospace">---</span>
+          </label>
+          | TiltAltitude:
+          <label>
+            <span id="tiltAltitudeVal" class="monospace">---</span>
+          </label>
+        </div>
+        <div class="controlscolumn">
+          <span style="font-weight: bold">STROKE STATS</span>
+          <br />
+          Count:
+          <label>
+            <span id="strokeCountVal" class="monospace">---</span>
+          </label>
+          <br />
+          Pointer events:
+          <label>
+            <span id="pointerEventCountVal" class="monospace">---</span>
+          </label>
+          <br />
+          Duration:
+          <label>
+            <span id="strokeDurationVal" class="monospace">---</span>ms
+          </label>
+        </div>
+        <div class="controlscolumn">
+          <span style="font-weight: bold">LIVE FORMAT</span>
+          <br />
+          Size: <label> <span id="sizeVal" class="monospace">---</span></label>
+          <br />
+        </div>
+      </div>
 
+      <div class="controlscontainer" id="advancedcontrols">
+        <div class="controlscolumn">
+          <span style="font-weight: bold">ADV PRESSURE</span>
+          <br />
 
-<body onload="initPage()" onresize="setCanvasProps()" oncontextmenu="return false;">
+          <label for="pressureSmoothingSlider"
+            >Pressure smoothing:
+            <span id="pressureSmoothingValue">---</span></label
+          >
+          <br />
+          <input
+            type="range"
+            id="pressureSmoothing"
+            min="0.0"
+            max="1.0"
+            step="0.01"
+            value="0.0"
+            oninput="update_paintsettings()"
+          />
+          <br />
+          <label
+            >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
+            <br />
 
+            <input
+              type="range"
+              id="pressureCurveAmountSlider"
+              min="-0.90"
+              max="0.90"
+              step="0.1"
+              value="0.0"
+              list="pressureCurveTickmarks"
+              oninput="update_paintsettings()"
+            />
+            <datalist id="pressureCurveTickmarks">
+              <option value="0.0"></option>
+            </datalist>
+          </label>
+          <br /><canvas id="curveCanvas" width="50" height="50"></canvas>
+        </div>
+      </div>
+    </div>
 
+    <div>
+      <button type="button" onclick="clearCanvas()">Clear</button>
+      <button type="button" onclick="saveCanvas()">Save</button>
+    </div>
 
+    <div class="canvasDiv">
+      <canvas id="myCanvas" height="450" style="border: 5px solid #d1d1d1">
+        Your browser does not support the canvas element.
+      </canvas>
+    </div>
 
-	<div class='parent'>
-		<h2 >SevenPens Tablet Tester v0.75</h2>
-		<p>
-			<a href="https://thesevenpens.github.io/HtmlTabletTester/" target="_blank" rel="noopener noreferrer" >Docs</a>
-			|
-			<a href="https://github.com/TheSevenPens/HtmlTabletTester" target="_blank" rel="noopener noreferrer" >Code</a>
+    <a id="link"></a>
 
-		</p>
-
-		<div class="controlscontainer">
-
-			<div class="controlscolumn">
-
-
-				
-			<span style="font-weight:bold">STROKE FORMAT</span>
-			<br>
-			<label>Size </label>
-			<select id="brushSizeSelect" value="brushSize" onchange="update_paintsettings()">
-				<option value="1">1px</option>
-				<option value="5">5px</option>
-				<option value="10">10px</option>
-				<option value="50" selected >50px</option>
-				<option value="100">100px</option>
-				<option value="300">300px</option>
-			</select>
-			<br>
-			<label>Scale size by </label>
-			<select id="brushSizeControlSelect" value="brushSizeControl" onchange="update_paintsettings()">
-				<option value="USER">Don't scale</option>
-				<option value="PRESSURE" selected>Pressure</option>
-				<option value="TILTALT">Tilt (altitude)</option>
-			</select>
-			<br>
-			<label>Color </label>
-			<select id="brushColorControlSelect" value="brushColorControl" onchange="update_paintsettings()">
-				<option value="DEFAULT" selected>Black</option>
-				<option value="RED">Red</option>
-				<option value="PRESSURE">Pressure</option>
-				<option value="TILTAZ">Tilt (azimuth)</option>
-				<option value="TILTALT">Tilt (altitude)</option>
-				<option value="BARRELROTATION">Barrel rotation</option>
-				<option value="ERASER">Eraser</option>
-			</select>
-				
-			</div>
-
-
-
-			<div class="controlscolumn">
-				<span style="font-weight:bold">POINTER INFO</span>
-				<br>
-				Position: <label> <span id="posVal" class="monospace">---</span> </label> 
-				<br>
-				Pressure: <label> <span id="pressureVal" class="monospace">---</span> </label> 
-				<br>
-				Barrel rotation: <label> <span id="barrelRotationVal" class="monospace">---</span> </label>	
-				<br>
-				TiltX: <label> <span id="tiltXVal" class="monospace">---</span> </label> |
-				TiltY: <label> <span id="tiltYVal" class="monospace">---</span> </label> 
-				<br>
-				TiltAzimuth: <label> <span id="tiltAzimuthVal" class="monospace">---</span> </label> |
-				TiltAltitude: <label> <span id="tiltAltitudeVal" class="monospace">---</span> </label> 	
-
-			</div>
-			<div class="controlscolumn">
-
-				<span style="font-weight:bold">STROKE STATS</span>
-				<br> Count: <label> <span id="strokeCountVal" class="monospace">---</span> </label>
-				<br>
-				Pointer events: <label> <span id="pointerEventCountVal" class="monospace">---</span> </label>	
-				<br>
-				Duration: <label> <span id="strokeDurationVal" class="monospace">---</span>ms </label>
-
-			</div>
-			<div class="controlscolumn">
-				<span style="font-weight:bold">LIVE FORMAT</span>
-				<br>
-				Size: <label> <span id="sizeVal" class="monospace">---</span></label>	
-				<br>
-			</div>
-		</div>
-
-
-	<label>
-        <input type="checkbox" id="toggleCheckbox" onclick="toggleDiv()" checked> Advanced controls
-    </label>
-	
-	<div class="controlscontainer" id="advancedcontrols">
-
-		<div class="controlscolumn">
-			<span style="font-weight:bold">ADVANCED PRESSURE CONTROL</span>
-			<br>
-				
-			<label for="pressureSmoothingSlider">Pressure smoothing: <span id="pressureSmoothingValue">---</span></label>
-			<br>
-			<input type="range" id="pressureSmoothing" min="0.0" max="1.0" step="0.01" value="0.0" oninput="update_paintsettings()">
-			<br>
-			<label>Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
-			<br>
-
-			<input type="range" id="pressureCurveAmountSlider" min="-0.90" max="0.90" step="0.1" value="0.0"
-				list="pressureCurveTickmarks"
-				oninput="update_paintsettings()">
-			<datalist id="pressureCurveTickmarks">
-			<option value="0.0"></option>
-			</datalist>
-			</label>
-			<br><canvas id="curveCanvas" width="50" height="50"></canvas>
-
-		</div>
-	</div>
-	</div>
-
-	<div>
-		<button type="button" onclick="clearCanvas()">Clear</button>
-		<button type="button" onclick="saveCanvas()">Save</button>
-
-
-
-	</div>
-
-
-
-	<div class="canvasDiv">
-		<canvas id="myCanvas" height="450" style="border:5px solid #d1d1d1;">
-			Your browser does not support the canvas element.
-		</canvas>
-	</div>
-
-	<a id="link"></a>
-
-	<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
