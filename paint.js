@@ -52,19 +52,22 @@ function paint_stroke_stop()
 
 function applyPressureCurve(input_pressure) 
 {
+    var output_pressure = input_pressure;
     var z = -1.0 *  paint_settings.pressureCurveAmount;
     if (z==0.0)
     {
-        return input_pressure;
+        output_pressure = input_pressure;
     }
     else if (z>0.0)
     {
-        return  Math.pow(input_pressure, 1.0 - z);
+        output_pressure = Math.pow(input_pressure, 1.0 - z);
     }
     else if (z<0.0)
     {
-        return  Math.pow(input_pressure, 1.0/ (1.0 + z));
+        output_pressure = Math.pow(input_pressure, 1.0/ (1.0 + z));
     }
+
+    return output_pressure;
 }
 
 
@@ -88,8 +91,8 @@ function get_paint_rec( canvas_rect, ptr_event)
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
         pressure_raw: pressure_raw,
-        pressure: applyPressureCurve(pressure_raw),
-        pressure_processed: applyPressureCurve(pressure_raw),
+        pressure: process_pressure(pressure_raw),
+        pressure_processed: process_pressure(pressure_raw),
         buttons: ptr_event.buttons,
         tiltx: ptr_event.tiltX,
         tilty: ptr_event.tiltY,
@@ -106,25 +109,23 @@ function get_paint_rec( canvas_rect, ptr_event)
     return paint_rec;
 }
 
-function process_pressure( pressure_raw )
+function process_pressure( input_pressure )
 {
-    if (paint_state.pressure_smoothed_old <0.0)
-    {
-        var pressure_effective  = pressure_raw;
-    }
-    else
+    // FIRST APPLY A CURVE
+    var output_pressure = applyPressureCurve( input_pressure );
+
+    // SECOND APPLY SMOOTHING (negative old values mean there is no old value)
+    if (paint_state.pressure_smoothed_old >=0.0)
     {
         var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
-        var pressure_effective = ( pressure_smoothing_alpha * pressure_raw ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
+        output_pressure = ( pressure_smoothing_alpha * output_pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
     }
-    paint_state.pressure_smoothed_old = pressure_effective;
-    return pressure_effective;
+    paint_state.pressure_smoothed_old = output_pressure;
+    return output_pressure;
 }
 
 function update_dab_settings( paint_rec, ptr_event )
 {
-    pressure_effective = process_pressure( paint_rec.pressure_raw );
-
     var new_size = paint_settings.brush_size;
 
     // If the brush size is not dynamic,
@@ -138,7 +139,7 @@ function update_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
-        new_size = new_size * pressure_effective; 
+        new_size = new_size * paint_rec.pressure_processed; 
         new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
         new_size = round_to_3_decimal_places( new_size );
         current_dab_settings.brush_size = new_size;        
