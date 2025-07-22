@@ -123,9 +123,9 @@ function process_pressure( input_pressure )
     return output_pressure;
 }
 
-function update_dab_settings( ptr_rec, ptr_event )
+function get_dab_size( ptr_rec, ptr_event )
 {
-    var new_size = paint_settings.brush_size;
+        var new_size = paint_settings.brush_size;
 
     // If the brush size is not dynamic,
     // simply use the the user's
@@ -158,6 +158,12 @@ function update_dab_settings( ptr_rec, ptr_event )
     }
     new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
     new_size = round_to_3_decimal_places( new_size );
+    return new_size;
+}
+
+function update_dab_settings( ptr_rec, ptr_event )
+{
+    var new_size = get_dab_size( ptr_rec, ptr_event );
     current_dab_settings.brush_size = new_size;
 
     // Eraser size
