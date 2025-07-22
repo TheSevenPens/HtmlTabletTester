@@ -96,7 +96,7 @@ function update_paintsettings() {
   paint_settings.brush_size = brush_size;
   paint_settings.brush_color_control = controls.brush_color.value;
   paint_settings.pressure_smoothing = GetSmoothingValue(controls.pressure_smoothing.value);
-  paint_settings.pressureCurveAmount = parseFloat(controls.pressureCurveAmountSlider.value);
+  paint_settings.pressure_curve.setCurveAmount(  parseFloat(controls.pressureCurveAmountSlider.value) ) ;
 
   // TODO: The lines below updated UI from the settings which is
   // the opposite of what is supposed to happen in this method.
@@ -104,7 +104,7 @@ function update_paintsettings() {
   livestats_ux.pressure_smoothing.innerText =
     paint_settings.pressure_smoothing.toString();
   livestats_ux.pressure_curve_amount.innerText =
-    paint_settings.pressureCurveAmount.toFixed(1);
+    paint_settings.pressure_curve.amount.toFixed(1);
 
   drawPressureCurve();
 }

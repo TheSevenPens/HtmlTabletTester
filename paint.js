@@ -18,7 +18,7 @@ class NumericCurve {
     this.setCurveAmount(0.0);
   }
 
-  get(input) {
+  apply(input) {
     var output = input;
     var z = -1.0 *  this.amount;
     if (z==0.0)
@@ -48,7 +48,7 @@ var paint_settings =
     eraser_size: 30,
     linecap: "round",
     pressure_smoothing: 0.0,
-    pressureCurveAmount: 0.0,
+    pressure_curve: new NumericCurve(0.0),
 };
 
 var current_dab_settings = 
@@ -91,22 +91,7 @@ function paint_stroke_stop()
 
 function applyPressureCurve(input_pressure) 
 {
-    var output_pressure = input_pressure;
-    var z = -1.0 *  paint_settings.pressureCurveAmount;
-    if (z==0.0)
-    {
-        output_pressure = input_pressure;
-    }
-    else if (z>0.0)
-    {
-        output_pressure = Math.pow(input_pressure, 1.0 - z);
-    }
-    else if (z<0.0)
-    {
-        output_pressure = Math.pow(input_pressure, 1.0/ (1.0 + z));
-    }
-
-    return output_pressure;
+    return paint_settings.pressure_curve.apply( input_pressure );    
 }
 
 
