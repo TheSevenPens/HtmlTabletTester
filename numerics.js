@@ -103,3 +103,40 @@ function radians_to_degrees(r)
 {
     return (r * 57.2958);
 }
+
+
+class NumericCurve {
+  constructor() {
+    this.setCurveAmount(0.0);
+  }
+
+
+  setCurveAmount(value)
+  {
+    this.amount = value;
+  }
+
+  reset() {
+    this.setCurveAmount(0.0);
+  }
+
+  apply(input) {
+    var output = input;
+    var z = -1.0 *  this.amount;
+    if (z==0.0)
+    {
+        output = input;
+    }
+    else if (z>0.0)
+    {
+        output = Math.pow(input, 1.0 - z);
+    }
+    else if (z<0.0)
+    {
+        output = Math.pow(input, 1.0/ (1.0 + z));
+    }
+
+    return output;
+  }
+
+}

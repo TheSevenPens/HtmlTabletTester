@@ -1,44 +1,6 @@
 const setting_stylus_pen_color = "black";
-
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
 const BRUSHSIZE_RANGE = new OrderedRange(0.1,300.0);
-
-class NumericCurve {
-  constructor() {
-    this.setCurveAmount(0.0);
-  }
-
-
-  setCurveAmount(value)
-  {
-    this.amount = value;
-  }
-
-  reset() {
-    this.setCurveAmount(0.0);
-  }
-
-  apply(input) {
-    var output = input;
-    var z = -1.0 *  this.amount;
-    if (z==0.0)
-    {
-        output = input;
-    }
-    else if (z>0.0)
-    {
-        output = Math.pow(input, 1.0 - z);
-    }
-    else if (z<0.0)
-    {
-        output = Math.pow(input, 1.0/ (1.0 + z));
-    }
-
-    return output;
-  }
-
-}
-
 
 var paint_settings = 
 {
