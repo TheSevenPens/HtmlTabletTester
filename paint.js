@@ -172,74 +172,64 @@ function update_dab_settings( ptr_rec, ptr_event )
     // HANDLE DAB COLOR
     if (ptr_event.pointerType == "pen")
     {
-        if (ptr_event.buttons == EPenButton.eraser)
+        // DRAWING
+        if (paint_settings.brush_color_control =="PRESSURE")
         {
-            // ERASING
+            var hue = lerp(360, 150, pressure_effective);
+            var dab_color = `hsl(${hue}, 100%, 50%)`;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="TILTALT")
+        {
+            var hue = lerp(360, 150, ptr_rec.tilt_altitude_normalized);
+            var dab_color = `hsl(${hue}, 100%, 50%)`;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="TILTAZ")
+        {
+            var hue = lerp(360, 150, ptr_rec.tilt_azimuth_normalized);
+            dab_color = getCETColor( ptr_rec.tiltazimuth) ;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="TILTX")
+        {
+            var hue = lerp(360, 150, ptr_rec.tilt_x_normalized);
+            var dab_color = `hsl(${hue}, 100%, 50%)`;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="TILTY")
+        {
+            var hue = lerp(360, 150, ptr_rec.tilt_y_normalized);
+            var dab_color = `hsl(${hue}, 100%, 50%)`;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="BARRELROTATION")
+        {
+            var hue = lerp(360, 150, ptr_rec.barrel_rotation/360.0);
+            var dab_color = `hsl(${hue}, 100%, 50%)`;
+            dab_color = getCETColor( ptr_rec.barrel_rotation) ;
+            current_dab_settings.brush_color = dab_color;
+
+        }
+        else if (paint_settings.brush_color_control =="ERASER")
+        {
+            // CANVAS COLOR TO COLOR
             current_dab_settings.brush_color = setting_canvas_color;
-
-
+        }
+        else if (paint_settings.brush_color_control =="RED")
+        {
+            // CANVAS COLOR TO COLOR
+            current_dab_settings.brush_color = "rgba(250, 0, 0, 1.0)";;
         }
         else
         {
-            // DRAWING
-            if (paint_settings.brush_color_control =="PRESSURE")
-            {
-                var hue = lerp(360, 150, pressure_effective);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="TILTALT")
-            {
-                var hue = lerp(360, 150, ptr_rec.tilt_altitude_normalized);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="TILTAZ")
-            {
-                var hue = lerp(360, 150, ptr_rec.tilt_azimuth_normalized);
-                dab_color = getCETColor( ptr_rec.tiltazimuth) ;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="TILTX")
-            {
-                var hue = lerp(360, 150, ptr_rec.tilt_x_normalized);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="TILTY")
-            {
-                var hue = lerp(360, 150, ptr_rec.tilt_y_normalized);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="BARRELROTATION")
-            {
-                var hue = lerp(360, 150, ptr_rec.barrel_rotation/360.0);
-                var dab_color = `hsl(${hue}, 100%, 50%)`;
-                dab_color = getCETColor( ptr_rec.barrel_rotation) ;
-                current_dab_settings.brush_color = dab_color;
-
-            }
-            else if (paint_settings.brush_color_control =="ERASER")
-            {
-                // CANVAS COLOR TO COLOR
-                current_dab_settings.brush_color = setting_canvas_color;
-            }
-            else if (paint_settings.brush_color_control =="RED")
-            {
-                // CANVAS COLOR TO COLOR
-                current_dab_settings.brush_color = "rgba(250, 0, 0, 1.0)";;
-            }
-            else
-            {
-                // STANDARD BRUSH COLOR
-                current_dab_settings.brush_color = setting_stylus_pen_color;
-            }
+            // STANDARD BRUSH COLOR
+            current_dab_settings.brush_color = setting_stylus_pen_color;
         }
     }
 }
