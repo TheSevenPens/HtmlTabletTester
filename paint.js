@@ -91,7 +91,6 @@ function get_ptr_rec( canvas_rect, ptr_event)
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
         pressure_raw: pressure_raw,
-        //pressure: process_pressure(pressure_raw),
         pressure_processed: process_pressure(pressure_raw),
         buttons: ptr_event.buttons,
         tilt_x: ptr_event.tiltX,
