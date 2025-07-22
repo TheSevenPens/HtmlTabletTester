@@ -88,13 +88,6 @@ function paint_stroke_stop()
     paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
 }
 
-
-function applyPressureCurve(input_pressure) 
-{
-    return paint_settings.pressure_curve.apply( input_pressure );    
-}
-
-
 function get_ptr_rec( canvas_rect, ptr_event)
 {
     paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
@@ -137,7 +130,7 @@ function get_ptr_rec( canvas_rect, ptr_event)
 function process_pressure( input_pressure )
 {
     // FIRST APPLY A CURVE
-    var output_pressure = applyPressureCurve( input_pressure );
+    var output_pressure = paint_settings.pressure_curve.apply( input_pressure );  
 
     // SECOND APPLY SMOOTHING (negative old values mean there is no old value)
     if (paint_state.pressure_smoothed_old >=0.0)
