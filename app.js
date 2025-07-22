@@ -72,17 +72,17 @@ function setCanvasProps() {
 // LIVESTATS UI
 //
 
-function update_livestats_ui(paint_rec) {
-  livestats_ux.pressure.innerText = paint_rec.pressure.toFixed(4);
-  livestats_ux.tilt_x.innerText = paint_rec.tilt_x.toFixed(1);
-  livestats_ux.tilt_y.innerText = paint_rec.tilt_y.toFixed(1);
-  livestats_ux.tilt_azimuth.innerText = paint_rec.tilt_azimuth.toFixed(1);
-  livestats_ux.tilt_altitude.innerText = paint_rec.tilt_altitude.toFixed(1);
+function update_livestats_ui(ptr_rec) {
+  livestats_ux.pressure.innerText = ptr_rec.pressure.toFixed(4);
+  livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
+  livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
+  livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
+  livestats_ux.tilt_altitude.innerText = ptr_rec.tilt_altitude.toFixed(1);
   livestats_ux.pos_canvas.innerText =
-    paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
-  livestats_ux.barrel_rotation.innerText = paint_rec.barrel_rotation.toString();
+    ptr_rec.canvas_pos.x.toFixed(1) + "x" + ptr_rec.canvas_pos.y.toFixed(1);
+  livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
-  if (paint_rec.pressure > 0) {
+  if (ptr_rec.pressure > 0) {
     livestats_ux.size.innerText =
       current_dab_settings.brush_size.toString() + "px";
   } else {
