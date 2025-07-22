@@ -81,10 +81,10 @@ function get_paint_rec( canvas_rect, ptr_event)
     // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
 
-    const max_tiltalt = 90.0;
-    const max_tiltaz = 360.0;
-    const max_tiltx = 60.0;
-    const max_tilty = 60.0;
+    const max_tilt_altitude = 90.0;
+    const max_tilt_azimuth = 360.0;
+    const max_tilt_x = 60.0;
+    const max_tilt_y = 60.0;
 
     var paint_rec = 
     {
@@ -99,10 +99,10 @@ function get_paint_rec( canvas_rect, ptr_event)
         tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
         tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
         barrel_rotation: ptr_event.twist,
-        tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
-        tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
-        tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tiltx,
-        tilt_y_normalized:  Math.abs(ptr_event.tiltY)/max_tilty,
+        tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tilt_altitude,
+        tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tilt_azimuth,
+        tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tilt_x,
+        tilt_y_normalized:  Math.abs(ptr_event.tiltY)/max_tilt_y,
 
     }
 
