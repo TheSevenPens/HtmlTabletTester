@@ -123,7 +123,7 @@ function process_pressure( input_pressure )
     return output_pressure;
 }
 
-function get_dab_size( ptr_rec, ptr_event )
+function get_dab_size( ptr_rec )
 {
         var new_size = paint_settings.brush_size;
 
@@ -161,7 +161,7 @@ function get_dab_size( ptr_rec, ptr_event )
     return new_size;
 }
 
-function get_dab_color( ptr_rec, ptr_event )
+function get_dab_color( ptr_rec )
 {
     var dab_color = setting_stylus_pen_color;
 
@@ -213,13 +213,13 @@ function get_dab_color( ptr_rec, ptr_event )
 function update_dab_settings( ptr_rec, ptr_event )
 {
     // SIZE
-    var new_size = get_dab_size( ptr_rec, ptr_event );
+    var new_size = get_dab_size( ptr_rec );
     current_dab_settings.brush_size = new_size;
 
     // COLOR
     if (ptr_event.pointerType == "pen")
     {
-        current_dab_settings.brush_color = get_dab_color( ptr_rec, ptr_event );
+        current_dab_settings.brush_color = get_dab_color( ptr_rec  );
 
     }
 }
