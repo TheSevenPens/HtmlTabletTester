@@ -140,3 +140,36 @@ class NumericCurve {
   }
 
 }
+
+
+class NumericSmoother {
+  constructor() {
+    this.setSmoothingAmount(0.0);
+    this.old_smoothed = null;
+  }
+
+
+  setSmoothingAmount(value)
+  {
+    this.amount = value;
+  }
+
+  reset() 
+  {
+    this.setCurveAmount(0.0);
+  }
+
+  apply(input) 
+  {
+    var output = input;
+    if (this.old_smoothed != null )
+    {
+        var alpha = 1.0-paint_settings.pressure_smoothing ;
+        output = ( pressure_smoothing_alpha * input ) + ((1.0 - alpha) * this.old_smoothed);
+    }
+    this.old_smoothed = output;
+    return output;
+  }
+
+}
+
