@@ -91,7 +91,7 @@ function get_ptr_rec( canvas_rect, ptr_event)
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
         pressure_raw: pressure_raw,
-        pressure: process_pressure(pressure_raw),
+        //pressure: process_pressure(pressure_raw),
         pressure_processed: process_pressure(pressure_raw),
         buttons: ptr_event.buttons,
         tilt_x: ptr_event.tiltX,
@@ -243,7 +243,7 @@ function update_dab_settings( ptr_rec, ptr_event )
 
 function paint_dab( ptr_event, ptr_rec )
 {
-        if (ptr_rec.pressure <= 0)
+    if (ptr_rec.pressure_raw <= 0)
     {
         // No pressure input
         // set the old smoothed pressure to an invalid value
@@ -274,7 +274,7 @@ function paint_dab( ptr_event, ptr_rec )
                     current_dab_settings.eraser_size ,
                     current_dab_settings.brush_color);
             }
-            else if (ptr_rec.pressure > 0) 
+            else if (ptr_rec.pressure_raw > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 

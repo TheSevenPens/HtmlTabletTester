@@ -73,7 +73,7 @@ function setCanvasProps() {
 //
 
 function update_livestats_ui(ptr_rec) {
-  livestats_ux.pressure.innerText = ptr_rec.pressure.toFixed(4);
+  livestats_ux.pressure.innerText = ptr_rec.pressure_processed.toFixed(4);
   livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
   livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
   livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
@@ -82,7 +82,7 @@ function update_livestats_ui(ptr_rec) {
     ptr_rec.canvas_pos.x.toFixed(1) + "x" + ptr_rec.canvas_pos.y.toFixed(1);
   livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
-  if (ptr_rec.pressure > 0) {
+  if (ptr_rec.pressure_processed > 0) {
     livestats_ux.size.innerText =
       current_dab_settings.brush_size.toString() + "px";
   } else {
