@@ -180,7 +180,8 @@ function get_dab_color( ptr_rec )
     else if (paint_settings.brush_color_control =="TILTAZ")
     {
         var hue = lerp(360, 150, ptr_rec.tilt_azimuth_normalized);
-        dab_color = getCETColor( ptr_rec.tiltazimuth) ;
+        dab_color = `hsl(${hue}, 100%, 50%)`;
+        //dab_color = getCETColor( ptr_rec.tilt_azimuth_normalized) ;
     }
     else if (paint_settings.brush_color_control =="TILTX")
     {
