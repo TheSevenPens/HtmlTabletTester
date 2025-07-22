@@ -95,12 +95,8 @@ function update_paintsettings() {
   var brush_size = parseInt(livestats_ux.brush_size.value);
   paint_settings.brush_size = brush_size;
   paint_settings.brush_color_control = controls.brush_color.value;
-  (paint_settings.pressure_smoothing = GetSmoothingValue(
-    controls.pressure_smoothing.value
-  )),
-    (paint_settings.pressureCurveAmount = parseFloat(
-      controls.pressureCurveAmountSlider.value
-    ));
+  paint_settings.pressure_smoothing = GetSmoothingValue(controls.pressure_smoothing.value);
+  paint_settings.pressureCurveAmount = parseFloat(controls.pressureCurveAmountSlider.value);
 
   // TODO: The lines below updated UI from the settings which is
   // the opposite of what is supposed to happen in this method.

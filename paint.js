@@ -50,6 +50,42 @@ function paint_stroke_stop()
     paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
 }
 
+class NumericCurve {
+  constructor() {
+    this.setCurveAmount(0.0);
+  }
+
+
+  setCurveAmount(value)
+  {
+    this.amount = value;
+  }
+
+  reset() {
+    this.setCurveAmount(0.0);
+  }
+
+  get(input) {
+    var output = input;
+    var z = -1.0 *  this.amount;
+    if (z==0.0)
+    {
+        output = input;
+    }
+    else if (z>0.0)
+    {
+        output = Math.pow(input, 1.0 - z);
+    }
+    else if (z<0.0)
+    {
+        output = Math.pow(input, 1.0/ (1.0 + z));
+    }
+
+    return output;
+  }
+
+}
+
 function applyPressureCurve(input_pressure) 
 {
     var output_pressure = input_pressure;
