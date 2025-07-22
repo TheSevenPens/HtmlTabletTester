@@ -127,7 +127,7 @@ function process_pressure( input_pressure )
 
 function get_dab_size( ptr_rec )
 {
-        var new_size = paint_settings.brush_size;
+    var new_size = paint_settings.brush_size;
 
     // If the brush size is not dynamic,
     // simply use the the user's
@@ -197,7 +197,6 @@ function get_dab_color( ptr_rec )
     else if (paint_settings.brush_color_control =="BARRELROTATION")
     {
         dab_color = getCETColor( ptr_rec.barrel_rotation) ;
-
     }
     else if (paint_settings.brush_color_control =="ERASER")
     {
@@ -223,7 +222,6 @@ function update_dab_settings( ptr_rec )
     if (ptr_rec.pointer_type == "pen")
     {
         current_dab_settings.brush_color = get_dab_color( ptr_rec  );
-
     }
 }
 
@@ -252,7 +250,6 @@ function paint_dab( ptr_event, ptr_rec )
             }
 
             update_dab_settings(ptr_rec);
-
 
             if (ptr_rec.buttons == EPenButton.eraser) 
             {
