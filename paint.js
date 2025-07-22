@@ -9,7 +9,7 @@ var paint_settings =
     brush_color_control: "DEFAULT",
     eraser_size: 30,
     linecap: "round",
-    pressure_smoothing: 0.0,
+    pressure_smoothing: new NumericSmoother(0.0),
     pressure_curve: new NumericCurve(0.0),
 };
 
@@ -23,7 +23,6 @@ var paint_state =
 {
     canvas_pos_old: { x: 0, y: 0 },
     isDrawing: false,
-    pressure_smoothed_old: -1.0
 };
 
 var paint_stats=
@@ -95,12 +94,9 @@ function process_pressure( input_pressure )
     var output_pressure = paint_settings.pressure_curve.apply( input_pressure );  
 
     // SECOND APPLY SMOOTHING (negative old values mean there is no old value)
-    if (paint_state.pressure_smoothed_old >=0.0)
-    {
-        var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
-        output_pressure = ( pressure_smoothing_alpha * output_pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
-    }
-    paint_state.pressure_smoothed_old = output_pressure;
+    output_pressure = paint_settings.pressure_smoothing.apply( output_pressure );
+
+    
     return output_pressure;
 }
 
@@ -212,7 +208,7 @@ function paint_dab( ptr_event, ptr_rec )
     {
         // No pressure input
         // set the old smoothed pressure to an invalid value
-        paint_state.pressure_smoothed_old = -1.0;
+        paint_settings.pressure_smoothing.reset();
     }
 
     switch (ptr_event.type) 

@@ -156,7 +156,7 @@ class NumericSmoother {
 
   reset() 
   {
-    this.setCurveAmount(0.0);
+    this.old_smoothed = null;
   }
 
   apply(input) 
@@ -164,8 +164,11 @@ class NumericSmoother {
     var output = input;
     if (this.old_smoothed != null )
     {
-        var alpha = 1.0-paint_settings.pressure_smoothing ;
-        output = ( pressure_smoothing_alpha * input ) + ((1.0 - alpha) * this.old_smoothed);
+        if (this.amount>0.0)
+        {
+            var alpha = 1.0-this.amount;
+            output = ( alpha * input ) + ((1.0 - alpha) * this.old_smoothed);
+        }
     }
     this.old_smoothed = output;
     return output;
