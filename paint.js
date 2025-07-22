@@ -71,7 +71,7 @@ function applyPressureCurve(input_pressure)
 }
 
 
-function get_paint_rec( canvas_rect, ptr_event)
+function get_ptr_rec( canvas_rect, ptr_event)
 {
     paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
     var canvas_rect = canvas_el.getBoundingClientRect();
@@ -86,7 +86,7 @@ function get_paint_rec( canvas_rect, ptr_event)
     const max_tilt_x = 60.0;
     const max_tilt_y = 60.0;
 
-    var paint_rec = 
+    var ptr_rec = 
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
@@ -106,7 +106,7 @@ function get_paint_rec( canvas_rect, ptr_event)
 
     }
 
-    return paint_rec;
+    return ptr_rec;
 }
 
 function process_pressure( input_pressure )
@@ -124,7 +124,7 @@ function process_pressure( input_pressure )
     return output_pressure;
 }
 
-function update_dab_settings( paint_rec, ptr_event )
+function update_dab_settings( ptr_rec, ptr_event )
 {
     var new_size = paint_settings.brush_size;
 
@@ -139,23 +139,23 @@ function update_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
-        new_size = new_size * paint_rec.pressure_processed; 
+        new_size = new_size * ptr_rec.pressure_processed; 
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
-        new_size = new_size * paint_rec.tilt_x_normalized;  
+        new_size = new_size * ptr_rec.tilt_x_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
-        new_size = new_size * paint_rec.tilt_y_normalized;  
+        new_size = new_size * ptr_rec.tilt_y_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
-        new_size = new_size * paint_rec.tilt_azimuth_normalized;  
+        new_size = new_size * ptr_rec.tilt_azimuth_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - paint_rec.tilt_altitude_normalized) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - ptr_rec.tilt_altitude_normalized) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
     }
     new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
     new_size = round_to_3_decimal_places( new_size );
@@ -186,37 +186,37 @@ function update_dab_settings( paint_rec, ptr_event )
             }
             else if (paint_settings.brush_color_control =="TILTALT")
             {
-                var hue = lerp(360, 150, paint_rec.tilt_altitude_normalized);
+                var hue = lerp(360, 150, ptr_rec.tilt_altitude_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTAZ")
             {
-                var hue = lerp(360, 150, paint_rec.tilt_azimuth_normalized);
-                dab_color = getCETColor( paint_rec.tiltazimuth) ;
+                var hue = lerp(360, 150, ptr_rec.tilt_azimuth_normalized);
+                dab_color = getCETColor( ptr_rec.tiltazimuth) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTX")
             {
-                var hue = lerp(360, 150, paint_rec.tilt_x_normalized);
+                var hue = lerp(360, 150, ptr_rec.tilt_x_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTY")
             {
-                var hue = lerp(360, 150, paint_rec.tilt_y_normalized);
+                var hue = lerp(360, 150, ptr_rec.tilt_y_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="BARRELROTATION")
             {
-                var hue = lerp(360, 150, paint_rec.barrel_rotation/360.0);
+                var hue = lerp(360, 150, ptr_rec.barrel_rotation/360.0);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
-                dab_color = getCETColor( paint_rec.barrel_rotation) ;
+                dab_color = getCETColor( ptr_rec.barrel_rotation) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
@@ -241,9 +241,9 @@ function update_dab_settings( paint_rec, ptr_event )
 
 
 
-function paint_dab( ptr_event, paint_rec )
+function paint_dab( ptr_event, ptr_rec )
 {
-        if (paint_rec.pressure <= 0)
+        if (ptr_rec.pressure <= 0)
     {
         // No pressure input
         // set the old smoothed pressure to an invalid value
@@ -254,7 +254,7 @@ function paint_dab( ptr_event, paint_rec )
     {
         case "pointerdown":
             paint_stroke_start();
-            paint_state.canvas_pos_old = paint_rec.canvas_pos;
+            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
             break;
 
         case "pointermove":
@@ -263,28 +263,28 @@ function paint_dab( ptr_event, paint_rec )
                 return;
             }
 
-            update_dab_settings(paint_rec, ptr_event);
+            update_dab_settings(ptr_rec, ptr_event);
 
 
-            if (paint_rec.buttons == EPenButton.eraser) 
+            if (ptr_rec.buttons == EPenButton.eraser) 
             {
                 draw_centered_box(
                     canvas_context,
-                    paint_rec.canvas_pos,
+                    ptr_rec.canvas_pos,
                     current_dab_settings.eraser_size ,
                     current_dab_settings.brush_color);
             }
-            else if (paint_rec.pressure > 0) 
+            else if (ptr_rec.pressure > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 
-                    paint_rec.canvas_pos, 
+                    ptr_rec.canvas_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
                     paint_settings.linecap);
             }
 
-            paint_state.canvas_pos_old = paint_rec.canvas_pos;
+            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
             break;
     }
 

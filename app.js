@@ -206,7 +206,7 @@ function pointer_event_handler(ptr_event) {
   var canvas_rect = canvas_el.getBoundingClientRect();
   // given the canvas and the pointer event the paint_rec
   // has all the information needed to draw
-  var paint_rec = get_paint_rec(canvas_rect, ptr_event);
+  var paint_rec = get_ptr_rec(canvas_rect, ptr_event);
   // Live stats such as pointer position need to updated
   update_livestats_ui(paint_rec);
   // perform the actual paint
