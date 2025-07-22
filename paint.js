@@ -212,14 +212,14 @@ function get_dab_color( ptr_rec )
 
 }
 
-function update_dab_settings( ptr_rec, ptr_event )
+function update_dab_settings( ptr_rec )
 {
     // SIZE
     var new_size = get_dab_size( ptr_rec );
     current_dab_settings.brush_size = new_size;
 
     // COLOR
-    if (ptr_event.pointerType == "pen")
+    if (ptr_rec.pointer_type == "pen")
     {
         current_dab_settings.brush_color = get_dab_color( ptr_rec  );
 
@@ -250,7 +250,7 @@ function paint_dab( ptr_event, ptr_rec )
                 return;
             }
 
-            update_dab_settings(ptr_rec, ptr_event);
+            update_dab_settings(ptr_rec);
 
 
             if (ptr_rec.buttons == EPenButton.eraser) 
