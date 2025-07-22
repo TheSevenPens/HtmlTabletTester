@@ -52,23 +52,26 @@ function paint_stroke_stop()
 
 function applyPressureCurve(input_pressure) 
 {
+    var output_pressure = input_pressure;
     var z = -1.0 *  paint_settings.pressureCurveAmount;
     if (z==0.0)
     {
-        return input_pressure;
+        output_pressure = input_pressure;
     }
     else if (z>0.0)
     {
-        return  Math.pow(input_pressure, 1.0 - z);
+        output_pressure = Math.pow(input_pressure, 1.0 - z);
     }
     else if (z<0.0)
     {
-        return  Math.pow(input_pressure, 1.0/ (1.0 + z));
+        output_pressure = Math.pow(input_pressure, 1.0/ (1.0 + z));
     }
+
+    return output_pressure;
 }
 
 
-function get_paint_rec( canvas_rect, ptr_event)
+function get_ptr_rec( canvas_rect, ptr_event)
 {
     paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
     var canvas_rect = canvas_el.getBoundingClientRect();
@@ -78,47 +81,52 @@ function get_paint_rec( canvas_rect, ptr_event)
     // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
 
-    const max_tiltalt = 90.0;
-    const max_tiltaz = 360.0;
-    const max_tiltx = 60.0;
-    const max_tilty = 60.0;
+    const max_tilt_altitude = 90.0;
+    const max_tilt_azimuth = 360.0;
+    const max_tilt_x = 60.0;
+    const max_tilt_y = 60.0;
 
-    var paint_rec = 
+    var ptr_rec = 
     {
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
         pressure_raw: pressure_raw,
-        pressure: applyPressureCurve(pressure_raw),
+        pressure_processed: process_pressure(pressure_raw),
         buttons: ptr_event.buttons,
-        tiltx: ptr_event.tiltX,
-        tilty: ptr_event.tiltY,
-        tiltazimuth: radians_to_degrees( ptr_event.azimuthAngle ),
-        tiltaltitude: radians_to_degrees( ptr_event.altitudeAngle ),
-        barrelrotation: ptr_event.twist,
-        normalized_tiltalt:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tiltalt,
-        normalized_tiltaz:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tiltaz,
-        normalized_tiltx:  Math.abs(ptr_event.tiltX)/max_tiltx,
-        normalized_tilty:  Math.abs(ptr_event.tiltY)/max_tilty,
+        tilt_x: ptr_event.tiltX,
+        tilt_y: ptr_event.tiltY,
+        tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
+        tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
+        barrel_rotation: ptr_event.twist,
+        tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tilt_altitude,
+        tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tilt_azimuth,
+        tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tilt_x,
+        tilt_y_normalized:  Math.abs(ptr_event.tiltY)/max_tilt_y,
 
     }
 
-    return paint_rec;
+    return ptr_rec;
 }
 
-function update_dab_settings( paint_rec, ptr_event )
+function process_pressure( input_pressure )
+{
+    // FIRST APPLY A CURVE
+    var output_pressure = applyPressureCurve( input_pressure );
+
+    // SECOND APPLY SMOOTHING (negative old values mean there is no old value)
+    if (paint_state.pressure_smoothed_old >=0.0)
+    {
+        var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
+        output_pressure = ( pressure_smoothing_alpha * output_pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
+    }
+    paint_state.pressure_smoothed_old = output_pressure;
+    return output_pressure;
+}
+
+function update_dab_settings( ptr_rec, ptr_event )
 {
     var new_size = paint_settings.brush_size;
 
-    if (paint_state.pressure_smoothed_old <0.0)
-    {
-        var pressure_effective  = paint_rec.pressure;
-    }
-    else
-    {
-        var pressure_smoothing_alpha = 1.0-paint_settings.pressure_smoothing ;
-        var pressure_effective = ( pressure_smoothing_alpha * paint_rec.pressure ) + ((1.0 - pressure_smoothing_alpha) * paint_state.pressure_smoothed_old);
-    }
-    paint_state.pressure_smoothed_old = pressure_effective;
     // If the brush size is not dynamic,
     // simply use the the user's
     // desired brush size
@@ -130,43 +138,27 @@ function update_dab_settings( paint_rec, ptr_event )
     }
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
-        new_size = new_size * pressure_effective; 
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;        
+        new_size = new_size * ptr_rec.pressure_processed; 
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
-        new_size = new_size * paint_rec.normalized_tiltx;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
+        new_size = new_size * ptr_rec.tilt_x_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
-        new_size = new_size * paint_rec.normalized_tilty;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
+        new_size = new_size * ptr_rec.tilt_y_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
-        new_size = new_size * paint_rec.normalized_tiltaz;  
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
+        new_size = new_size * ptr_rec.tilt_azimuth_normalized;  
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - paint_rec.normalized_tiltalt) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
-        new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-        new_size = round_to_3_decimal_places( new_size );
-        current_dab_settings.brush_size = new_size;
+        new_size = new_size * ((1.0 - ptr_rec.tilt_altitude_normalized) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
     }
-    else
-    {
-        // unhandled case
-    }
+    new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
+    new_size = round_to_3_decimal_places( new_size );
+    current_dab_settings.brush_size = new_size;
 
     // Eraser size
     current_dab_settings.eraser_size = new Size(paint_settings.eraser_size,paint_settings.eraser_size);
@@ -193,37 +185,37 @@ function update_dab_settings( paint_rec, ptr_event )
             }
             else if (paint_settings.brush_color_control =="TILTALT")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltalt);
+                var hue = lerp(360, 150, ptr_rec.tilt_altitude_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTAZ")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltaz);
-                dab_color = getCETColor( paint_rec.tiltazimuth) ;
+                var hue = lerp(360, 150, ptr_rec.tilt_azimuth_normalized);
+                dab_color = getCETColor( ptr_rec.tiltazimuth) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTX")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tiltx);
+                var hue = lerp(360, 150, ptr_rec.tilt_x_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="TILTY")
             {
-                var hue = lerp(360, 150, paint_rec.normalized_tilty);
+                var hue = lerp(360, 150, ptr_rec.tilt_y_normalized);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
                 current_dab_settings.brush_color = dab_color;
 
             }
             else if (paint_settings.brush_color_control =="BARRELROTATION")
             {
-                var hue = lerp(360, 150, paint_rec.barrelrotation/360.0);
+                var hue = lerp(360, 150, ptr_rec.barrel_rotation/360.0);
                 var dab_color = `hsl(${hue}, 100%, 50%)`;
-                dab_color = getCETColor( paint_rec.barrelrotation) ;
+                dab_color = getCETColor( ptr_rec.barrel_rotation) ;
                 current_dab_settings.brush_color = dab_color;
 
             }
@@ -248,9 +240,9 @@ function update_dab_settings( paint_rec, ptr_event )
 
 
 
-function paint_dab( ptr_event, paint_rec )
+function paint_dab( ptr_event, ptr_rec )
 {
-        if (paint_rec.pressure <= 0)
+    if (ptr_rec.pressure_raw <= 0)
     {
         // No pressure input
         // set the old smoothed pressure to an invalid value
@@ -261,7 +253,7 @@ function paint_dab( ptr_event, paint_rec )
     {
         case "pointerdown":
             paint_stroke_start();
-            paint_state.canvas_pos_old = paint_rec.canvas_pos;
+            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
             break;
 
         case "pointermove":
@@ -270,28 +262,28 @@ function paint_dab( ptr_event, paint_rec )
                 return;
             }
 
-            update_dab_settings(paint_rec, ptr_event);
+            update_dab_settings(ptr_rec, ptr_event);
 
 
-            if (paint_rec.buttons == EPenButton.eraser) 
+            if (ptr_rec.buttons == EPenButton.eraser) 
             {
                 draw_centered_box(
                     canvas_context,
-                    paint_rec.canvas_pos,
+                    ptr_rec.canvas_pos,
                     current_dab_settings.eraser_size ,
                     current_dab_settings.brush_color);
             }
-            else if (paint_rec.pressure > 0) 
+            else if (ptr_rec.pressure_raw > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 
-                    paint_rec.canvas_pos, 
+                    ptr_rec.canvas_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
                     paint_settings.linecap);
             }
 
-            paint_state.canvas_pos_old = paint_rec.canvas_pos;
+            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
             break;
     }
 

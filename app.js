@@ -22,21 +22,21 @@ var controls = {
 };
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
-var livestats = {
+var livestats_ux = {
   pressure: document.getElementById("pressureVal"),
-  tiltx: document.getElementById("tiltXVal"),
-  tilty: document.getElementById("tiltYVal"),
-  tiltazimuth: document.getElementById("tiltAzimuthVal"),
-  tiltaltitude: document.getElementById("tiltAltitudeVal"),
-  pos: document.getElementById("posVal"),
+  tilt_x: document.getElementById("tiltXVal"),
+  tilt_y: document.getElementById("tiltYVal"),
+  tilt_azimuth: document.getElementById("tiltAzimuthVal"),
+  tilt_altitude: document.getElementById("tiltAltitudeVal"),
+  pos_canvas: document.getElementById("posVal"),
   size: document.getElementById("sizeVal"),
   brush_size: document.getElementById("brushSizeSelect"),
+  barrel_rotation: document.getElementById("barrelRotationVal"),
   pressure_smoothing: document.getElementById("pressureSmoothingValue"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountValue"),
-  barrel_rotation: document.getElementById("barrelRotationVal"),
 };
 
-var paintstats_fields = {
+var paintstats_ux = {
   stroke_count: document.getElementById("strokeCountVal"),
   ptrevent_count: document.getElementById("pointerEventCountVal"),
   stroke_duration: document.getElementById("strokeDurationVal"),
@@ -72,27 +72,27 @@ function setCanvasProps() {
 // LIVESTATS UI
 //
 
-function update_livestats_ui(paint_rec) {
-  livestats.pressure.innerText = paint_rec.pressure.toFixed(4);
-  livestats.tiltx.innerText = paint_rec.tiltx.toFixed(1);
-  livestats.tilty.innerText = paint_rec.tilty.toFixed(1);
-  livestats.tiltazimuth.innerText = paint_rec.tiltazimuth.toFixed(1);
-  livestats.tiltaltitude.innerText = paint_rec.tiltaltitude.toFixed(1);
-  livestats.pos.innerText =
-    paint_rec.canvas_pos.x.toFixed(1) + "x" + paint_rec.canvas_pos.y.toFixed(1);
-  livestats.barrel_rotation.innerText = paint_rec.barrelrotation.toString();
+function update_livestats_ui(ptr_rec) {
+  livestats_ux.pressure.innerText = ptr_rec.pressure_processed.toFixed(4);
+  livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
+  livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
+  livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
+  livestats_ux.tilt_altitude.innerText = ptr_rec.tilt_altitude.toFixed(1);
+  livestats_ux.pos_canvas.innerText =
+    ptr_rec.canvas_pos.x.toFixed(1) + "x" + ptr_rec.canvas_pos.y.toFixed(1);
+  livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
-  if (paint_rec.pressure > 0) {
-    livestats.size.innerText =
+  if (ptr_rec.pressure_processed > 0) {
+    livestats_ux.size.innerText =
       current_dab_settings.brush_size.toString() + "px";
   } else {
-    livestats.size.innerText = "xxx";
+    livestats_ux.size.innerText = "xxx";
   }
 }
 
 function update_paintsettings() {
   paint_settings.brush_size_control = controls.brush_size.value;
-  var brush_size = parseInt(livestats.brush_size.value);
+  var brush_size = parseInt(livestats_ux.brush_size.value);
   paint_settings.brush_size = brush_size;
   paint_settings.brush_color_control = controls.brush_color.value;
   (paint_settings.pressure_smoothing = GetSmoothingValue(
@@ -105,9 +105,9 @@ function update_paintsettings() {
   // TODO: The lines below updated UI from the settings which is
   // the opposite of what is supposed to happen in this method.
   // Move somewhere else
-  livestats.pressure_smoothing.innerText =
+  livestats_ux.pressure_smoothing.innerText =
     paint_settings.pressure_smoothing.toString();
-  livestats.pressure_curve_amount.innerText =
+  livestats_ux.pressure_curve_amount.innerText =
     paint_settings.pressureCurveAmount.toFixed(1);
 
   drawPressureCurve();
@@ -153,16 +153,16 @@ function resetAdvanced() {
   update_paintsettings();
 }
 
-function set_livestats_to_empty() {
+function clear_livestats_ux() {
   const empty = "---";
-  livestats.pos.innerText = empty;
-  livestats.size.innerText = empty;
-  livestats.pressure.innerText = empty;
-  livestats.tiltx.innerText = empty;
-  livestats.tilty.innerText = empty;
-  livestats.barrel_rotation.innerText = empty;
-  livestats.tiltaltitude.innerText = empty;
-  livestats.tiltazimuth.innerText = empty;
+  livestats_ux.pos_canvas.innerText = empty;
+  livestats_ux.size.innerText = empty;
+  livestats_ux.pressure.innerText = empty;
+  livestats_ux.tilt_x.innerText = empty;
+  livestats_ux.tilt_y.innerText = empty;
+  livestats_ux.barrel_rotation.innerText = empty;
+  livestats_ux.tilt_altitude.innerText = empty;
+  livestats_ux.tilt_azimuth.innerText = empty;
 }
 
 function default_ptr_event_handler_do_nothing(ptr_event) {
@@ -206,7 +206,7 @@ function pointer_event_handler(ptr_event) {
   var canvas_rect = canvas_el.getBoundingClientRect();
   // given the canvas and the pointer event the paint_rec
   // has all the information needed to draw
-  var paint_rec = get_paint_rec(canvas_rect, ptr_event);
+  var paint_rec = get_ptr_rec(canvas_rect, ptr_event);
   // Live stats such as pointer position need to updated
   update_livestats_ui(paint_rec);
   // perform the actual paint
@@ -215,9 +215,9 @@ function pointer_event_handler(ptr_event) {
 
 function on_pointerup(ptr_event) {
   paint_stroke_stop();
-  paintstats_fields.stroke_count.innerText = paint_stats.stroke_count;
-  paintstats_fields.ptrevent_count.innerText = paint_stats.ptrevent_count;
-  paintstats_fields.stroke_duration.innerText = paint_stats.duration;
+  paintstats_ux.stroke_count.innerText = paint_stats.stroke_count;
+  paintstats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
+  paintstats_ux.stroke_duration.innerText = paint_stats.duration;
 }
 
 function on_pointerenter(ptr_event) {
@@ -226,7 +226,7 @@ function on_pointerenter(ptr_event) {
 
 function on_pointerleave(ptr_event) {
   document.body.style.cursor = "default";
-  set_livestats_to_empty();
+  clear_livestats_ux();
 }
 
 
