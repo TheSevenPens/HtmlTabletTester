@@ -23,7 +23,8 @@ var controls = {
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
 var livestats_ux = {
-  pressure: document.getElementById("pressureVal"),
+  pressure_raw: document.getElementById("pressureRawVal"),
+  pressure_processed: document.getElementById("pressureProcessedVal"),
   tilt_x: document.getElementById("tiltXVal"),
   tilt_y: document.getElementById("tiltYVal"),
   tilt_azimuth: document.getElementById("tiltAzimuthVal"),
@@ -73,7 +74,8 @@ function setCanvasProps() {
 //
 
 function update_livestats_ui(ptr_rec) {
-  livestats_ux.pressure.innerText = ptr_rec.pressure_processed.toFixed(4);
+  livestats_ux.pressure_raw.innerText = ptr_rec.pressure_raw.toFixed(4);
+  livestats_ux.pressure_processed.innerText = ptr_rec.pressure_processed.toFixed(4);
   livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
   livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
   livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
@@ -153,7 +155,8 @@ function clear_livestats_ux() {
   const empty = "---";
   livestats_ux.pos_canvas.innerText = empty;
   livestats_ux.size.innerText = empty;
-  livestats_ux.pressure.innerText = empty;
+  livestats_ux.pressure_raw.innerText = empty;
+  livestats_ux.pressure_processed.innerText = empty;
   livestats_ux.tilt_x.innerText = empty;
   livestats_ux.tilt_y.innerText = empty;
   livestats_ux.barrel_rotation.innerText = empty;
