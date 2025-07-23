@@ -23,6 +23,7 @@ var controls = {
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
 var livestats_ux = {
+  buttons: document.getElementById("buttonsVal"),
   pressure_raw: document.getElementById("pressureRawVal"),
   pressure_processed: document.getElementById("pressureProcessedVal"),
   tilt_x: document.getElementById("tiltXVal"),
@@ -74,6 +75,7 @@ function setCanvasProps() {
 //
 
 function update_livestats_ui(ptr_rec) {
+  livestats_ux.buttons.innerText = ptr_rec.buttons;
   livestats_ux.pressure_raw.innerText = ptr_rec.pressure_raw.toFixed(4);
   livestats_ux.pressure_processed.innerText = ptr_rec.pressure_processed.toFixed(4);
   livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
@@ -153,6 +155,7 @@ function resetAdvanced() {
 
 function clear_livestats_ux() {
   const empty = "---";
+  livestats_ux.buttons.innerText = empty;
   livestats_ux.pos_canvas.innerText = empty;
   livestats_ux.size.innerText = empty;
   livestats_ux.pressure_raw.innerText = empty;

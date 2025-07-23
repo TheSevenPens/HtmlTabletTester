@@ -67,6 +67,7 @@ function get_ptr_rec( canvas_rect, ptr_event)
     var ptr_rec = 
     {
         type: ptr_event.type,
+        buttons: ptr_event.buttons,
         pointer_type: ptr_event.pointerType,
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
@@ -142,7 +143,11 @@ function get_dab_color( ptr_rec )
 {
     var dab_color = setting_stylus_pen_color;
 
-    if (paint_settings.brush_color_control =="PRESSURE")
+    if (ptr_rec.buttons == EPenButton.eraser)
+    {
+        dab_color = appsettings.canvas_color;
+    }
+    else if (paint_settings.brush_color_control =="PRESSURE")
     {
         var hue = lerp(360, 150, pressure_effective);
         dab_color = `hsl(${hue}, 100%, 50%)`;
