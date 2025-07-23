@@ -45,6 +45,7 @@ var paintstats_ux = {
 };
 
 var EPenButton = {
+  none: 0x0, // nothing is pressed
   tip: 0x1, // left mouse, touch contact, pen contact
   barrel: 0x2, // right mouse, pen barrel button
   middle: 0x4, // middle mouse
@@ -53,7 +54,7 @@ var EPenButton = {
 
 function button_to_string( button )
 {
-  if ( button == EPenButton.tip) { return "pen tip";}
+  if ( button == EPenButton.none) { return "none";}
   else if ( button == EPenButton.barrel) { return "pen button";}
   else if ( button == EPenButton.middle) { return "middle mouse";}
   else if ( button == EPenButton.eraser) { return "eraser";}
