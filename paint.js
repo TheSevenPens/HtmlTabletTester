@@ -228,15 +228,7 @@ function paint_dab( ptr_event, ptr_rec )
 
             update_dab_settings(ptr_rec);
 
-            if (ptr_rec.buttons == EPenButton.eraser) 
-            {
-                draw_centered_box(
-                    canvas_context,
-                    ptr_rec.canvas_pos,
-                    current_dab_settings.eraser_size ,
-                    current_dab_settings.brush_color);
-            }
-            else if (ptr_rec.pressure_raw > 0) 
+            if (ptr_rec.pressure_raw > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 
