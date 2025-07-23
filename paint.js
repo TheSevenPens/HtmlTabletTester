@@ -57,7 +57,7 @@ function get_ptr_rec( canvas_rect, ptr_event)
     // get the pressure reported in the event
     // if it is pointer pen event, just use that pressure
     // if it is any other kind of event, then just the maximum pressure
-    pressure_raw = clamp_to_range( (ptr_event.pointerType == "pen") ? ptr_event.pressure : PRESSURE_RANGE.Max, PRESSURE_RANGE);
+    pressure_raw = clamp_to_range( ptr_event.pressure , PRESSURE_RANGE);
 
     const max_tilt_altitude = 90.0;
     const max_tilt_azimuth = 360.0;
