@@ -51,6 +51,15 @@ var EPenButton = {
   eraser: 0x20, // pen eraser button
 };
 
+function button_to_string( button )
+{
+  if ( button == EPenButton.tip) { return "pen tip";}
+  else if ( button == EPenButton.barrel) { return "pen button";}
+  else if ( button == EPenButton.middle) { return "middle mouse";}
+  else if ( button == EPenButton.eraser) { return "eraser";}
+  else { return "unknown"; }
+}
+
 update_paintsettings();
 
 function initPage() {
@@ -75,7 +84,7 @@ function setCanvasProps() {
 //
 
 function update_livestats_ui(ptr_rec) {
-  livestats_ux.buttons.innerText = ptr_rec.buttons;
+  livestats_ux.buttons.innerText = ptr_rec.buttons + " (" + button_to_string(ptr_rec.buttons) + ")";
   livestats_ux.pressure_raw.innerText = ptr_rec.pressure_raw.toFixed(4);
   livestats_ux.pressure_processed.innerText = ptr_rec.pressure_processed.toFixed(4);
   livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
