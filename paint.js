@@ -194,10 +194,7 @@ function update_dab_settings( ptr_rec )
     current_dab_settings.brush_size = new_size;
 
     // COLOR
-    if (ptr_rec.pointer_type == "pen")
-    {
-        current_dab_settings.brush_color = get_dab_color( ptr_rec  );
-    }
+    current_dab_settings.brush_color = get_dab_color( ptr_rec  );
 }
 
 
