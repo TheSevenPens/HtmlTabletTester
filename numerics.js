@@ -21,6 +21,10 @@ function lerp_point(a, b, t)
     return p;
 }
 
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
 function round_to_4_decimal_places(v) 
 {
   return Math.round(v * 10000) / 10000;
@@ -31,9 +35,6 @@ function round_to_3_decimal_places(v)
   return Math.round(v * 1000) / 1000;
 }
 
-function easeOutCubic(t) {
-  return 1 - Math.pow(1 - t, 3);
-}
 
 function GetSmoothingValue(input) 
 {
