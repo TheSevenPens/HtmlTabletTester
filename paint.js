@@ -247,7 +247,7 @@ function paint_dab( ptr_rec )
                     ptr_rec.canvas_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
-                    paint_settings.linecap);
+                    paint_settings.linecap); 
             }
 
             paint_state.canvas_pos_old = ptr_rec.canvas_pos;

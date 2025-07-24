@@ -19,6 +19,8 @@ function draw_line( canvas_context, frompos, topos, width, color, linecap)
 
 function draw_centered_box( canvas_context, pos, size, color)
 {
+    /*
+    console.log("BOX");
     var ex = pos.x - (size.width/2.0);
     var ey = pos.y - (size.height/2.0);
     canvas_context.fillStyle = color;  
@@ -26,7 +28,8 @@ function draw_centered_box( canvas_context, pos, size, color)
         ex, 
         ey, 
         size.width, size.height);
-    canvas_context.fill();
+    canvas_context.fill();*/
+    draw_line( canvas_context, pos, pos, size, "rounded");
 }
 
 
