@@ -104,11 +104,11 @@ Key differences
 
   <body
     onload="initPage()"
-    onresize="setCanvasProps()"
+    onresize="setCanvasProps()" 
     oncontextmenu="return false;"
   >
     <div class="parent">
-      <h2>SevenPens Tablet Tester v0.791</h2>
+      <h2>SevenPens Tablet Tester v0.792</h2>
       <p>
         <a
           href="https://thesevenpens.github.io/HtmlTabletTester/"
@@ -322,12 +322,31 @@ Key differences
 
         </div>
 
+    <div class="controlscolumn">
+
+          <span style="font-weight: bold">ADV TILT</span>
+          <br/>
+          <label for="tiltSmoothingSlider"
+            >Tilt smoothing:
+            <span id="tiltSmoothingValue">---</span>
+          </label>
+          <br />
+          <input
+            type="range"
+            id="tiltSmoothingSlider"
+            min="0.0"
+            max="1.0"
+            step="0.01"
+            value="0.0"
+            oninput="update_paintsettings()"
+          />
+
+		</div>
 		<div class="controlscolumn">
 		  <button type="button" onclick="resetAdvanced()">RESET ADVANCED</button>			
 		</div>
 
-		<div class="controlscolumn">
-		</div>
+
 
     <div class="controlscolumn">
     </div>
