@@ -17,6 +17,7 @@ var controls = {
   pressureCurveAmountSlider: document.getElementById(
     "pressureCurveAmountSlider"
   ),
+  position_smoothing: document.getElementById("positionSmoothingSlider"),
   pressure_smoothing: document.getElementById("pressureSmoothingSlider"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountSlider"),
 };
@@ -30,11 +31,15 @@ var livestats_ux = {
   tilt_y: document.getElementById("tiltYVal"),
   tilt_azimuth: document.getElementById("tiltAzimuthVal"),
   tilt_altitude: document.getElementById("tiltAltitudeVal"),
+  pos_x_canvas_raw: document.getElementById("posXValRaw"),
+  pos_y_canvas_raw: document.getElementById("posYValRaw"),
+
   pos_x_canvas: document.getElementById("posXVal"),
   pos_y_canvas: document.getElementById("posYVal"),
   size: document.getElementById("sizeVal"),
   brush_size: document.getElementById("brushSizeSelect"),
   barrel_rotation: document.getElementById("barrelRotationVal"),
+  position_smoothing: document.getElementById("positionSmoothingValue"),
   pressure_smoothing: document.getElementById("pressureSmoothingValue"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountValue"),
 };
@@ -101,6 +106,12 @@ function update_livestats_ui(ptr_rec) {
   livestats_ux.pos_y_canvas.innerText =
     ptr_rec.canvas_pos.y.toFixed(1);
 
+   livestats_ux.pos_x_canvas_raw.innerText =
+    ptr_rec.canvas_pos_raw.x.toFixed(1) ;
+
+  livestats_ux.pos_y_canvas_raw.innerText =
+    ptr_rec.canvas_pos_raw.y.toFixed(1);
+
     livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
   if (ptr_rec.pressure_processed > 0) {
@@ -116,12 +127,16 @@ function update_paintsettings() {
   var brush_size = parseInt(livestats_ux.brush_size.value);
   paint_settings.brush_size = brush_size;
   paint_settings.brush_color_control = controls.brush_color.value;
+  paint_settings.pos_x_smoothing.amount = GetSmoothingValue(controls.position_smoothing.value);
+  paint_settings.pos_y_smoothing.amount = paint_settings.pos_x_smoothing.amount;
   paint_settings.pressure_smoothing.amount = GetSmoothingValue(controls.pressure_smoothing.value);
   paint_settings.pressure_curve.setCurveAmount(  parseFloat(controls.pressureCurveAmountSlider.value) ) ;
 
   // TODO: The lines below updated UI from the settings which is
   // the opposite of what is supposed to happen in this method.
   // Move somewhere else
+  livestats_ux.position_smoothing.innerText =
+    paint_settings.pos_x_smoothing.amount.toString();
   livestats_ux.pressure_smoothing.innerText =
     paint_settings.pressure_smoothing.amount.toString();
   livestats_ux.pressure_curve_amount.innerText =
@@ -167,6 +182,7 @@ function toggleAdvancedDiv() {
 function resetAdvanced() {
   controls.pressure_smoothing.value = 0.0;
   controls.pressure_curve_amount.value = 0.0;
+  controls.position_smoothing.value = 0.0;
   update_paintsettings();
 }
 
@@ -175,6 +191,8 @@ function clear_livestats_ux() {
   livestats_ux.buttons.innerText = empty;
   livestats_ux.pos_x_canvas.innerText = empty;
   livestats_ux.pos_y_canvas.innerText = empty;
+  livestats_ux.pos_x_canvas_raw.innerText = empty;
+  livestats_ux.pos_y_canvas_raw.innerText = empty;
   livestats_ux.size.innerText = empty;
   livestats_ux.pressure_raw.innerText = empty;
   livestats_ux.pressure_processed.innerText = empty;

@@ -190,10 +190,13 @@ Key differences
           <label> <span id="buttonsVal" class="monospace">---</span> </label>
           <br />
           Position x:
-          <label> <span id="posXVal" class="monospace">---</span> </label>
+          <label> <span id="posXValRaw" class="monospace">---</span> </label>
+                    → <label> <span id="posXVal" class="monospace">---</span> </label>
           <br />
           Position y:
-          <label> <span id="posYVal" class="monospace">---</span> </label>
+          <label> <span id="posYValRaw" class="monospace">---</span> </label>
+            →           <label> <span id="posYVal" class="monospace">---</span> </label>
+
           <br />
           Pressure:
           <label> <span id="pressureRawVal" class="monospace">---</span> </label>
@@ -251,10 +254,26 @@ Key differences
           <span style="font-weight: bold">ADV PRESSURE</span>
           <br />
 
+          <label for="positionSmoothingSlider"
+            >POsition smoothing:
+            <span id="positionSmoothingValue">---</span></label
+          >
+          <br />
+          <input
+            type="range"
+            id="positionSmoothingSlider"
+            min="0.0"
+            max="1.0"
+            step="0.01"
+            value="0.0"
+            oninput="update_paintsettings()"
+          />
+          <br/>
           <label for="pressureSmoothingSlider"
             >Pressure smoothing:
-            <span id="pressureSmoothingValue">---</span></label
-          >
+            <span id="pressureSmoothingValue">---</span>
+          </label>
+
           <br />
           <input
             type="range"

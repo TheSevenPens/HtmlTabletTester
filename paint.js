@@ -9,6 +9,8 @@ var paint_settings =
     brush_color_control: "DEFAULT",
     eraser_size: 30,
     linecap: "round",
+    pos_x_smoothing: new NumericSmoother(0.0),
+    pos_y_smoothing: new NumericSmoother(0.0),
     pressure_smoothing: new NumericSmoother(0.0),
     pressure_curve: new NumericCurve(0.0),
 };
@@ -39,6 +41,9 @@ function paint_stroke_start()
     paint_state.isDrawing = true;
     paint_stats.ptrevent_count = 0; 
     paint_stats.start_time = performance.now();
+    paint_settings.pos_x_smoothing.resetState();
+    paint_settings.pos_y_smoothing.resetState();
+    paint_settings.pressure_smoothing.resetState();
 }
 
 function paint_stroke_stop()
@@ -63,6 +68,9 @@ function get_ptr_rec( canvas_rect, ptr_event)
     const max_tilt_azimuth = 360.0;
     const max_tilt_x = 60.0;
     const max_tilt_y = 60.0;
+    const canvas_pos_raw = new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top);
+    const canvas_pos = new Position(paint_settings.pos_x_smoothing.apply(canvas_pos_raw.x),paint_settings.pos_y_smoothing.apply(canvas_pos_raw.y));
+    //const canvas_pos = canvas_pos_raw;
 
     var ptr_rec = 
     {
@@ -70,7 +78,8 @@ function get_ptr_rec( canvas_rect, ptr_event)
         buttons: ptr_event.buttons,
         pointer_type: ptr_event.pointerType,
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
-        canvas_pos: new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top),
+        canvas_pos_raw: canvas_pos_raw,
+        canvas_pos: canvas_pos,
         pressure_raw: pressure_raw,
         pressure_processed: process_pressure(pressure_raw),
         buttons: ptr_event.buttons,

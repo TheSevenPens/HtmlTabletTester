@@ -150,8 +150,8 @@ class NumericCurve {
 
 class NumericSmoother {
   constructor() {
-    this.setSmoothingAmount(0.0);
-    this.old_smoothed = null;
+    this.resetSettings();
+    this.resetState();
   }
 
 
