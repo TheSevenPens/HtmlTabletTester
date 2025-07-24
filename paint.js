@@ -13,6 +13,7 @@ var paint_settings =
     pos_y_smoothing: new NumericSmoother(0.0),
     pressure_smoothing: new NumericSmoother(0.0),
     pressure_curve: new NumericCurve(0.0),
+    tilt_smoothing: new NumericSmoother(0.0),
 };
 
 var current_dab_settings = 
@@ -222,6 +223,7 @@ function paint_dab( ptr_rec )
         paint_settings.pos_x_smoothing.resetState();
         paint_settings.pos_y_smoothing.resetState();
         paint_settings.pressure_smoothing.resetState();
+        paint_settings.tilt_smoothing.resetState();
 
     }
 

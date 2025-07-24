@@ -20,6 +20,7 @@ var controls = {
   position_smoothing: document.getElementById("positionSmoothingSlider"),
   pressure_smoothing: document.getElementById("pressureSmoothingSlider"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountSlider"),
+  tilt_smoothing: document.getElementById("tiltSmoothingSlider"),
 };
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
@@ -31,6 +32,12 @@ var livestats_ux = {
   tilt_y: document.getElementById("tiltYVal"),
   tilt_azimuth: document.getElementById("tiltAzimuthVal"),
   tilt_altitude: document.getElementById("tiltAltitudeVal"),
+
+  tilt_x_processed: document.getElementById("tiltXProcessedVal"),
+  tilt_y_processed: document.getElementById("tiltY_processedVal"),
+  tilt_azimuth_processed: document.getElementById("tiltAzimuth_processedVal"),
+  tilt_altitude_processed: document.getElementById("tiltAltitude_processedVal"),
+
   pos_x_canvas_raw: document.getElementById("posXValRaw"),
   pos_y_canvas_raw: document.getElementById("posYValRaw"),
 
