@@ -190,13 +190,12 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control =="TILTX")
     {
-        console.log(ptr_rec.tilt_x_processed/max_tilt_x);
         var hue = lerp(360, 150, ptr_rec.tilt_x_processed/max_tilt_x );
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control =="TILTY")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_y_normalized);
+        var hue = lerp(360, 150, ptr_rec.tilt_y_processed/max_tilt_y);
         dab_color = `hsl(${hue}, 100%, 50%)`;
 
     }
