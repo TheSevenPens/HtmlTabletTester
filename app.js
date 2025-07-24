@@ -30,7 +30,8 @@ var livestats_ux = {
   tilt_y: document.getElementById("tiltYVal"),
   tilt_azimuth: document.getElementById("tiltAzimuthVal"),
   tilt_altitude: document.getElementById("tiltAltitudeVal"),
-  pos_canvas: document.getElementById("posVal"),
+  pos_x_canvas: document.getElementById("posXVal"),
+  pos_y_canvas: document.getElementById("posYVal"),
   size: document.getElementById("sizeVal"),
   brush_size: document.getElementById("brushSizeSelect"),
   barrel_rotation: document.getElementById("barrelRotationVal"),
@@ -55,6 +56,7 @@ var EPenButton = {
 function button_to_string( button )
 {
   if ( button == EPenButton.none) { return "none";}
+  else if ( button == EPenButton.tip) { return "pen tip";}
   else if ( button == EPenButton.barrel) { return "pen button";}
   else if ( button == EPenButton.middle) { return "middle mouse";}
   else if ( button == EPenButton.eraser) { return "eraser";}
@@ -92,9 +94,14 @@ function update_livestats_ui(ptr_rec) {
   livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
   livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
   livestats_ux.tilt_altitude.innerText = ptr_rec.tilt_altitude.toFixed(1);
-  livestats_ux.pos_canvas.innerText =
-    ptr_rec.canvas_pos.x.toFixed(1) + "x" + ptr_rec.canvas_pos.y.toFixed(1);
-  livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
+
+  livestats_ux.pos_x_canvas.innerText =
+    ptr_rec.canvas_pos.x.toFixed(1) ;
+
+  livestats_ux.pos_y_canvas.innerText =
+    ptr_rec.canvas_pos.y.toFixed(1);
+
+    livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
   if (ptr_rec.pressure_processed > 0) {
     livestats_ux.size.innerText =
@@ -164,9 +171,10 @@ function resetAdvanced() {
 }
 
 function clear_livestats_ux() {
-  const empty = "---";
+  const empty = "-";
   livestats_ux.buttons.innerText = empty;
-  livestats_ux.pos_canvas.innerText = empty;
+  livestats_ux.pos_x_canvas.innerText = empty;
+  livestats_ux.pos_y_canvas.innerText = empty;
   livestats_ux.size.innerText = empty;
   livestats_ux.pressure_raw.innerText = empty;
   livestats_ux.pressure_processed.innerText = empty;

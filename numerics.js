@@ -116,8 +116,14 @@ class NumericCurve {
     this.amount = value;
   }
 
-  reset() {
+  resetSettings() 
+  {
     this.setCurveAmount(0.0);
+  }
+
+  resetState() 
+  {
+    // do nothing
   }
 
   apply(input) {
@@ -154,7 +160,12 @@ class NumericSmoother {
     this.amount = value;
   }
 
-  reset() 
+  resetSettings() 
+  {
+    this.setSmoothingAmount(0.0);
+  }
+
+  resetState() 
   {
     this.old_smoothed = null;
   }
