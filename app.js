@@ -138,6 +138,7 @@ function update_paintsettings() {
   paint_settings.pos_y_smoothing.amount = paint_settings.pos_x_smoothing.amount;
   paint_settings.pressure_smoothing.amount = GetSmoothingValue(controls.pressure_smoothing.value);
   paint_settings.pressure_curve.setCurveAmount(  parseFloat(controls.pressureCurveAmountSlider.value) ) ;
+  paint_settings.tilt_smoothing.amount = GetSmoothingValue(controls.tilt_smoothing.value);
 
   // TODO: The lines below updated UI from the settings which is
   // the opposite of what is supposed to happen in this method.
