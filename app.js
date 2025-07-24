@@ -34,9 +34,9 @@ var livestats_ux = {
   tilt_altitude: document.getElementById("tiltAltitudeVal"),
 
   tilt_x_processed: document.getElementById("tiltXProcessedVal"),
-  tilt_y_processed: document.getElementById("tiltY_processedVal"),
-  tilt_azimuth_processed: document.getElementById("tiltAzimuth_processedVal"),
-  tilt_altitude_processed: document.getElementById("tiltAltitude_processedVal"),
+  tilt_y_processed: document.getElementById("tiltYProcessedVal"),
+  tilt_azimuth_processed: document.getElementById("tiltAzimuthProcessedVal"),
+  tilt_altitude_processed: document.getElementById("tiltAltitudeProcessedVal"),
 
   pos_x_canvas_raw: document.getElementById("posXValRaw"),
   pos_y_canvas_raw: document.getElementById("posYValRaw"),
@@ -102,10 +102,16 @@ function update_livestats_ui(ptr_rec) {
   livestats_ux.buttons.innerText = ptr_rec.buttons + " (" + button_to_string(ptr_rec.buttons) + ")";
   livestats_ux.pressure_raw.innerText = ptr_rec.pressure_raw.toFixed(4);
   livestats_ux.pressure_processed.innerText = ptr_rec.pressure_processed.toFixed(4);
+
   livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
   livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
   livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
   livestats_ux.tilt_altitude.innerText = ptr_rec.tilt_altitude.toFixed(1);
+
+  livestats_ux.tilt_x_processed.innerText = ptr_rec.tilt_x_processed.toFixed(1);
+  livestats_ux.tilt_y_processed.innerText = ptr_rec.tilt_y_processed.toFixed(1);
+  livestats_ux.tilt_azimuth_processed.innerText = ptr_rec.tilt_azimuth_processed.toFixed(1);
+  livestats_ux.tilt_altitude_processed.innerText = ptr_rec.tilt_altitude_processed.toFixed(1);
 
   livestats_ux.pos_x_canvas.innerText =
     ptr_rec.canvas_pos.x.toFixed(1) ;

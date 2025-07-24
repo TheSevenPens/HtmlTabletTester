@@ -71,8 +71,8 @@ function get_ptr_rec( canvas_rect, ptr_event)
     const max_tilt_y = 60.0;
     const canvas_pos_raw = new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top);
     const canvas_pos = new Position(paint_settings.pos_x_smoothing.apply(canvas_pos_raw.x),paint_settings.pos_y_smoothing.apply(canvas_pos_raw.y));
-    //const canvas_pos = canvas_pos_raw;
 
+    console.log("TD", paint_settings.tilt_smoothing.amount);
     var ptr_rec = 
     {
         type: ptr_event.type,
@@ -88,6 +88,14 @@ function get_ptr_rec( canvas_rect, ptr_event)
         tilt_y: ptr_event.tiltY,
         tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
         tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
+
+        
+        tilt_x_processed: paint_settings.tilt_smoothing.apply( ptr_event.tiltX ) ,
+        tilt_y_processed: ptr_event.tiltY,
+        tilt_azimuth_processed: radians_to_degrees( ptr_event.azimuthAngle ),
+        tilt_altitude_processed: radians_to_degrees( ptr_event.altitudeAngle ),
+
+
         barrel_rotation: ptr_event.twist,
         tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tilt_altitude,
         tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tilt_azimuth,
