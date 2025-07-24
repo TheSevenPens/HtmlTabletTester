@@ -12,6 +12,7 @@ Key differences
 -->
 <html>
   <head>
+    <script src="geometry.js"></script>
     <script src="numerics.js"></script>
     <script src="color.js"></script>
     <script src="draw.js"></script>
@@ -251,14 +252,14 @@ Key differences
 
       <div class="controlscontainer" id="advancedcontrols" style="display: none">
         <div class="controlscolumn">
-          <span style="font-weight: bold">ADV PRESSURE</span>
+          <span style="font-weight: bold">ADV POSITION</span>
           <br />
 
           <label for="positionSmoothingSlider"
-            >POsition smoothing:
+            >Position smoothing:
             <span id="positionSmoothingValue">---</span></label
           >
-          <br />
+          <br/>
           <input
             type="range"
             id="positionSmoothingSlider"
@@ -268,6 +269,10 @@ Key differences
             value="0.0"
             oninput="update_paintsettings()"
           />
+
+        </div>
+        <div class="controlscolumn">
+          <span style="font-weight: bold">ADV PRESSURE</span>
           <br/>
           <label for="pressureSmoothingSlider"
             >Pressure smoothing:
