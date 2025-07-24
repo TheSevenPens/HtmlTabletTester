@@ -13,7 +13,10 @@ var paint_settings =
     pos_y_smoothing: new NumericSmoother(0.0),
     pressure_smoothing: new NumericSmoother(0.0),
     pressure_curve: new NumericCurve(0.0),
-    tilt_smoothing: new NumericSmoother(0.0),
+    tilt_x_smoothing: new NumericSmoother(0.0),
+    tilt_y_smoothing: new NumericSmoother(0.0),
+    tilt_azimuth_smoothing: new NumericSmoother(0.0),
+    tilt_altitude_smoothing: new NumericSmoother(0.0),
 };
 
 var current_dab_settings = 
@@ -55,6 +58,11 @@ function paint_stroke_stop()
     paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
 }
 
+const max_tilt_altitude = 90.0;
+const max_tilt_azimuth = 360.0;
+const max_tilt_x = 60.0;
+const max_tilt_y = 60.0;
+
 function get_ptr_rec( canvas_rect, ptr_event)
 {
     paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
@@ -65,38 +73,37 @@ function get_ptr_rec( canvas_rect, ptr_event)
     // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( ptr_event.pressure , PRESSURE_RANGE);
 
-    const max_tilt_altitude = 90.0;
-    const max_tilt_azimuth = 360.0;
-    const max_tilt_x = 60.0;
-    const max_tilt_y = 60.0;
+
     const canvas_pos_raw = new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top);
     const canvas_pos = new Position(paint_settings.pos_x_smoothing.apply(canvas_pos_raw.x),paint_settings.pos_y_smoothing.apply(canvas_pos_raw.y));
 
-    console.log("TD", paint_settings.tilt_smoothing.amount);
     var ptr_rec = 
     {
         type: ptr_event.type,
         buttons: ptr_event.buttons,
         pointer_type: ptr_event.pointerType,
+        
         screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
         canvas_pos_raw: canvas_pos_raw,
         canvas_pos: canvas_pos,
+        
         pressure_raw: pressure_raw,
         pressure_processed: process_pressure(pressure_raw),
+        
         buttons: ptr_event.buttons,
+                
         tilt_x: ptr_event.tiltX,
         tilt_y: ptr_event.tiltY,
         tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
         tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
-
         
-        tilt_x_processed: paint_settings.tilt_smoothing.apply( ptr_event.tiltX ) ,
-        tilt_y_processed: ptr_event.tiltY,
-        tilt_azimuth_processed: radians_to_degrees( ptr_event.azimuthAngle ),
-        tilt_altitude_processed: radians_to_degrees( ptr_event.altitudeAngle ),
-
+        tilt_x_processed: paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ,
+        tilt_y_processed: paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY),
+        tilt_azimuth_processed: paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle )),
+        tilt_altitude_processed: paint_settings.tilt_azimuth_smoothing.apply(radians_to_degrees( ptr_event.altitudeAngle )),
 
         barrel_rotation: ptr_event.twist,
+
         tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tilt_altitude,
         tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tilt_azimuth,
         tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tilt_x,
@@ -183,7 +190,8 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control =="TILTX")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_x_normalized);
+        console.log(ptr_rec.tilt_x_processed/max_tilt_x);
+        var hue = lerp(360, 150, ptr_rec.tilt_x_processed/max_tilt_x );
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control =="TILTY")
@@ -231,7 +239,10 @@ function paint_dab( ptr_rec )
         paint_settings.pos_x_smoothing.resetState();
         paint_settings.pos_y_smoothing.resetState();
         paint_settings.pressure_smoothing.resetState();
-        paint_settings.tilt_smoothing.resetState();
+        paint_settings.tilt_x_smoothing.resetState();
+        paint_settings.tilt_y_smoothing.resetState();
+        paint_settings.tilt_azimuth_smoothing.resetState();
+        paint_settings.tilt_altitude_smoothing.resetState();
 
     }
 
