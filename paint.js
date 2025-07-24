@@ -213,7 +213,7 @@ function update_dab_settings( ptr_rec )
 
 
 
-function paint_dab( ptr_event, ptr_rec )
+function paint_dab( ptr_rec )
 {
     if (ptr_rec.pressure_raw <= 0)
     {
@@ -222,7 +222,7 @@ function paint_dab( ptr_event, ptr_rec )
         paint_settings.pressure_smoothing.resetState();
     }
 
-    switch (ptr_event.type) 
+    switch (ptr_rec.type) 
     {
         case "pointerdown":
             paint_stroke_start();
