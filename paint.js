@@ -217,9 +217,12 @@ function paint_dab( ptr_rec )
 {
     if (ptr_rec.pressure_raw <= 0)
     {
-        // No pressure input
-        // set the old smoothed pressure to an invalid value
+        // If No pressure input
+        // - reset any smoothing
+        paint_settings.pos_x_smoothing.resetState();
+        paint_settings.pos_y_smoothing.resetState();
         paint_settings.pressure_smoothing.resetState();
+
     }
 
     switch (ptr_rec.type) 
