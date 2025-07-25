@@ -55,6 +55,5 @@ function angle_to_color(angle, color_stops, angle_stops) {
 
     // Interpolate between the two colors
     const output_color = RGBColor.interpolate(color_stops[lowerIdx], color_stops[upperIdx], t);
-    const webcolor = output_color.toWebRGB();
-    return webcolor;
+    return output_color;
 }

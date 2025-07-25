@@ -180,6 +180,7 @@ function get_dab_color( ptr_rec )
     else if (paint_settings.brush_color_control =="TILTAZ")
     {
         dab_color = angle_to_color( ptr_rec.tilt_azimuth_processed, cetC7_color_stops, cetC7_angle_stops ) ;
+        dab_color = dab_color.toWebRGB();
     }
     else if (paint_settings.brush_color_control =="TILTX")
     {
