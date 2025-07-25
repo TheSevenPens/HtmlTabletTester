@@ -64,6 +64,18 @@ function register_window_load_event_listeners() {
     return;
   }
 
+  // pointerover -> handled
+  // pointerenter -> not handled
+  // pointerdown -> handled
+  // pointermove -> handled
+  // pointerup -> handled
+  // pointercancel -> handled
+  // pointerout -> handled
+  // pointerleave -> not handled
+  // pointerrawupdate -> not handled
+  // gotpointercapture -> not handled
+  // lostpointercapture -> not handled
+
   console.log("INFO: Browser DOES support pointer events");
 
   canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
@@ -77,6 +89,7 @@ function register_window_load_event_listeners() {
     default_ptr_event_handler_do_nothing,
     false
   );
+  
   canvas_el.addEventListener(
     "pointerout",
     default_ptr_event_handler_do_nothing,
