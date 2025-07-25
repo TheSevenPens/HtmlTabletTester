@@ -10,4 +10,4 @@ https://docs.thesevenpens.com/drawtab/developers/online-tablet-tester
 https://github.com/TheSevenPens/HtmlTabletTester
 
 # Developer resources
-https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events
+https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events
