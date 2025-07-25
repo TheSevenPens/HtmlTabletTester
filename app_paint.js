@@ -57,34 +57,39 @@ function button_to_string( button )
   else { return "unknown"; }
 }
 
+function format4_1(num) {
+    const nbsp = "\u00A0";
+    return num.toFixed(1).padStart(6, nbsp );
+}
+
+function format1_4(num) {
+    return num.toFixed(4);
+}
+
 function update_livestats_ui(ptr_rec) {
   livestats_ux.buttons.innerText = ptr_rec.buttons + " (" + button_to_string(ptr_rec.buttons) + ")";
-  livestats_ux.pressure_raw.innerText = ptr_rec.pressure_raw.toFixed(4);
-  livestats_ux.pressure_processed.innerText = ptr_rec.pressure_processed.toFixed(4);
+  livestats_ux.pressure_raw.innerText = format1_4( ptr_rec.pressure_raw );
+  livestats_ux.pressure_processed.innerText = format1_4( ptr_rec.pressure_processed );
 
-  livestats_ux.tilt_x.innerText = ptr_rec.tilt_x.toFixed(1);
-  livestats_ux.tilt_y.innerText = ptr_rec.tilt_y.toFixed(1);
-  livestats_ux.tilt_azimuth.innerText = ptr_rec.tilt_azimuth.toFixed(1);
-  livestats_ux.tilt_altitude.innerText = ptr_rec.tilt_altitude.toFixed(1);
+  livestats_ux.tilt_x.innerText = format4_1( ptr_rec.tilt_x );
+  livestats_ux.tilt_y.innerText = format4_1( ptr_rec.tilt_y );
+  livestats_ux.tilt_azimuth.innerText = format4_1( ptr_rec.tilt_azimuth );
+  livestats_ux.tilt_altitude.innerText = format4_1( ptr_rec.tilt_altitude );
 
-  livestats_ux.tilt_x_processed.innerText = ptr_rec.tilt_x_processed.toFixed(1);
-  livestats_ux.tilt_y_processed.innerText = ptr_rec.tilt_y_processed.toFixed(1);
-  livestats_ux.tilt_azimuth_processed.innerText = ptr_rec.tilt_azimuth_processed.toFixed(1);
-  livestats_ux.tilt_altitude_processed.innerText = ptr_rec.tilt_altitude_processed.toFixed(1);
+  livestats_ux.tilt_x_processed.innerText = format4_1( ptr_rec.tilt_x_processed );
+  livestats_ux.tilt_y_processed.innerText = format4_1( ptr_rec.tilt_y_processed );
+  livestats_ux.tilt_azimuth_processed.innerText = format4_1( ptr_rec.tilt_azimuth_processed );
+  livestats_ux.tilt_altitude_processed.innerText = format4_1( ptr_rec.tilt_altitude_processed );
 
-  livestats_ux.pos_x_canvas.innerText =
-    ptr_rec.canvas_pos.x.toFixed(1) ;
+  livestats_ux.pos_x_canvas.innerText = format4_1( ptr_rec.canvas_pos.x ) ;
 
-  livestats_ux.pos_y_canvas.innerText =
-    ptr_rec.canvas_pos.y.toFixed(1);
+  livestats_ux.pos_y_canvas.innerText = format4_1( ptr_rec.canvas_pos.y );
 
-   livestats_ux.pos_x_canvas_raw.innerText =
-    ptr_rec.canvas_pos_raw.x.toFixed(1) ;
+  livestats_ux.pos_x_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_raw.x );
 
-  livestats_ux.pos_y_canvas_raw.innerText =
-    ptr_rec.canvas_pos_raw.y.toFixed(1);
+  livestats_ux.pos_y_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_raw.y );
 
-    livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
+  livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
   if (ptr_rec.pressure_processed > 0) {
     livestats_ux.size.innerText =
