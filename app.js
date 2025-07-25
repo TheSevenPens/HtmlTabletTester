@@ -218,11 +218,18 @@ function clear_livestats_ux() {
   livestats_ux.size.innerText = empty;
   livestats_ux.pressure_raw.innerText = empty;
   livestats_ux.pressure_processed.innerText = empty;
+  livestats_ux.barrel_rotation.innerText = empty;
+
   livestats_ux.tilt_x.innerText = empty;
   livestats_ux.tilt_y.innerText = empty;
-  livestats_ux.barrel_rotation.innerText = empty;
   livestats_ux.tilt_altitude.innerText = empty;
   livestats_ux.tilt_azimuth.innerText = empty;
+
+  livestats_ux.tilt_x_processed.innerText = empty;
+  livestats_ux.tilt_y_processed.innerText = empty;
+  livestats_ux.tilt_altitude_processed.innerText = empty;
+  livestats_ux.tilt_azimuth_processed.innerText = empty;
+
 }
 
 function default_ptr_event_handler_do_nothing(ptr_event) {
