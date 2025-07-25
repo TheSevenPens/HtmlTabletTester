@@ -33,3 +33,27 @@ function draw_centered_box( canvas_context, pos, size, color)
 }
 
 
+function drawPressureCurve() {
+  curveCtx.clearRect(0, 0, curveCanvas.width, curveCanvas.height);
+  curveCtx.beginPath();
+  curveCtx.moveTo(0, curveCanvas.height);
+  for (let x = 0; x <= curveCanvas.width; x++) {
+    const pressure = x / curveCanvas.width;
+    const curvedPressure = paint_settings.pressure_curve.apply( pressure );  
+    const y = curveCanvas.height * (1 - curvedPressure);
+    curveCtx.lineTo(x, y);
+  }
+  curveCtx.strokeStyle = "rgb(150,180,255)";
+  curveCtx.lineWidth = 3;
+  curveCtx.stroke();
+
+  // Draw axes
+  curveCtx.beginPath();
+  curveCtx.moveTo(0, 0);
+  curveCtx.lineTo(0, curveCanvas.height);
+  curveCtx.lineTo(curveCanvas.width, curveCanvas.height);
+  curveCtx.strokeStyle = "black";
+  curveCtx.lineWidth = 1;
+  curveCtx.stroke();
+}
+
