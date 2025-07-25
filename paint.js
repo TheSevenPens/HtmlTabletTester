@@ -100,14 +100,9 @@ function get_ptr_rec( canvas_rect, ptr_event)
         tilt_x_processed: paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ,
         tilt_y_processed: paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY),
         tilt_azimuth_processed: paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle )),
-        tilt_altitude_processed: paint_settings.tilt_azimuth_smoothing.apply(radians_to_degrees( ptr_event.altitudeAngle )),
+        tilt_altitude_processed: paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle )),
 
         barrel_rotation: ptr_event.twist,
-
-        tilt_altitude_normalized:  Math.abs(radians_to_degrees(ptr_event.altitudeAngle))/max_tilt_altitude,
-        tilt_azimuth_normalized:  Math.abs(radians_to_degrees(ptr_event.azimuthAngle))/max_tilt_azimuth,
-        tilt_x_normalized:  Math.abs(ptr_event.tiltX)/max_tilt_x,
-        tilt_y_normalized:  Math.abs(ptr_event.tiltY)/max_tilt_y,
 
     }
 
@@ -145,19 +140,19 @@ function get_dab_size( ptr_rec )
     }
     else if (paint_settings.brush_size_control == "TILTX")
     {
-        new_size = new_size * ptr_rec.tilt_x_normalized;  
+        new_size = new_size * ptr_rec.tilt_x_processed / max_tilt_x;  
     }
     else if (paint_settings.brush_size_control == "TILTY")
     {
-        new_size = new_size * ptr_rec.tilt_y_normalized;  
+        new_size = new_size * ptr_rec.tilt_y_processed / max_tilt_y;  
     }
     else if (paint_settings.brush_size_control == "TILTAZ")
     {
-        new_size = new_size * ptr_rec.tilt_azimuth_normalized;  
+        new_size = new_size * ptr_rec.tilt_azimuth_processed / max_tilt_azimuth;  
     }
     else if (paint_settings.brush_size_control == "TILTALT")
     {
-        new_size = new_size * ((1.0 - ptr_rec.tilt_altitude_normalized) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - (ptr_rec.tilt_altitude_processed / max_tilt_altitude)) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
     }
     new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
     new_size = round_to_3_decimal_places( new_size );
@@ -179,14 +174,12 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control =="TILTALT")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_altitude_normalized);
+        var hue = lerp(360, 150, ptr_rec.tilt_altitude_processed/ max_tilt_altitude);
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control =="TILTAZ")
     {
-        //var hue = lerp(360, 150, ptr_rec.tilt_azimuth);
-        // dab_color = `hsl(${hue}, 100%, 50%)`;
-        dab_color = getCETColor( ptr_rec.tilt_azimuth) ;
+        dab_color = getCETColor( ptr_rec.tilt_azimuth_processed ) ;
     }
     else if (paint_settings.brush_color_control =="TILTX")
     {
@@ -197,7 +190,6 @@ function get_dab_color( ptr_rec )
     {
         var hue = lerp(360, 150, ptr_rec.tilt_y_processed/max_tilt_y);
         dab_color = `hsl(${hue}, 100%, 50%)`;
-
     }
     else if (paint_settings.brush_color_control =="BARRELROTATION")
     {
@@ -214,7 +206,6 @@ function get_dab_color( ptr_rec )
     }
 
     return dab_color;
-
 }
 
 function update_dab_settings( ptr_rec )
@@ -226,8 +217,6 @@ function update_dab_settings( ptr_rec )
     // COLOR
     current_dab_settings.brush_color = get_dab_color( ptr_rec  );
 }
-
-
 
 function paint_dab( ptr_rec )
 {
