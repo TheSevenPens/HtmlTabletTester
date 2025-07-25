@@ -24,19 +24,16 @@ class RGBColor {
   }
 }
 
-// CET-C7 key colors: Yellow, Magenta, Cyan, Green (approximate RGB values)
 const azimuth_color_stops = [
     new RGBColor( 1.000, 1.000, 0.000 ) , // Yellow
     new RGBColor( 1.000, 0.000, 1.000 ), // Magenta
+    new RGBColor( 0.000, 0.700, 1.000 ), // Blue
     new RGBColor( 0.000, 1.000, 1.000 ), // Cyan
-    new RGBColor( 0.000, 8.000, 0.000 ), // Green
     new RGBColor( 1.000, 1.000, 0.000 )  // Yellow (cyclic)
 ];
-const azimuth_angle_stops = [0, 90, 180, 270, 360]; // Angles for key colors
 
-// Linear interpolation for RGB colors
+const azimuth_angle_stops = [0, 90, 180, 270, 360]; 
 
-// Get CET-C7 color for a given angle
 function angle_to_color(angle, color_stops, angle_stops) {
     const normalizedAngle = angle % 360;
     let lowerIdx = 0;
