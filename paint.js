@@ -63,54 +63,57 @@ const max_tilt_azimuth = 360.0;
 const max_tilt_x = 60.0;
 const max_tilt_y = 60.0;
 
-function get_ptr_rec( canvas_rect, ptr_event)
-{
+class PointerRecord {
+  constructor(canvas_rect, ptr_event) 
+  {
     paint_stats.ptrevent_count = paint_stats.ptrevent_count +1; 
     var canvas_rect = canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event
     // if it is pointer pen event, just use that pressure
     // if it is any other kind of event, then just the maximum pressure
-    pressure_raw = clamp_to_range( ptr_event.pressure , PRESSURE_RANGE);
+    const pressure_raw = clamp_to_range( ptr_event.pressure , PRESSURE_RANGE);
 
     const canvas_pos_x_raw = ptr_event.clientX - canvas_rect.left;
     const canvas_pos_y_raw = ptr_event.clientY - canvas_rect.top;
 
-    var ptr_rec = 
-    {
-        type: ptr_event.type,
-        buttons: ptr_event.buttons,
-        pointer_type: ptr_event.pointerType,
+    this.type = ptr_event.type;
+    this.buttons = ptr_event.buttons;
+    this.pointer_type = ptr_event.pointerType;
         
-        screen_pos_x: ptr_event.clientX,
-        screen_pos_y: ptr_event.clientY,
+    this.screen_pos_x = ptr_event.clientX;
+    this.screen_pos_y = ptr_event.clientY;
 
-        canvas_pos_x_raw: canvas_pos_x_raw,
-        canvas_pos_y_raw: canvas_pos_y_raw,
+    this.canvas_pos_x_raw = canvas_pos_x_raw;
+    this.canvas_pos_y_raw = canvas_pos_y_raw;
 
-        canvas_pos_x: paint_settings.pos_x_smoothing.apply(canvas_pos_x_raw),
-        canvas_pos_y: paint_settings.pos_y_smoothing.apply(canvas_pos_y_raw),
+    this.canvas_pos_x = paint_settings.pos_x_smoothing.apply(canvas_pos_x_raw);
+    this.canvas_pos_y = paint_settings.pos_y_smoothing.apply(canvas_pos_y_raw);
         
-        pressure_raw: pressure_raw,
-        pressure_processed: process_pressure(pressure_raw),
+    this.pressure_raw= pressure_raw;
+    this.pressure_processed = process_pressure(pressure_raw);
         
-        buttons: ptr_event.buttons,
+    this.buttons = ptr_event.buttons;
                 
-        tilt_x: ptr_event.tiltX,
-        tilt_y: ptr_event.tiltY,
-        tilt_azimuth: radians_to_degrees( ptr_event.azimuthAngle ),
-        tilt_altitude: radians_to_degrees( ptr_event.altitudeAngle ),
+    this.tilt_x =  ptr_event.tiltX;
+    this.tilt_y = ptr_event.tiltY;
+    this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
+    this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
         
-        tilt_x_processed: paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ,
-        tilt_y_processed: paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY),
-        tilt_azimuth_processed: paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle )),
-        tilt_altitude_processed: paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle )),
+    this.tilt_x_processed = paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ;
+    this.tilt_y_processed = paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY);
+    this.tilt_azimuth_processed = paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle ));
+    this.tilt_altitude_processed = paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle ));
 
-        barrel_rotation: ptr_event.twist,
+    this.barrel_rotation = ptr_event.twist;
 
-    }
+  }
+}
 
-    return ptr_rec;
+function get_ptr_rec( canvas_rect, ptr_event)
+{
+    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1;
+    return new PointerRecord(canvas_rect, ptr_event); 
 }
 
 function process_pressure( input_pressure )
