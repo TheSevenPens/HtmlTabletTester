@@ -73,9 +73,8 @@ function get_ptr_rec( canvas_rect, ptr_event)
     // if it is any other kind of event, then just the maximum pressure
     pressure_raw = clamp_to_range( ptr_event.pressure , PRESSURE_RANGE);
 
-
-    const canvas_pos_raw = new Position(ptr_event.clientX - canvas_rect.left, ptr_event.clientY - canvas_rect.top);
-    const canvas_pos = new Position(paint_settings.pos_x_smoothing.apply(canvas_pos_raw.x),paint_settings.pos_y_smoothing.apply(canvas_pos_raw.y));
+    const canvas_pos_x_raw = ptr_event.clientX - canvas_rect.left;
+    const canvas_pos_y_raw = ptr_event.clientY - canvas_rect.top;
 
     var ptr_rec = 
     {
@@ -83,9 +82,14 @@ function get_ptr_rec( canvas_rect, ptr_event)
         buttons: ptr_event.buttons,
         pointer_type: ptr_event.pointerType,
         
-        screen_pos: new Position(ptr_event.clientX, ptr_event.clientY),
-        canvas_pos_raw: canvas_pos_raw,
-        canvas_pos: canvas_pos,
+        screen_pos_x: ptr_event.clientX,
+        screen_pos_y: ptr_event.clientY,
+
+        canvas_pos_x_raw: canvas_pos_x_raw,
+        canvas_pos_y_raw: canvas_pos_y_raw,
+
+        canvas_pos_x: paint_settings.pos_x_smoothing.apply(canvas_pos_x_raw),
+        canvas_pos_y: paint_settings.pos_y_smoothing.apply(canvas_pos_y_raw),
         
         pressure_raw: pressure_raw,
         pressure_processed: process_pressure(pressure_raw),
@@ -235,11 +239,14 @@ function paint_dab( ptr_rec )
 
     }
 
+    
+    var current_pos = new Position( ptr_rec.canvas_pos_x, ptr_rec.canvas_pos_y);
+    
     switch (ptr_rec.type) 
     {
         case "pointerdown":
             paint_stroke_start();
-            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
+            paint_state.canvas_pos_old = current_pos;
             break;
 
         case "pointermove":
@@ -250,17 +257,18 @@ function paint_dab( ptr_rec )
 
             update_dab_settings(ptr_rec);
 
+
             if (ptr_rec.pressure_raw > 0) 
             {
                 draw_line( canvas_context, 
                     paint_state.canvas_pos_old, 
-                    ptr_rec.canvas_pos, 
+                    current_pos, 
                     current_dab_settings.brush_size,
                     current_dab_settings.brush_color,
                     paint_settings.linecap); 
             }
 
-            paint_state.canvas_pos_old = ptr_rec.canvas_pos;
+            paint_state.canvas_pos_old = current_pos;
             break;
     }
 

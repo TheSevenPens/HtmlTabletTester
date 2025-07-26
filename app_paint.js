@@ -81,13 +81,13 @@ function update_livestats_ui(ptr_rec) {
   livestats_ux.tilt_azimuth_processed.innerText = format4_1( ptr_rec.tilt_azimuth_processed );
   livestats_ux.tilt_altitude_processed.innerText = format4_1( ptr_rec.tilt_altitude_processed );
 
-  livestats_ux.pos_x_canvas.innerText = format4_1( ptr_rec.canvas_pos.x ) ;
+  livestats_ux.pos_x_canvas.innerText = format4_1( ptr_rec.canvas_pos_x ) ;
 
-  livestats_ux.pos_y_canvas.innerText = format4_1( ptr_rec.canvas_pos.y );
+  livestats_ux.pos_y_canvas.innerText = format4_1( ptr_rec.canvas_pos_y );
 
-  livestats_ux.pos_x_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_raw.x );
+  livestats_ux.pos_x_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_x_raw );
 
-  livestats_ux.pos_y_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_raw.y );
+  livestats_ux.pos_y_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_y_raw );
 
   livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
