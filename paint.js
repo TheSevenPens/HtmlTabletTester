@@ -66,9 +66,6 @@ const max_tilt_y = 60.0;
 class PointerRecord {
   constructor(canvas_rect, ptr_event) 
   {
-
-    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1;
-
     var canvas_rect = canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event
@@ -112,7 +109,11 @@ class PointerRecord {
   }
 }
 
-
+function get_ptr_rec( canvas_rect, ptr_event)
+{
+    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1;
+    return new PointerRecord(canvas_rect, ptr_event); 
+}
 
 function process_pressure( input_pressure )
 {
