@@ -17,6 +17,7 @@ var paint_settings =
     tilt_y_smoothing: new NumericSmoother(0.0),
     tilt_azimuth_smoothing: new NumericSmoother(0.0),
     tilt_altitude_smoothing: new NumericSmoother(0.0),
+    pressue_quant: 0,
 };
 
 var current_dab_settings = 
@@ -117,10 +118,17 @@ function get_ptr_rec( canvas_rect, ptr_event)
 
 function process_pressure( input_pressure )
 {
-    // FIRST APPLY A CURVE
-    var output_pressure = paint_settings.pressure_curve.apply( input_pressure );  
+    var output_pressure = input_pressure;
+    // FIRST QUANTIZE
+    if (paint_settings.pressure_quant > 0)
+    {
+        output_pressure = quantize( input_pressure, paint_settings.pressure_quant );
+    }
+    
+    // SECOND APPLY A CURVE
+    output_pressure = paint_settings.pressure_curve.apply( output_pressure );  
 
-    // SECOND APPLY SMOOTHING (negative old values mean there is no old value)
+    // THIRD APPLY SMOOTHING (negative old values mean there is no old value)
     output_pressure = paint_settings.pressure_smoothing.apply( output_pressure );
 
     

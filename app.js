@@ -55,6 +55,7 @@ function resetAdvanced() {
   controls.pressure_smoothing.value = 0.0;
   controls.pressure_curve_amount.value = 0.0;
   controls.position_smoothing.value = 0.0;
+  controls.pressure_quant.value = 0.0;
   update_paintsettings();
 }
 

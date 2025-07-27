@@ -13,6 +13,17 @@ function radians_to_degrees(r)
     return (r * 57.2958);
 }
 
+function quantize(value, levels) 
+{
+  if (typeof value !== 'number' || value < 0 || value > 1) {
+    throw new Error('Input value must be a number between 0.0 and 1.0 inclusive.');
+  }
+  if (!Number.isInteger(levels) || levels < 2) {
+    throw new Error('Number of quantization levels must be an integer greater than or equal to 2.');
+  }
+  return Math.round(value * (levels - 1)) / (levels - 1);
+}
+
 function GetSmoothingValue(input) 
 {
     // first map it with a curve

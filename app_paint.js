@@ -9,6 +9,8 @@ var controls = {
   pressure_smoothing: document.getElementById("pressureSmoothingSlider"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountSlider"),
   tilt_smoothing: document.getElementById("tiltSmoothingSlider"),
+  pressure_quant: document.getElementById("pressureQuantSelect"),
+
 };
 
 // LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
@@ -37,6 +39,9 @@ var livestats_ux = {
   position_smoothing: document.getElementById("positionSmoothingValue"),
   pressure_smoothing: document.getElementById("pressureSmoothingValue"),
   pressure_curve_amount: document.getElementById("pressureCurveAmountValue"),
+
+  pressure_quant: document.getElementById("pressureQuant"),
+ 
 };
 
 var paintstats_ux = {
@@ -115,6 +120,8 @@ function update_paintsettings() {
   // PRESSURE
   paint_settings.pressure_smoothing.amount = GetSmoothingValue(controls.pressure_smoothing.value);
   paint_settings.pressure_curve.setCurveAmount(  parseFloat(controls.pressureCurveAmountSlider.value) ) ;
+  paint_settings.pressure_quant = parseInt(controls.pressure_quant.value ) ;
+
 
   // TILT
   paint_settings.tilt_x_smoothing.amount = GetSmoothingValue(controls.tilt_smoothing.value);
