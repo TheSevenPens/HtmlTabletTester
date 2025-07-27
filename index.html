@@ -290,9 +290,31 @@ Key differences
             oninput="update_paintsettings()"
           />
 
+
         </div>
         <div class="controlscolumn">
+
           <span style="font-weight: bold">ADV PRESSURE</span>
+          <br/>
+
+          <label>Pressure Quant </label>
+          <select
+            id="pressureQuantSelect"
+            value="pressureQuantSize"
+            onchange="update_paintsettings()"
+          >
+            <option value="PQOFF" selected>OFF</option>
+            <option value="32">32</option>
+            <option value="64">64</option>
+            <option value="256">256</option>
+            <option value="1024">1024</option>
+            <option value="2048">2048</option>
+            <option value="4096">4096</option>
+            <option value="8129">8192</option>
+          </select>
+          <br />
+
+
           <br/>
           <label for="pressureSmoothingSlider"
             >Pressure smoothing:
