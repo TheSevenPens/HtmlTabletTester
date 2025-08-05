@@ -8,6 +8,16 @@ function round_to_3_decimal_places(v)
   return Math.round(v * 1000) / 1000;
 }
 
+function round_to_2_decimal_places(v) 
+{
+  return Math.round(v * 100) / 100;
+}
+
+function round_to_1_decimal_places(v) 
+{
+  return Math.round(v * 10) / 10;
+}
+
 function radians_to_degrees(r)
 {
     return (r * 57.2958);

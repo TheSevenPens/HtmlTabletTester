@@ -40,13 +40,19 @@ function pointer_event_handler(ptr_event) {
   paint_dab(ptr_rec);
 }
 
+function update_stroke_stats_ux()
+{
+  paintstats_ux.stroke_count.innerText = paint_stats.stroke_count;
+  paintstats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
+  paintstats_ux.stroke_duration.innerText = paint_stats.duration;
+  paintstats_ux.ptreventpersec.innerText = round_to_1_decimal_places( paint_stats.ptrevent_count / paint_stats.duration * 1000 ) ;
+
+}
 
 
 function on_pointerup(ptr_event) {
   paint_stroke_stop();
-  paintstats_ux.stroke_count.innerText = paint_stats.stroke_count;
-  paintstats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
-  paintstats_ux.stroke_duration.innerText = paint_stats.duration;
+  update_stroke_stats_ux();
 }
 
 function on_pointerenter(ptr_event) {

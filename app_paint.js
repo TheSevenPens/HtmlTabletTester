@@ -48,6 +48,7 @@ var paintstats_ux = {
   stroke_count: document.getElementById("strokeCountVal"),
   ptrevent_count: document.getElementById("pointerEventCountVal"),
   stroke_duration: document.getElementById("strokeDurationVal"),
+  ptreventpersec: document.getElementById("strokeEventsPerSecVal"),
 };
 
 
