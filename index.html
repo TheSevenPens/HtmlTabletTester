@@ -20,87 +20,8 @@ Key differences
     <script src="draw.js"></script>
     <script src="paint.js"></script>
     <script src="app_pointerevents.js"></script>
-
+    <link rel="stylesheet" href="style.css"/>
     <title>SevenPens Tablet tester</title>
-    <style>
-      * {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      body {
-        font-size: 12px; /* Sets default font size for all non-heading text */
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        padding: 0;
-        margin: 0;
-      }
-
-      .canvasDiv {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .monospace {
-        font-family: "Consolas", "Monaco", "Courier New", Courier, monospace;
-      }
-
-      div {
-        /*border: 1px solid black;*/
-        padding: 5px;
-        padding-top: 5px;
-        margin-bottom: 5px;
-      }
-
-      button {
-        font-size: 12px;
-      }
-
-      select {
-        font-size: 12px;
-      }
-
-      #myCanvas {
-        touch-action: none; /*prevent canvas scrolling and system touch behavior*/
-        overscroll-behavior: none; /*added at suggestion of nahkd*/
-        display: block;
-        /* This doesn't ensure background color saved in image.
-				background-color: tan;
-				See https://stackoverflow.com/questions/6957034/save-canvas-with-background-image
-			*/
-      }
-
-      #curveCanvas {
-        border: 1px solid #000;
-        background-color: white;
-        margin-top: 10px;
-      }
-
-      .controlscontainer {
-        display: flex; /* Enables Flexbox */
-        justify-content: space-between; /* Distributes items evenly */
-        align-items: top; /* Vertically centers items */
-        gap: 2px; /* Adds spacing between items */
-        padding: 2px;
-        /*background-color: #f0f0f0;*/
-        /*height: 200px; /* For visibility */
-      }
-
-      .controlscolumn {
-        background-color: #f7f7f7;
-        border-width: 1px;
-        border-style: solid;
-        border-color: #e4e4e4;
-        color: rgb(0, 0, 0);
-        padding: 2px;
-        text-align: left;
-        flex: 1; /* Each item takes equal space */
-      }
-    </style>
   </head>
 
   <body
@@ -109,7 +30,7 @@ Key differences
     oncontextmenu="return false;"
   >
     <div class="parent">
-      <h2>SevenPens Tablet Tester v0.803</h2>
+      <h2>SevenPens Tablet Tester v0.804</h2>
       <p>
         <a
           href="https://thesevenpens.github.io/HtmlTabletTester/"
