@@ -13,7 +13,7 @@ var controls = {
 
 };
 
-// LIVESTATS THAT UPDATE ON EVERY POINTER EVENT
+// LIVESTATS
 var livestats_ux = {
   buttons: document.getElementById("buttonsVal"),
   pressure_raw: document.getElementById("pressureRawVal"),
@@ -44,7 +44,8 @@ var livestats_ux = {
  
 };
 
-var paintstats_ux = {
+// STROKESTATS
+var strokestats_ux = {
   stroke_count: document.getElementById("strokeCountVal"),
   ptrevent_count: document.getElementById("pointerEventCountVal"),
   stroke_duration: document.getElementById("strokeDurationVal"),
@@ -53,15 +54,6 @@ var paintstats_ux = {
 
 
 
-function button_to_string( button )
-{
-  if ( button == EPenButton.none) { return "none";}
-  else if ( button == EPenButton.tip) { return "pen tip";}
-  else if ( button == EPenButton.barrel) { return "pen button";}
-  else if ( button == EPenButton.middle) { return "middle mouse";}
-  else if ( button == EPenButton.eraser) { return "eraser";}
-  else { return "unknown"; }
-}
 
 function format4_1(num) {
     const nbsp = "\u00A0";

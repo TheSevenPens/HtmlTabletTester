@@ -7,6 +7,26 @@ var EPenButton = {
   eraser: 0x20, // pen eraser button
 };
 
+
+// STROKESTATS
+function update_stroke_stats_ux()
+{
+  strokestats_ux.stroke_count.innerText = paint_stats.stroke_count;
+  strokestats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
+  strokestats_ux.stroke_duration.innerText = paint_stats.duration;
+  strokestats_ux.ptreventpersec.innerText = round_to_1_decimal_places( paint_stats.ptrevent_count / paint_stats.duration * 1000 ) ;
+}
+
+function button_to_string( button )
+{
+  if ( button == EPenButton.none) { return "none";}
+  else if ( button == EPenButton.tip) { return "pen tip";}
+  else if ( button == EPenButton.barrel) { return "pen button";}
+  else if ( button == EPenButton.middle) { return "middle mouse";}
+  else if ( button == EPenButton.eraser) { return "eraser";}
+  else { return "unknown"; }
+}
+
 function is_target_pointer_event(ptr_event) {
   return (
     ptr_event.pointerType == "mouse" ||
@@ -40,14 +60,7 @@ function pointer_event_handler(ptr_event) {
   paint_dab(ptr_rec);
 }
 
-function update_stroke_stats_ux()
-{
-  paintstats_ux.stroke_count.innerText = paint_stats.stroke_count;
-  paintstats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
-  paintstats_ux.stroke_duration.innerText = paint_stats.duration;
-  paintstats_ux.ptreventpersec.innerText = round_to_1_decimal_places( paint_stats.ptrevent_count / paint_stats.duration * 1000 ) ;
 
-}
 
 
 function on_pointerup(ptr_event) {
