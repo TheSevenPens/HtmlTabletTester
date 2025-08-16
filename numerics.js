@@ -128,3 +128,21 @@ class NumericSmoother {
 
 }
 
+function tiltxy_to_tiltazimuth(tiltX,tiltY)
+{
+    var azimuth = tiltX || tiltY 
+                ? (Math.atan2(tiltY, tiltX) * 180 / Math.PI) 
+                : 0;
+    if (azimuth<0) {
+        azimuth = 360  + azimuth;
+    }
+    return azimuth;
+}
+
+function tiltxy_to_tiltangle(tiltX,tiltY)
+{
+   const angle = tiltX  || tiltY 
+                ? (Math.sqrt( tiltX  * tiltX  + tiltY  * tiltY))
+                : 0;
+    return angle;
+}

@@ -49,6 +49,7 @@ var livestats_ux = {
  
 };
 
+
 // STROKESTATS
 var strokestats_ux = {
   stroke_count: document.getElementById("strokeCountVal"),
@@ -57,6 +58,14 @@ var strokestats_ux = {
   ptreventpersec: document.getElementById("strokeEventsPerSecVal"),
 };
 
+// STROKESTATS
+function update_stroke_stats_ux()
+{
+  strokestats_ux.stroke_count.innerText = paint_stats.stroke_count;
+  strokestats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
+  strokestats_ux.stroke_duration.innerText = paint_stats.duration;
+  strokestats_ux.ptreventpersec.innerText = round_to_1_decimal_places( paint_stats.ptrevent_count / paint_stats.duration * 1000 ) ;
+}
 
 var velocitySmoother = new NumericSmoother();
 velocitySmoother.setSmoothingAmount(0.5);
