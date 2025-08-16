@@ -120,20 +120,22 @@ class PointerRecord {
     this.tilt_x =  ptr_event.tiltX;
     this.tilt_y = ptr_event.tiltY;
 
-    const calculatedTiltAzimuth = tiltxy_to_tiltazimuth( ptr_event.tiltX , ptr_event.tiltY );
-    const calculatedTiltAngle =  tiltxy_to_tiltangle( ptr_event.tiltX , ptr_event.tiltY );
+    //const calculatedTiltAzimuth = tiltxy_to_tiltazimuth( ptr_event.tiltX , ptr_event.tiltY );
+    //const calculatedTiltAngle =  tiltxy_to_tiltangle( ptr_event.tiltX , ptr_event.tiltY );
 
-    //this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
-    //this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
-
-    this.tilt_azimuth = calculatedTiltAzimuth;
-    this.tilt_altitude = calculatedTiltAngle;
+    this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
+    this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
+    //this.tilt_azimuth = calculatedTiltAzimuth;
+    //this.tilt_altitude = calculatedTiltAngle;
 
         
     this.tilt_x_processed = paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ;
     this.tilt_y_processed = paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY);
-    this.tilt_azimuth_processed = paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle ));
-    this.tilt_altitude_processed = paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle ));
+
+    //this.tilt_azimuth_processed = paint_settings.tilt_azimuth_smoothing.apply( radians_to_degrees( ptr_event.azimuthAngle ));
+    //this.tilt_altitude_processed = paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle ));
+    this.tilt_azimuth_processed = tiltxy_to_tiltazimuth( this.tilt_x_processed , this.tilt_y_processed );
+    this.tilt_altitude_processed = tiltxy_to_tiltangle( this.tilt_x_processed , this.tilt_y_processed );
 
     this.barrel_rotation = ptr_event.twist;
 
