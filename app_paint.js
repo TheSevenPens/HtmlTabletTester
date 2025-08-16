@@ -200,4 +200,7 @@ function clear_livestats_ux() {
   livestats_ux.tilt_altitude_processed.innerText = empty;
   livestats_ux.tilt_azimuth_processed.innerText = empty;
 
+  livestats_ux.velocity.innerText = empty;
+  livestats_ux.direction.innerText= empty;
+
 }
