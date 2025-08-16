@@ -28,8 +28,10 @@ var current_dab_settings =
 
 var paint_state = 
 {
+    canvas_pos_old_all_events : { x: 0, y: 0 },
     canvas_pos_old: { x: 0, y: 0 },
     isDrawing: false,
+    time_old: null,
 };
 
 var paint_stats=
@@ -106,6 +108,8 @@ class PointerRecord {
     this.tilt_altitude_processed = paint_settings.tilt_altitude_smoothing.apply( radians_to_degrees( ptr_event.altitudeAngle ));
 
     this.barrel_rotation = ptr_event.twist;
+
+    this.time = performance.now();
 
   }
 }

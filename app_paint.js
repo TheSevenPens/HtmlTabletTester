@@ -33,6 +33,11 @@ var livestats_ux = {
 
   pos_x_canvas: document.getElementById("posXVal"),
   pos_y_canvas: document.getElementById("posYVal"),
+
+  velocity: document.getElementById("velocityVal"),
+  direction: document.getElementById("directionVal"),
+
+
   size: document.getElementById("sizeVal"),
   brush_size: document.getElementById("brushSizeSelect"),
   barrel_rotation: document.getElementById("barrelRotationVal"),
@@ -88,6 +93,35 @@ function update_livestats_ui(ptr_rec) {
   livestats_ux.pos_y_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_y_raw );
 
   livestats_ux.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
+
+  if (paint_state.canvas_pos_old != null)
+  {
+    var dx =  ptr_rec.canvas_pos_x - paint_state.canvas_pos_old_all_events.x;
+    var dy =  ptr_rec.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
+
+    if (paint_state.time_old!=null)
+    {
+      var dt = (ptr_rec.time - paint_state.time_old)/1000;
+      if (dt>0)
+      {
+
+        var dist = Math.hypot( dx, dy);
+        var speed = dist/dt;
+        var direction = Math.atan2(dy, dx) * 180 / Math.PI;
+        if (direction <0)
+        {
+          direction = 359 + direction;
+        }
+        livestats_ux.velocity.innerText = format4_1(speed);
+        livestats_ux.direction.innerText = format4_1(direction);
+
+      }
+    
+
+    }
+
+  }
+
 
   if (ptr_rec.pressure_processed > 0) {
     livestats_ux.size.innerText =

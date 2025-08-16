@@ -58,6 +58,9 @@ function pointer_event_handler(ptr_event) {
   update_livestats_ui(ptr_rec);
   // perform the actual paint
   paint_dab(ptr_rec);
+
+  paint_state.canvas_pos_old_all_events = new Position( ptr_rec.canvas_pos_x, ptr_rec.canvas_pos_y);
+  paint_state.time_old = ptr_rec.time;
 }
 
 
