@@ -58,7 +58,8 @@ var strokestats_ux = {
 };
 
 
-
+var velocitySmoother = new NumericSmoother();
+velocitySmoother.setSmoothingAmount(0.5);
 
 function format4_1(num) {
     const nbsp = "\u00A0";
@@ -106,7 +107,7 @@ function update_livestats_ui(ptr_rec) {
       {
 
         var dist = Math.hypot( dx, dy);
-        var speed = dist/dt;
+        var speed = velocitySmoother.apply( dist/dt ) ;
         var direction = Math.atan2(dy, dx) * 180 / Math.PI;
         if (direction <0)
         {
