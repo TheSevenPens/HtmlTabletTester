@@ -66,6 +66,26 @@ const max_tilt_azimuth = 360.0;
 const max_tilt_x = 60.0;
 const max_tilt_y = 60.0;
 
+function tiltxy_to_tiltazimuth(tiltX,tiltY)
+{
+    var azimuth = tiltX || tiltY 
+                ? (Math.atan2(tiltY, tiltX) * 180 / Math.PI) 
+                : 0;
+    if (azimuth<0) {
+        azimuth = 360  + azimuth;
+    }
+    return azimuth;
+}
+
+function tiltxy_to_tiltangle(tiltX,tiltY)
+{
+   const angle = tiltX  || tiltY 
+                ? (Math.sqrt( tiltX  * tiltX  + tiltY  * tiltY))
+                : 0;
+    return angle;
+}
+
+
 class PointerRecord {
   constructor(canvas_rect, ptr_event) 
   {
@@ -99,8 +119,16 @@ class PointerRecord {
                 
     this.tilt_x =  ptr_event.tiltX;
     this.tilt_y = ptr_event.tiltY;
-    this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
-    this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
+
+    const calculatedTiltAzimuth = tiltxy_to_tiltazimuth( ptr_event.tiltX , ptr_event.tiltY );
+    const calculatedTiltAngle =  tiltxy_to_tiltangle( ptr_event.tiltX , ptr_event.tiltY );
+
+    //this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
+    //this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
+
+    this.tilt_azimuth = calculatedTiltAzimuth;
+    this.tilt_altitude = calculatedTiltAngle;
+
         
     this.tilt_x_processed = paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ;
     this.tilt_y_processed = paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY);
