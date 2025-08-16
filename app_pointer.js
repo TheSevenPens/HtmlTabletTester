@@ -8,14 +8,7 @@ var EPenButton = {
 };
 
 
-// STROKESTATS
-function update_stroke_stats_ux()
-{
-  strokestats_ux.stroke_count.innerText = paint_stats.stroke_count;
-  strokestats_ux.ptrevent_count.innerText = paint_stats.ptrevent_count;
-  strokestats_ux.stroke_duration.innerText = paint_stats.duration;
-  strokestats_ux.ptreventpersec.innerText = round_to_1_decimal_places( paint_stats.ptrevent_count / paint_stats.duration * 1000 ) ;
-}
+
 
 function button_to_string( button )
 {
