@@ -7,7 +7,10 @@ var EPenButton = {
   eraser: 0x20, // pen eraser button
 };
 
-
+const max_tilt_altitude = 90.0;
+const max_tilt_azimuth = 360.0;
+const max_tilt_x = 60.0;
+const max_tilt_y = 60.0;
 
 
 function button_to_string( button )
@@ -56,9 +59,6 @@ function pointer_event_handler(ptr_event) {
   paint_state.time_old = ptr_rec.time;
 }
 
-
-
-
 function on_pointerup(ptr_event) {
   paint_stroke_stop();
   update_ux_stroke_stats();
@@ -72,7 +72,6 @@ function on_pointerleave(ptr_event) {
   document.body.style.cursor = "default";
   clear_ux_pointer_stats();
 }
-
 
 function register_window_load_event_listeners() {
   if (!window.PointerEvent) {
@@ -126,14 +125,6 @@ function register_window_load_event_listeners() {
     false
   );
 }
-
-
-const max_tilt_altitude = 90.0;
-const max_tilt_azimuth = 360.0;
-const max_tilt_x = 60.0;
-const max_tilt_y = 60.0;
-
-
 
 class PointerRecord {
   constructor(canvas_rect, ptr_event) 
