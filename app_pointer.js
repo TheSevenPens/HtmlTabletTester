@@ -42,7 +42,7 @@ function pointer_event_handler(ptr_event) {
   }
 
   // The paint system needs to know the dimensions of the canvas it will draw on
-  var canvas_rect = canvas_el.getBoundingClientRect();
+  var canvas_rect = app_canvas_el.getBoundingClientRect();
   // given the canvas and the pointer event the paint_rec
   // has all the information needed to draw
   var ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
@@ -94,33 +94,33 @@ function register_window_load_event_listeners() {
 
   console.log("INFO: Browser DOES support pointer events");
 
-  canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
-  canvas_el.addEventListener("pointerup", on_pointerup, false);
+  app_canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointerup", on_pointerup, false);
 
-  canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
-  canvas_el.addEventListener("pointermove", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointermove", pointer_event_handler, false);
 
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "pointerover",
     default_ptr_event_handler_do_nothing,
     false
   );
   
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "pointerout",
     default_ptr_event_handler_do_nothing,
     false
   );
 
-  canvas_el.addEventListener("pointerenter", on_pointerenter, false);
-  canvas_el.addEventListener("pointerleave", on_pointerleave, false);
+  app_canvas_el.addEventListener("pointerenter", on_pointerenter, false);
+  app_canvas_el.addEventListener("pointerleave", on_pointerleave, false);
 
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "gotpointercapture",
     default_ptr_event_handler_do_nothing,
     false
   );
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "lostpointercapture",
     default_ptr_event_handler_do_nothing,
     false
@@ -138,7 +138,7 @@ const max_tilt_y = 60.0;
 class PointerRecord {
   constructor(canvas_rect, ptr_event) 
   {
-    var canvas_rect = canvas_el.getBoundingClientRect();
+    var canvas_rect = app_canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event
     // if it is pointer pen event, just use that pressure

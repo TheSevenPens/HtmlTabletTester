@@ -62,7 +62,7 @@ function get_dab_color( ptr_rec )
 
     if (ptr_rec.buttons == EPenButton.eraser)
     {
-        dab_color = appsettings.canvas_color;
+        dab_color = app_settings.canvas_color;
     }
     else if (paint_settings.brush_color_control =="PRESSURE")
     {
@@ -153,7 +153,7 @@ function paint_dab( ptr_rec )
 
             if (ptr_rec.pressure_raw > 0) 
             {
-                draw_line( canvas_context, 
+                draw_line( app_canvas_context,
                     paint_state.canvas_pos_old, 
                     current_pos, 
                     paint_current_dab_settings.brush_size,

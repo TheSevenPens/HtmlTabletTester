@@ -1,19 +1,19 @@
 function clearCanvas() 
 {
-    canvas_context.fillStyle = appsettings.canvas_color;
-    canvas_context.fillRect(0, 0, canvas_el.width, canvas_el.height);
+    app_canvas_context.fillStyle = app_settings.canvas_color;
+    app_canvas_context.fillRect(0, 0, app_canvas_el.width, app_canvas_el.height);
 }
 
-function draw_line( canvas_context, frompos, topos, width, color, linecap)
+function draw_line( canvas_context, from_pos, to_pos, width, color, linecap)
 {
     canvas_context.lineWidth = width;
     canvas_context.strokeStyle = color;    
     canvas_context.beginPath();
     canvas_context.lineCap = linecap;
-    canvas_context.moveTo(frompos.x, frompos.y);
-    var midPoint = lerp_point(frompos, topos, 0.5);
-    canvas_context.quadraticCurveTo(frompos.x, frompos.y, midPoint.x, midPoint.y);
-    canvas_context.lineTo(topos.x, topos.y);
+    canvas_context.moveTo(from_pos.x, from_pos.y);
+    var midPoint = lerp_point(from_pos, to_pos, 0.5);
+    canvas_context.quadraticCurveTo(from_pos.x, from_pos.y, midPoint.x, midPoint.y);
+    canvas_context.lineTo(to_pos.x, to_pos.y);
     canvas_context.stroke();
 }
 
@@ -34,26 +34,26 @@ function draw_centered_box( canvas_context, pos, size, color)
 
 
 function drawPressureCurve() {
-  curveCtx.clearRect(0, 0, curveCanvas.width, curveCanvas.height);
-  curveCtx.beginPath();
-  curveCtx.moveTo(0, curveCanvas.height);
-  for (let x = 0; x <= curveCanvas.width; x++) {
-    const pressure = x / curveCanvas.width;
+  app_pressure_curve_canvas_ctx.clearRect(0, 0, app_pressure_curve_canvas.width, app_pressure_curve_canvas.height);
+  app_pressure_curve_canvas_ctx.beginPath();
+  app_pressure_curve_canvas_ctx.moveTo(0, app_pressure_curve_canvas.height);
+  for (let x = 0; x <= app_pressure_curve_canvas.width; x++) {
+    const pressure = x / app_pressure_curve_canvas.width;
     const curvedPressure = paint_settings.pressure_curve.apply( pressure );  
-    const y = curveCanvas.height * (1 - curvedPressure);
-    curveCtx.lineTo(x, y);
+    const y = app_pressure_curve_canvas.height * (1 - curvedPressure);
+    app_pressure_curve_canvas_ctx.lineTo(x, y);
   }
-  curveCtx.strokeStyle = "rgb(150,180,255)";
-  curveCtx.lineWidth = 3;
-  curveCtx.stroke();
+  app_pressure_curve_canvas_ctx.strokeStyle = "rgb(150,180,255)";
+  app_pressure_curve_canvas_ctx.lineWidth = 3;
+  app_pressure_curve_canvas_ctx.stroke();
 
   // Draw axes
-  curveCtx.beginPath();
-  curveCtx.moveTo(0, 0);
-  curveCtx.lineTo(0, curveCanvas.height);
-  curveCtx.lineTo(curveCanvas.width, curveCanvas.height);
-  curveCtx.strokeStyle = "black";
-  curveCtx.lineWidth = 1;
-  curveCtx.stroke();
+  app_pressure_curve_canvas_ctx.beginPath();
+  app_pressure_curve_canvas_ctx.moveTo(0, 0);
+  app_pressure_curve_canvas_ctx.lineTo(0, app_pressure_curve_canvas.height);
+  app_pressure_curve_canvas_ctx.lineTo(app_pressure_curve_canvas.width, app_pressure_curve_canvas.height);
+  app_pressure_curve_canvas_ctx.strokeStyle = "black";
+  app_pressure_curve_canvas_ctx.lineWidth = 1;
+  app_pressure_curve_canvas_ctx.stroke();
 }
 
