@@ -48,7 +48,7 @@ function pointer_event_handler(ptr_event) {
   var ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
 
   // Live stats such as pointer position need to updated
-  update_livestats_ui(ptr_rec);
+  update_ux_pointer_stats(ptr_rec);
   // perform the actual paint
   paint_dab(ptr_rec);
 
@@ -61,7 +61,7 @@ function pointer_event_handler(ptr_event) {
 
 function on_pointerup(ptr_event) {
   paint_stroke_stop();
-  update_stroke_stats_ux();
+  update_ux_stroke_stats();
 }
 
 function on_pointerenter(ptr_event) {
@@ -70,7 +70,7 @@ function on_pointerenter(ptr_event) {
 
 function on_pointerleave(ptr_event) {
   document.body.style.cursor = "default";
-  clear_livestats_ux();
+  clear_ux_pointer_stats();
 }
 
 
@@ -187,7 +187,7 @@ class PointerRecord {
 
 function get_ptr_rec( canvas_rect, ptr_event)
 {
-    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1;
+    paint_stroke_stats.ptrevent_count = paint_stroke_stats.ptrevent_count +1;
     return new PointerRecord(canvas_rect, ptr_event); 
 }
 

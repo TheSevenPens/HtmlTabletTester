@@ -11,7 +11,7 @@ const canvas_context = canvas_el.getContext("2d");
 const curveCanvas = document.getElementById("curveCanvas");
 const curveCtx = curveCanvas.getContext("2d");
 
-update_paintsettings();
+update_paint_settings();
 
 function initPage() {
   setCanvasProps();
@@ -52,11 +52,11 @@ function toggleAdvancedDiv() {
 }
 
 function resetAdvanced() {
-  controls.pressure_smoothing.value = 0.0;
-  controls.pressure_curve_amount.value = 0.0;
-  controls.position_smoothing.value = 0.0;
-  controls.pressure_quant.value = 0.0;
-  update_paintsettings();
+  ux_paint_brush_settings.pressure_smoothing.value = 0.0;
+  ux_paint_brush_settings.pressure_curve_amount.value = 0.0;
+  ux_paint_brush_settings.position_smoothing.value = 0.0;
+  ux_paint_brush_settings.pressure_quant.value = 0.0;
+  update_paint_settings();
 }
 
 

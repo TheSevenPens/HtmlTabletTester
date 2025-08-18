@@ -18,6 +18,8 @@ Key differences
     <script src="numerics.js"></script>
     <script src="color.js"></script>
     <script src="draw.js"></script>
+      <script src="app_pointer_stats.js"></script>
+    <script src="paint_data.js"></script>
     <script src="paint.js"></script>
     <script src="app_pointer.js"></script>
     <link rel="stylesheet" href="style.css"/>
@@ -54,8 +56,7 @@ Key differences
           <label>Size </label>
           <select
             id="brushSizeSelect"
-            value="brushSize"
-            onchange="update_paintsettings()"
+            onchange="update_paint_settings()"
           >
             <option value="1">1px</option>
             <option value="5">5px</option>
@@ -68,8 +69,7 @@ Key differences
           <label>Scale size by </label>
           <select
             id="brushSizeControlSelect"
-            value="brushSizeControl"
-            onchange="update_paintsettings()"
+            onchange="update_paint_settings()"
           >
             <option value="USER">Don't scale</option>
             <option value="PRESSURE" selected>Pressure</option>
@@ -82,8 +82,7 @@ Key differences
           <label>Color </label>
           <select
             id="brushColorControlSelect"
-            value="brushColorControl"
-            onchange="update_paintsettings()"
+            onchange="update_paint_settings()"
           >
             <option value="DEFAULT" selected>Black</option>
             <option value="RED">Red</option>
@@ -207,10 +206,8 @@ Key differences
           <span style="font-weight: bold">ADV POSITION</span>
           <br />
 
-          <label for="positionSmoothingSlider"
-            >Position smoothing:
-            <span id="positionSmoothingValue">---</span></label
-          >
+          <label for="positionSmoothingSlider" > Position smoothing:
+            <span id="positionSmoothingValue">---</span></label>
           <br/>
           <input
             type="range"
@@ -219,7 +216,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paintsettings()"
+            oninput="update_paint_settings()"
           />
 
 
@@ -233,8 +230,7 @@ Key differences
           <select
             id="pressureQuantSelect"
             value="pressureQuantSize"
-            onchange="update_paintsettings()"
-          >
+            onchange="update_paint_settings()" >
             <option value="0" selected>OFF</option>
             <option value="4">4</option>
             <option value="8">8</option>
@@ -252,8 +248,8 @@ Key differences
 
 
           <br/>
-          <label for="pressureSmoothingSlider"
-            >Pressure smoothing:
+          <label for="pressureSmoothingSlider">
+              Pressure smoothing:
             <span id="pressureSmoothingValue">---</span>
           </label>
 
@@ -265,7 +261,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paintsettings()"
+            oninput="update_paint_settings()"
           />
           <br />
           <label
@@ -280,7 +276,7 @@ Key differences
               step="0.1"
               value="0.0"
               list="pressureCurveTickmarks"
-              oninput="update_paintsettings()"
+              oninput="update_paint_settings()"
             />
             <datalist id="pressureCurveTickmarks">
               <option value="0.0"></option>
@@ -307,7 +303,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paintsettings()"
+            oninput="update_paint_settings()"
           />
 
 		</div>
