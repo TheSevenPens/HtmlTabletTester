@@ -7,7 +7,10 @@ var EPenButton = {
   eraser: 0x20, // pen eraser button
 };
 
-
+const max_tilt_altitude = 90.0;
+const max_tilt_azimuth = 360.0;
+const max_tilt_x = 60.0;
+const max_tilt_y = 60.0;
 
 
 function button_to_string( button )
@@ -42,13 +45,13 @@ function pointer_event_handler(ptr_event) {
   }
 
   // The paint system needs to know the dimensions of the canvas it will draw on
-  var canvas_rect = canvas_el.getBoundingClientRect();
+  var canvas_rect = app_canvas_el.getBoundingClientRect();
   // given the canvas and the pointer event the paint_rec
   // has all the information needed to draw
   var ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
 
   // Live stats such as pointer position need to updated
-  update_livestats_ui(ptr_rec);
+  update_ux_pointer_stats(ptr_rec);
   // perform the actual paint
   paint_dab(ptr_rec);
 
@@ -56,12 +59,9 @@ function pointer_event_handler(ptr_event) {
   paint_state.time_old = ptr_rec.time;
 }
 
-
-
-
 function on_pointerup(ptr_event) {
   paint_stroke_stop();
-  update_stroke_stats_ux();
+  update_ux_stroke_stats();
 }
 
 function on_pointerenter(ptr_event) {
@@ -70,9 +70,8 @@ function on_pointerenter(ptr_event) {
 
 function on_pointerleave(ptr_event) {
   document.body.style.cursor = "default";
-  clear_livestats_ux();
+  clear_ux_pointer_stats();
 }
-
 
 function register_window_load_event_listeners() {
   if (!window.PointerEvent) {
@@ -94,51 +93,43 @@ function register_window_load_event_listeners() {
 
   console.log("INFO: Browser DOES support pointer events");
 
-  canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
-  canvas_el.addEventListener("pointerup", on_pointerup, false);
+  app_canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointerup", on_pointerup, false);
 
-  canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
-  canvas_el.addEventListener("pointermove", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
+  app_canvas_el.addEventListener("pointermove", pointer_event_handler, false);
 
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "pointerover",
     default_ptr_event_handler_do_nothing,
     false
   );
   
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "pointerout",
     default_ptr_event_handler_do_nothing,
     false
   );
 
-  canvas_el.addEventListener("pointerenter", on_pointerenter, false);
-  canvas_el.addEventListener("pointerleave", on_pointerleave, false);
+  app_canvas_el.addEventListener("pointerenter", on_pointerenter, false);
+  app_canvas_el.addEventListener("pointerleave", on_pointerleave, false);
 
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "gotpointercapture",
     default_ptr_event_handler_do_nothing,
     false
   );
-  canvas_el.addEventListener(
+  app_canvas_el.addEventListener(
     "lostpointercapture",
     default_ptr_event_handler_do_nothing,
     false
   );
 }
 
-
-const max_tilt_altitude = 90.0;
-const max_tilt_azimuth = 360.0;
-const max_tilt_x = 60.0;
-const max_tilt_y = 60.0;
-
-
-
 class PointerRecord {
   constructor(canvas_rect, ptr_event) 
   {
-    var canvas_rect = canvas_el.getBoundingClientRect();
+    var canvas_rect = app_canvas_el.getBoundingClientRect();
    
     // get the pressure reported in the event
     // if it is pointer pen event, just use that pressure
@@ -187,7 +178,7 @@ class PointerRecord {
 
 function get_ptr_rec( canvas_rect, ptr_event)
 {
-    paint_stats.ptrevent_count = paint_stats.ptrevent_count +1;
+    paint_stroke_stats.ptrevent_count = paint_stroke_stats.ptrevent_count +1;
     return new PointerRecord(canvas_rect, ptr_event); 
 }
 

@@ -1,53 +1,9 @@
-const setting_stylus_pen_color = "black";
-const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
-const BRUSHSIZE_RANGE = new OrderedRange(0.1,300.0);
-
-var paint_settings = 
-{
-    brush_size: 50,
-    brush_size_control: "PRESSURE",
-    brush_color_control: "DEFAULT",
-    eraser_size: 30,
-    linecap: "round",
-    pos_x_smoothing: new NumericSmoother(0.0),
-    pos_y_smoothing: new NumericSmoother(0.0),
-    pressure_smoothing: new NumericSmoother(0.0),
-    pressure_curve: new NumericCurve(0.0),
-    tilt_x_smoothing: new NumericSmoother(0.0),
-    tilt_y_smoothing: new NumericSmoother(0.0),
-    tilt_azimuth_smoothing: new NumericSmoother(0.0),
-    tilt_altitude_smoothing: new NumericSmoother(0.0),
-    pressue_quant: 0,
-};
-
-var current_dab_settings = 
-{
-    brush_size: 1,
-    brush_color: setting_stylus_pen_color,
-};
-
-var paint_state = 
-{
-    canvas_pos_old_all_events : { x: 0, y: 0 },
-    canvas_pos_old: { x: 0, y: 0 },
-    isDrawing: false,
-    time_old: null,
-};
-
-var paint_stats=
-{
-    stroke_count: 0,
-    ptrevent_count: 0,
-    start_time: 0,
-    end_time: 0,
-    duration: 0,
-};
 
 function paint_stroke_start()
 {
     paint_state.isDrawing = true;
-    paint_stats.ptrevent_count = 0; 
-    paint_stats.start_time = performance.now();
+    paint_stroke_stats.ptrevent_count = 0;
+    paint_stroke_stats.start_time = performance.now();
     paint_settings.pos_x_smoothing.resetState();
     paint_settings.pos_y_smoothing.resetState();
     paint_settings.pressure_smoothing.resetState();
@@ -56,9 +12,9 @@ function paint_stroke_start()
 function paint_stroke_stop()
 {
     paint_state.isDrawing = false;
-    paint_stats.stroke_count = paint_stats.stroke_count + 1;
-    paint_stats.end_time = performance.now();
-    paint_stats.duration = Math.round(paint_stats.end_time - paint_stats.start_time);
+    paint_stroke_stats.stroke_count = paint_stroke_stats.stroke_count + 1;
+    paint_stroke_stats.end_time = performance.now();
+    paint_stroke_stats.duration = Math.round(paint_stroke_stats.end_time - paint_stroke_stats.start_time);
 }
 
 
@@ -73,7 +29,7 @@ function get_dab_size( ptr_rec )
     // HANDLE DAB SIZE
     if (paint_settings.brush_size_control == "USER")
     {
-        current_dab_settings.brush_size = new_size;
+        paint_current_dab_settings.brush_size = new_size;
     }
     else if (paint_settings.brush_size_control == "PRESSURE")
     {
@@ -106,7 +62,7 @@ function get_dab_color( ptr_rec )
 
     if (ptr_rec.buttons == EPenButton.eraser)
     {
-        dab_color = appsettings.canvas_color;
+        dab_color = app_settings.canvas_color;
     }
     else if (paint_settings.brush_color_control =="PRESSURE")
     {
@@ -154,10 +110,10 @@ function update_dab_settings( ptr_rec )
 {
     // SIZE
     var new_size = get_dab_size( ptr_rec );
-    current_dab_settings.brush_size = new_size;
+    paint_current_dab_settings.brush_size = new_size;
 
     // COLOR
-    current_dab_settings.brush_color = get_dab_color( ptr_rec  );
+    paint_current_dab_settings.brush_color = get_dab_color( ptr_rec  );
 }
 
 function paint_dab( ptr_rec )
@@ -197,11 +153,11 @@ function paint_dab( ptr_rec )
 
             if (ptr_rec.pressure_raw > 0) 
             {
-                draw_line( canvas_context, 
+                draw_line( app_canvas_context,
                     paint_state.canvas_pos_old, 
                     current_pos, 
-                    current_dab_settings.brush_size,
-                    current_dab_settings.brush_color,
+                    paint_current_dab_settings.brush_size,
+                    paint_current_dab_settings.brush_color,
                     paint_settings.linecap); 
             }
 

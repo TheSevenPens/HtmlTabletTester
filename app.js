@@ -1,17 +1,16 @@
 /////////////////////////////////////////////////////////////////////////
 
-var appsettings = {
+var app_settings = {
   canvas_color: "rgba(230, 230, 250, 1.0)",
   download_filename: "TabletTester_Untitled",
 };
 
-const canvas_el = document.getElementById("myCanvas");
-const canvas_context = canvas_el.getContext("2d");
+const app_canvas_el = document.getElementById("myCanvas");
+const app_canvas_context = app_canvas_el.getContext("2d");
 
-const curveCanvas = document.getElementById("curveCanvas");
-const curveCtx = curveCanvas.getContext("2d");
+const app_pressure_curve_canvas = document.getElementById("curveCanvas");
+const app_pressure_curve_canvas_ctx = app_pressure_curve_canvas.getContext("2d");
 
-update_paintsettings();
 
 function initPage() {
   setCanvasProps();
@@ -23,8 +22,8 @@ function initPage() {
 // Canvas cleared to restore background color.
 //
 function setCanvasProps() {
-  if (canvas_el.width < window.innerWidth) {
-    canvas_el.width = window.innerWidth - 50;
+  if (app_canvas_el.width < window.innerWidth) {
+    app_canvas_el.width = window.innerWidth - 50;
   }
 
   clearCanvas(); // ensures background saved with drawn image
@@ -32,12 +31,12 @@ function setCanvasProps() {
 
 
 function getCanvasName() {
-  return appsettings.download_filename + "_" + Date.now().toString() + ".png";
+  return app_settings.download_filename + "_" + Date.now().toString() + ".png";
 }
 
 function saveCanvas() {
   var link = document.getElementById("link");
-  var url = canvas_el
+  var url = app_canvas_el
     .toDataURL("image/png")
     .replace("image/png", "image/octet-stream");
   link.setAttribute("download", getCanvasName());
@@ -45,21 +44,19 @@ function saveCanvas() {
   link.click();
 }
 
-function toggleAdvancedDiv() {
+function toggleAdvancedSettings() {
   const checkbox = document.getElementById("toggleAdvancedControlsCheckbox");
   const div = document.getElementById("advancedcontrols");
   div.style.display = checkbox.checked ? "flex" : "none";
 }
 
-function resetAdvanced() {
-  controls.pressure_smoothing.value = 0.0;
-  controls.pressure_curve_amount.value = 0.0;
-  controls.position_smoothing.value = 0.0;
-  controls.pressure_quant.value = 0.0;
-  update_paintsettings();
+function resetAdvancedSettings() {
+  ux_paint_brush_settings.pressure_smoothing.value = 0.0;
+  ux_paint_brush_settings.pressure_curve_amount.value = 0.0;
+  ux_paint_brush_settings.position_smoothing.value = 0.0;
+  ux_paint_brush_settings.pressure_quant.value = 0.0;
+  update_ux_paint_settings();
 }
-
-
 
 function register_event_handlers() {
   window.addEventListener("load", register_window_load_event_listeners, true);
@@ -76,4 +73,5 @@ function register_document_hotkey_event_listeners() {
   });
 }
 
+update_ux_paint_settings();
 register_event_handlers();
