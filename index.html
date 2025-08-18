@@ -11,7 +11,7 @@ Key differences
 
 -->
 <html>
-  <head>
+<head>
     <script src="geometry.js"></script>
     <script src="ranges.js"></script>
     <script src="interpolation.js"></script>
@@ -21,321 +21,317 @@ Key differences
     <script src="paint_data.js"></script>
     <script src="paint.js"></script>
     <script src="app_pointer.js"></script>
-    <script src="app_pointer_stats.js"></script>
 
-      <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css"/>
     <title>SevenPens Tablet tester</title>
-  </head>
+</head>
 
-  <body
-    onload="initPage()"
-    onresize="setCanvasProps()" 
-    oncontextmenu="return false;"
-  >
-    <div class="parent">
-      <h2>SevenPens Tablet Tester v0.810</h2>
-      <p>
+<body
+        onload="initPage()"
+        onresize="setCanvasProps()"
+        oncontextmenu="return false;"
+>
+<div class="parent">
+    <h2>SevenPens Tablet Tester v0.810</h2>
+    <p>
         <a
-          href="https://thesevenpens.github.io/HtmlTabletTester/"
-          target="_blank"
-          rel="noopener noreferrer"
-          >DOCS</a
+                href="https://thesevenpens.github.io/HtmlTabletTester/"
+                target="_blank"
+                rel="noopener noreferrer"
+        >DOCS</a
         >
         |
         <a
-          href="https://github.com/TheSevenPens/HtmlTabletTester"
-          target="_blank"
-          rel="noopener noreferrer"
-          >CODE</a
+                href="https://github.com/TheSevenPens/HtmlTabletTester"
+                target="_blank"
+                rel="noopener noreferrer"
+        >CODE</a
         >
-      </p>
+    </p>
 
-      <div class="controlscontainer">
+    <div class="controlscontainer">
         <div class="controlscolumn">
-          <span style="font-weight: bold">STROKE FORMAT</span>
-          <br />
-          <label>Size </label>
-          <select
-            id="brushSizeSelect"
-            onchange="update_ux_paint_settings()"
-          >
-            <option value="1">1px</option>
-            <option value="5">5px</option>
-            <option value="10">10px</option>
-            <option value="50" selected>50px</option>
-            <option value="100">100px</option>
-            <option value="300">300px</option>
-          </select>
-          <br />
-          <label>Scale size by </label>
-          <select
-            id="brushSizeControlSelect"
-            onchange="update_ux_paint_settings()"
-          >
-            <option value="USER">Don't scale</option>
-            <option value="PRESSURE" selected>Pressure</option>
-            <option value="TILTX">Tilt (X)</option>
-            <option value="TILTY">Tilt (Y)</option>
-            <option value="TILTAZ">Tilt (azimuth)</option>
-            <option value="TILTALT">Tilt (altitude)</option>
-          </select>
-          <br />
-          <label>Color </label>
-          <select
-            id="brushColorControlSelect"
-            onchange="update_ux_paint_settings()"
-          >
-            <option value="DEFAULT" selected>Black</option>
-            <option value="RED">Red</option>
-            <option value="PRESSURE">Pressure</option>
-            <option value="TILTX">Tilt (X)</option>
-            <option value="TILTY">Tilt (Y)</option>
-            <option value="TILTAZ">Tilt (azimuth)</option>
-            <option value="TILTALT">Tilt (altitude)</option>
-            <option value="BARRELROTATION">Barrel rotation</option>
-            <option value="ERASER">Eraser</option>
-          </select>
+            <span style="font-weight: bold">STROKE FORMAT</span>
+            <br/>
+            <label>Size </label>
+            <select
+                    id="brushSizeSelect"
+                    onchange="update_ux_paint_settings()"
+            >
+                <option value="1">1px</option>
+                <option value="5">5px</option>
+                <option value="10">10px</option>
+                <option value="50" selected>50px</option>
+                <option value="100">100px</option>
+                <option value="300">300px</option>
+            </select>
+            <br/>
+            <label>Scale size by </label>
+            <select
+                    id="brushSizeControlSelect"
+                    onchange="update_ux_paint_settings()"
+            >
+                <option value="USER">Don't scale</option>
+                <option value="PRESSURE" selected>Pressure</option>
+                <option value="TILTX">Tilt (X)</option>
+                <option value="TILTY">Tilt (Y)</option>
+                <option value="TILTAZ">Tilt (azimuth)</option>
+                <option value="TILTALT">Tilt (altitude)</option>
+            </select>
+            <br/>
+            <label>Color </label>
+            <select
+                    id="brushColorControlSelect"
+                    onchange="update_ux_paint_settings()"
+            >
+                <option value="DEFAULT" selected>Black</option>
+                <option value="RED">Red</option>
+                <option value="PRESSURE">Pressure</option>
+                <option value="TILTX">Tilt (X)</option>
+                <option value="TILTY">Tilt (Y)</option>
+                <option value="TILTAZ">Tilt (azimuth)</option>
+                <option value="TILTALT">Tilt (altitude)</option>
+                <option value="BARRELROTATION">Barrel rotation</option>
+                <option value="ERASER">Eraser</option>
+            </select>
 
-          <br />
-          <label>
+            <br/>
+            <label>
+                <input
+                        type="checkbox"
+                        id="toggleAdvancedControlsCheckbox"
+                        onclick="toggleAdvancedSettings()"
+
+                />
+                ADVANCED
+            </label>
+        </div>
+
+        <div class="controlscolumn">
+            <span style="font-weight: bold">POINTER INFO</span>
+            <br/>
+            Buttons:
+            <label> <span id="buttonsVal" class="monospace">---</span> </label>
+            <br/>
+            Position x:
+            <label> <span id="posXValRaw" class="monospace">---</span> </label>
+            → <label> <span id="posXVal" class="monospace">---</span> </label>
+            <br/>
+            Position y:
+            <label> <span id="posYValRaw" class="monospace">---</span> </label>
+            → <label> <span id="posYVal" class="monospace">---</span> </label>
+
+            <br/>
+            Pressure:
+            <label> <span id="pressureRawVal" class="monospace">---</span> </label>
+            → <label> <span id="pressureProcessedVal" class="monospace">---</span> </label>
+            <br/>
+            Velocity:
+            <label> <span id="velocityVal" class="monospace">-----.--</span> px/s</label>
+            <br/>
+            Direction:
+            <label> <span id="directionVal" class="monospace">---.-</span> </label>
+            <br/>
+
+
+        </div>
+
+        <div class="controlscolumn">
+            <span style="font-weight: bold">BARREL ROTATION & TILT </span>
+            Barrel rotation:
+            <label>
+                <span id="barrelRotationVal" class="monospace">---</span>
+            </label>
+            <br/>
+            Tilt x:
+            <label> <span id="tiltXVal" class="monospace">---</span> </label>
+            → <label> <span id="tiltXProcessedVal" class="monospace">---</span> </label>
+            <br/>
+            Tilt y:
+            <label> <span id="tiltYVal" class="monospace">---</span> </label>
+            → <label> <span id="tiltYProcessedVal" class="monospace">---</span> </label>
+            <br/>
+            Tilt azimuth:
+            <label>
+                <span id="tiltAzimuthVal" class="monospace">---</span>
+            </label>
+            → <label> <span id="tiltAzimuthProcessedVal" class="monospace">---</span> </label>
+
+            <br/>
+            Tilt altitude:
+            <label>
+                <span id="tiltAltitudeVal" class="monospace">---</span>
+            </label>
+            → <label> <span id="tiltAltitudeProcessedVal" class="monospace">---</span> </label>
+        </div>
+
+        <div class="controlscolumn">
+            <span style="font-weight: bold">STROKE STATS</span>
+            <br/>
+            Count:
+            <label>
+                <span id="strokeCountVal" class="monospace">---</span>
+            </label>
+            <br/>
+            Events:
+            <label>
+                <span id="pointerEventCountVal" class="monospace">---</span>
+            </label>
+            <br/>
+            Duration:
+            <label>
+                <span id="strokeDurationVal" class="monospace">---</span>ms
+            </label>
+            <br/>
+            Events/sec:
+            <label>
+                <span id="strokeEventsPerSecVal" class="monospace">---</span> events/sec
+            </label>
+        </div>
+        <div class="controlscolumn">
+            <span style="font-weight: bold">LIVE FORMAT</span>
+            <br/>
+            Size: <label> <span id="sizeVal" class="monospace">---</span></label>
+            <br/>
+        </div>
+
+
+    </div>
+
+    <div class="controlscontainer" id="advancedcontrols" style="display: none">
+        <div class="controlscolumn">
+            <span style="font-weight: bold">ADV POSITION</span>
+            <br/>
+
+            <label for="positionSmoothingSlider"> Position smoothing:
+                <span id="positionSmoothingValue">---</span></label>
+            <br/>
             <input
-              type="checkbox"
-              id="toggleAdvancedControlsCheckbox"
-              onclick="toggleAdvancedSettings()"
-              
+                    type="range"
+                    id="positionSmoothingSlider"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value="0.0"
+                    oninput="update_ux_paint_settings()"
             />
-            ADVANCED
-          </label>
-        </div>
-
-        <div class="controlscolumn">
-          <span style="font-weight: bold">POINTER INFO</span>
-          <br />
-          Buttons:
-          <label> <span id="buttonsVal" class="monospace">---</span> </label>
-          <br />
-          Position x:
-          <label> <span id="posXValRaw" class="monospace">---</span> </label>
-                    → <label> <span id="posXVal" class="monospace">---</span> </label>
-          <br />
-          Position y:
-          <label> <span id="posYValRaw" class="monospace">---</span> </label>
-            →           <label> <span id="posYVal" class="monospace">---</span> </label>
-
-          <br />
-          Pressure:
-          <label> <span id="pressureRawVal" class="monospace">---</span> </label>
-          → <label> <span id="pressureProcessedVal" class="monospace">---</span> </label>
-          <br />
-          Velocity:
-          <label> <span id="velocityVal" class="monospace">-----.--</span> px/s</label>
-          <br />
-          Direction:
-          <label> <span id="directionVal" class="monospace">---.-</span> </label>
-          <br />
-
-
-        </div>
-
-        <div class="controlscolumn">
-          <span style="font-weight: bold">BARREL ROTATION & TILT </span>
-          Barrel rotation:
-          <label>
-            <span id="barrelRotationVal" class="monospace">---</span>
-          </label>
-          <br />
-          Tilt x:
-          <label> <span id="tiltXVal" class="monospace">---</span> </label> 
-             → <label> <span id="tiltXProcessedVal" class="monospace">---</span> </label>
-          <br/>
-          Tilt y:
-          <label> <span id="tiltYVal" class="monospace">---</span> </label>
-             → <label> <span id="tiltYProcessedVal" class="monospace">---</span> </label>
-          <br />
-          Tilt azimuth:
-          <label>
-            <span id="tiltAzimuthVal" class="monospace">---</span>
-          </label>
-                       → <label> <span id="tiltAzimuthProcessedVal" class="monospace">---</span> </label>
-
-          <br/>
-          Tilt altitude:
-          <label>
-            <span id="tiltAltitudeVal" class="monospace">---</span>
-          </label>
-                       → <label> <span id="tiltAltitudeProcessedVal" class="monospace">---</span> </label>
-        </div>
-
-        <div class="controlscolumn">
-          <span style="font-weight: bold">STROKE STATS</span>
-          <br />
-          Count:
-          <label>
-            <span id="strokeCountVal" class="monospace">---</span>
-          </label>
-          <br />
-          Events:
-          <label>
-            <span id="pointerEventCountVal" class="monospace">---</span>
-          </label>
-          <br />
-          Duration:
-          <label>
-            <span id="strokeDurationVal" class="monospace">---</span>ms
-          </label>
-          <br/>
-          Events/sec:
-          <label>
-            <span id="strokeEventsPerSecVal" class="monospace">---</span> events/sec
-          </label>
-        </div>
-        <div class="controlscolumn">
-          <span style="font-weight: bold">LIVE FORMAT</span>
-          <br />
-          Size: <label> <span id="sizeVal" class="monospace">---</span></label>
-          <br />
-        </div>
-
-        
-
-
-
-      </div>
-
-      <div class="controlscontainer" id="advancedcontrols" style="display: none">
-        <div class="controlscolumn">
-          <span style="font-weight: bold">ADV POSITION</span>
-          <br />
-
-          <label for="positionSmoothingSlider" > Position smoothing:
-            <span id="positionSmoothingValue">---</span></label>
-          <br/>
-          <input
-            type="range"
-            id="positionSmoothingSlider"
-            min="0.0"
-            max="1.0"
-            step="0.01"
-            value="0.0"
-            oninput="update_ux_paint_settings()"
-          />
 
 
         </div>
         <div class="controlscolumn">
 
-          <span style="font-weight: bold">ADV PRESSURE</span>
-          <br/>
+            <span style="font-weight: bold">ADV PRESSURE</span>
+            <br/>
 
-          <label>Pressure Quant </label>
-          <select
-            id="pressureQuantSelect"
-            value="pressureQuantSize"
-            onchange="update_ux_paint_settings()" >
-            <option value="0" selected>OFF</option>
-            <option value="4">4</option>
-            <option value="8">8</option>
-            <option value="16">16</option>
-            <option value="32">32</option>
-            <option value="64">64</option>
-            <option value="128">128</option>
-            <option value="256">256</option>
-            <option value="1024">1024</option>
-            <option value="2048">2048</option>
-            <option value="4096">4096</option>
-            <option value="8129">8192</option>
-          </select>
-          <br />
+            <label>Pressure Quant </label>
+            <select
+                    id="pressureQuantSelect"
+                    value="pressureQuantSize"
+                    onchange="update_ux_paint_settings()">
+                <option value="0" selected>OFF</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+                <option value="16">16</option>
+                <option value="32">32</option>
+                <option value="64">64</option>
+                <option value="128">128</option>
+                <option value="256">256</option>
+                <option value="1024">1024</option>
+                <option value="2048">2048</option>
+                <option value="4096">4096</option>
+                <option value="8129">8192</option>
+            </select>
+            <br/>
 
 
-          <br/>
-          <label for="pressureSmoothingSlider">
-              Pressure smoothing:
-            <span id="pressureSmoothingValue">---</span>
-          </label>
+            <br/>
+            <label for="pressureSmoothingSlider">
+                Pressure smoothing:
+                <span id="pressureSmoothingValue">---</span>
+            </label>
 
-          <br />
-          <input
-            type="range"
-            id="pressureSmoothingSlider"
-            min="0.0"
-            max="1.0"
-            step="0.01"
-            value="0.0"
-            oninput="update_ux_paint_settings()"
-          />
-          <br />
-          <label
+            <br/>
+            <input
+                    type="range"
+                    id="pressureSmoothingSlider"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value="0.0"
+                    oninput="update_ux_paint_settings()"
+            />
+            <br/>
+            <label
             >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
-            <br />
+                <br/>
 
-            <input
-              type="range"
-              id="pressureCurveAmountSlider"
-              min="-0.90"
-              max="0.90"
-              step="0.1"
-              value="0.0"
-              list="pressureCurveTickmarks"
-              oninput="update_ux_paint_settings()"
-            />
-            <datalist id="pressureCurveTickmarks">
-              <option value="0.0"></option>
-            </datalist>
-          </label>
-          <br /><canvas id="curveCanvas" width="50" height="50"></canvas>
+                <input
+                        type="range"
+                        id="pressureCurveAmountSlider"
+                        min="-0.90"
+                        max="0.90"
+                        step="0.1"
+                        value="0.0"
+                        list="pressureCurveTickmarks"
+                        oninput="update_ux_paint_settings()"
+                />
+                <datalist id="pressureCurveTickmarks">
+                    <option value="0.0"></option>
+                </datalist>
+            </label>
+            <br/>
+            <canvas id="curveCanvas" width="50" height="50"></canvas>
 
 
         </div>
 
-    <div class="controlscolumn">
+        <div class="controlscolumn">
 
-          <span style="font-weight: bold">ADV TILT</span>
-          <br/>
-          <label for="tiltSmoothingSlider"
+            <span style="font-weight: bold">ADV TILT</span>
+            <br/>
+            <label for="tiltSmoothingSlider"
             >Tilt smoothing:
-            <span id="tiltSmoothingValue">---</span>
-          </label>
-          <br />
-          <input
-            type="range"
-            id="tiltSmoothingSlider"
-            min="0.0"
-            max="1.0"
-            step="0.01"
-            value="0.0"
-            oninput="update_ux_paint_settings()"
-          />
+                <span id="tiltSmoothingValue">---</span>
+            </label>
+            <br/>
+            <input
+                    type="range"
+                    id="tiltSmoothingSlider"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value="0.0"
+                    oninput="update_ux_paint_settings()"
+            />
 
-		</div>
-		<div class="controlscolumn">
-		  <button type="button" onclick="resetAdvancedSettings()">RESET ADVANCED</button>
-		</div>
+        </div>
+        <div class="controlscolumn">
+            <button type="button" onclick="resetAdvancedSettings()">RESET ADVANCED</button>
+        </div>
 
 
+        <div class="controlscolumn">
+        </div>
 
-    <div class="controlscolumn">
+
     </div>
+</div>
 
+<div>
+    <button type="button" onclick="clearCanvas()">Clear</button>
+    <button type="button" onclick="saveCanvas()">Save</button>
+</div>
 
-
-	</div>
-    </div>
-
-    <div>
-      <button type="button" onclick="clearCanvas()">Clear</button>
-      <button type="button" onclick="saveCanvas()">Save</button>
-    </div>
-
-    <div class="canvasDiv">
-      <canvas id="myCanvas" height="450" style="border: 5px solid #d1d1d1">
+<div class="canvasDiv">
+    <canvas id="myCanvas" height="450" style="border: 5px solid #d1d1d1">
         Your browser does not support the canvas element.
-      </canvas>
-    </div>
+    </canvas>
+</div>
 
-    <a id="link"></a>
+<a id="link"></a>
 
-    <script src="app_paint.js"></script>
-    <script src="app.js"></script>
-  </body>
+<script src="app_ux_stroke_stats.js"></script>
+<script src="app_paint.js"></script>
+<script src="app.js"></script>
+</body>
 </html>
