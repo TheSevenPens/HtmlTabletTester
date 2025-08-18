@@ -1,5 +1,3 @@
-
-
 // POINTER STATS ----------------------------------------------
 var ux_pointer_stats = {
     buttons: document.getElementById("buttonsVal"),
@@ -38,45 +36,41 @@ var ux_pointer_stats = {
 
 function update_ux_pointer_stats(ptr_rec) {
     ux_pointer_stats.buttons.innerText = ptr_rec.buttons + " (" + button_to_string(ptr_rec.buttons) + ")";
-    ux_pointer_stats.pressure_raw.innerText = format1_4( ptr_rec.pressure_raw );
-    ux_pointer_stats.pressure_processed.innerText = format1_4( ptr_rec.pressure_processed );
+    ux_pointer_stats.pressure_raw.innerText = format1_4(ptr_rec.pressure_raw);
+    ux_pointer_stats.pressure_processed.innerText = format1_4(ptr_rec.pressure_processed);
 
-    ux_pointer_stats.tilt_x.innerText = format4_1( ptr_rec.tilt_x );
-    ux_pointer_stats.tilt_y.innerText = format4_1( ptr_rec.tilt_y );
-    ux_pointer_stats.tilt_azimuth.innerText = format4_1( ptr_rec.tilt_azimuth );
-    ux_pointer_stats.tilt_altitude.innerText = format4_1( ptr_rec.tilt_altitude );
+    ux_pointer_stats.tilt_x.innerText = format4_1(ptr_rec.tilt_x);
+    ux_pointer_stats.tilt_y.innerText = format4_1(ptr_rec.tilt_y);
+    ux_pointer_stats.tilt_azimuth.innerText = format4_1(ptr_rec.tilt_azimuth);
+    ux_pointer_stats.tilt_altitude.innerText = format4_1(ptr_rec.tilt_altitude);
 
-    ux_pointer_stats.tilt_x_processed.innerText = format4_1( ptr_rec.tilt_x_processed );
-    ux_pointer_stats.tilt_y_processed.innerText = format4_1( ptr_rec.tilt_y_processed );
-    ux_pointer_stats.tilt_azimuth_processed.innerText = format4_1( ptr_rec.tilt_azimuth_processed );
-    ux_pointer_stats.tilt_altitude_processed.innerText = format4_1( ptr_rec.tilt_altitude_processed );
+    ux_pointer_stats.tilt_x_processed.innerText = format4_1(ptr_rec.tilt_x_processed);
+    ux_pointer_stats.tilt_y_processed.innerText = format4_1(ptr_rec.tilt_y_processed);
+    ux_pointer_stats.tilt_azimuth_processed.innerText = format4_1(ptr_rec.tilt_azimuth_processed);
+    ux_pointer_stats.tilt_altitude_processed.innerText = format4_1(ptr_rec.tilt_altitude_processed);
 
-    ux_pointer_stats.pos_x_canvas.innerText = format4_1( ptr_rec.canvas_pos_x ) ;
+    ux_pointer_stats.pos_x_canvas.innerText = format4_1(ptr_rec.canvas_pos_x);
 
-    ux_pointer_stats.pos_y_canvas.innerText = format4_1( ptr_rec.canvas_pos_y );
+    ux_pointer_stats.pos_y_canvas.innerText = format4_1(ptr_rec.canvas_pos_y);
 
-    ux_pointer_stats.pos_x_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_x_raw );
+    ux_pointer_stats.pos_x_canvas_raw.innerText = format4_1(ptr_rec.canvas_pos_x_raw);
 
-    ux_pointer_stats.pos_y_canvas_raw.innerText = format4_1( ptr_rec.canvas_pos_y_raw );
+    ux_pointer_stats.pos_y_canvas_raw.innerText = format4_1(ptr_rec.canvas_pos_y_raw);
 
     ux_pointer_stats.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
-    if (paint_state.canvas_pos_old != null)
-    {
-        var dx =  ptr_rec.canvas_pos_x - paint_state.canvas_pos_old_all_events.x;
-        var dy =  ptr_rec.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
+    if (paint_state.canvas_pos_old != null) {
+        var dx = ptr_rec.canvas_pos_x - paint_state.canvas_pos_old_all_events.x;
+        var dy = ptr_rec.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
 
-        if (paint_state.time_old!=null)
-        {
-            var dt = (ptr_rec.time - paint_state.time_old)/1000;
-            if (dt>0)
-            {
+        if (paint_state.time_old != null) {
+            var dt = (ptr_rec.time - paint_state.time_old) / 1000;
+            if (dt > 0) {
 
-                var dist = Math.hypot( dx, dy);
-                var speed = velocitySmoother.apply( dist/dt ) ;
+                var dist = Math.hypot(dx, dy);
+                var speed = velocitySmoother.apply(dist / dt);
                 var direction = Math.atan2(dy, dx) * 180 / Math.PI;
-                if (direction <0)
-                {
+                if (direction < 0) {
                     direction = 359 + direction;
                 }
                 ux_pointer_stats.velocity.innerText = format4_1(speed);
@@ -122,6 +116,6 @@ function clear_ux_pointer_stats() {
     ux_pointer_stats.tilt_azimuth_processed.innerText = empty;
 
     ux_pointer_stats.velocity.innerText = empty;
-    ux_pointer_stats.direction.innerText= empty;
+    ux_pointer_stats.direction.innerText = empty;
 
 }

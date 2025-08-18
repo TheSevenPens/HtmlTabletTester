@@ -26,8 +26,8 @@ function update_ux_paint_settings() {
 
     // PRESSURE
     paint_settings.pressure_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.pressure_smoothing.value);
-    paint_settings.pressure_curve.setCurveAmount(  parseFloat(ux_paint_brush_settings.pressureCurveAmountSlider.value) ) ;
-    paint_settings.pressure_quant = parseInt(ux_paint_brush_settings.pressure_quant.value ) ;
+    paint_settings.pressure_curve.setCurveAmount(parseFloat(ux_paint_brush_settings.pressureCurveAmountSlider.value));
+    paint_settings.pressure_quant = parseInt(ux_paint_brush_settings.pressure_quant.value);
 
 
     // TILT

@@ -1,8 +1,3 @@
-
-
-// STROKESTATS ----------------------------------------
-
-
 var ux_stroke_stats = {
     stroke_count: document.getElementById("strokeCountVal"),
     pointer_event_count: document.getElementById("pointerEventCountVal"),
