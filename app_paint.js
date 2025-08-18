@@ -4,17 +4,17 @@
 
 var ux_stroke_stats = {
     stroke_count: document.getElementById("strokeCountVal"),
-    ptrevent_count: document.getElementById("pointerEventCountVal"),
+    pointer_event_count: document.getElementById("pointerEventCountVal"),
     stroke_duration: document.getElementById("strokeDurationVal"),
-    ptreventpersec: document.getElementById("strokeEventsPerSecVal"),
+    pointer_event_rate: document.getElementById("strokeEventsPerSecVal"),
 };
 
 function update_ux_stroke_stats()
 {
     ux_stroke_stats.stroke_count.innerText = paint_stroke_stats.stroke_count;
-    ux_stroke_stats.ptrevent_count.innerText = paint_stroke_stats.ptrevent_count;
+    ux_stroke_stats.pointer_event_count.innerText = paint_stroke_stats.ptrevent_count;
     ux_stroke_stats.stroke_duration.innerText = paint_stroke_stats.duration;
-    ux_stroke_stats.ptreventpersec.innerText = round_to_1_decimal_places( paint_stroke_stats.ptrevent_count / paint_stroke_stats.duration * 1000 ) ;
+    ux_stroke_stats.pointer_event_rate.innerText = round_to_1_decimal_places( paint_stroke_stats.ptrevent_count / paint_stroke_stats.duration * 1000 ) ;
 }
 
 // POINTER STATS ----------------------------------------------
@@ -116,6 +116,32 @@ function update_ux_pointer_stats(ptr_rec) {
 }
 
 
+function clear_ux_pointer_stats() {
+    const empty = "-";
+    ux_pointer_stats.buttons.innerText = empty;
+    ux_pointer_stats.pos_x_canvas.innerText = empty;
+    ux_pointer_stats.pos_y_canvas.innerText = empty;
+    ux_pointer_stats.pos_x_canvas_raw.innerText = empty;
+    ux_pointer_stats.pos_y_canvas_raw.innerText = empty;
+    ux_pointer_stats.size.innerText = empty;
+    ux_pointer_stats.pressure_raw.innerText = empty;
+    ux_pointer_stats.pressure_processed.innerText = empty;
+    ux_pointer_stats.barrel_rotation.innerText = empty;
+
+    ux_pointer_stats.tilt_x.innerText = empty;
+    ux_pointer_stats.tilt_y.innerText = empty;
+    ux_pointer_stats.tilt_altitude.innerText = empty;
+    ux_pointer_stats.tilt_azimuth.innerText = empty;
+
+    ux_pointer_stats.tilt_x_processed.innerText = empty;
+    ux_pointer_stats.tilt_y_processed.innerText = empty;
+    ux_pointer_stats.tilt_altitude_processed.innerText = empty;
+    ux_pointer_stats.tilt_azimuth_processed.innerText = empty;
+
+    ux_pointer_stats.velocity.innerText = empty;
+    ux_pointer_stats.direction.innerText= empty;
+
+}
 
 // BRUSH SETTINGS -----------------------------------
 
@@ -134,15 +160,7 @@ var ux_paint_brush_settings = {
 
 };
 
-
-var velocitySmoother = new NumericSmoother();
-velocitySmoother.setSmoothingAmount(0.5);
-
-
-
-
-
-function update_paint_settings() {
+function update_ux_paint_settings() {
  
   // BRUSH FORMAT
   paint_settings.brush_size_control = ux_paint_brush_settings.brush_size.value;
@@ -178,29 +196,6 @@ function update_paint_settings() {
 
 
 
-function clear_ux_pointer_stats() {
-  const empty = "-";
-  ux_pointer_stats.buttons.innerText = empty;
-  ux_pointer_stats.pos_x_canvas.innerText = empty;
-  ux_pointer_stats.pos_y_canvas.innerText = empty;
-  ux_pointer_stats.pos_x_canvas_raw.innerText = empty;
-  ux_pointer_stats.pos_y_canvas_raw.innerText = empty;
-  ux_pointer_stats.size.innerText = empty;
-  ux_pointer_stats.pressure_raw.innerText = empty;
-  ux_pointer_stats.pressure_processed.innerText = empty;
-  ux_pointer_stats.barrel_rotation.innerText = empty;
 
-  ux_pointer_stats.tilt_x.innerText = empty;
-  ux_pointer_stats.tilt_y.innerText = empty;
-  ux_pointer_stats.tilt_altitude.innerText = empty;
-  ux_pointer_stats.tilt_azimuth.innerText = empty;
-
-  ux_pointer_stats.tilt_x_processed.innerText = empty;
-  ux_pointer_stats.tilt_y_processed.innerText = empty;
-  ux_pointer_stats.tilt_altitude_processed.innerText = empty;
-  ux_pointer_stats.tilt_azimuth_processed.innerText = empty;
-
-  ux_pointer_stats.velocity.innerText = empty;
-  ux_pointer_stats.direction.innerText= empty;
-
-}
+var velocitySmoother = new NumericSmoother();
+velocitySmoother.setSmoothingAmount(0.5);

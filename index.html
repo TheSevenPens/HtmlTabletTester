@@ -57,7 +57,7 @@ Key differences
           <label>Size </label>
           <select
             id="brushSizeSelect"
-            onchange="update_paint_settings()"
+            onchange="update_ux_paint_settings()"
           >
             <option value="1">1px</option>
             <option value="5">5px</option>
@@ -70,7 +70,7 @@ Key differences
           <label>Scale size by </label>
           <select
             id="brushSizeControlSelect"
-            onchange="update_paint_settings()"
+            onchange="update_ux_paint_settings()"
           >
             <option value="USER">Don't scale</option>
             <option value="PRESSURE" selected>Pressure</option>
@@ -83,7 +83,7 @@ Key differences
           <label>Color </label>
           <select
             id="brushColorControlSelect"
-            onchange="update_paint_settings()"
+            onchange="update_ux_paint_settings()"
           >
             <option value="DEFAULT" selected>Black</option>
             <option value="RED">Red</option>
@@ -217,7 +217,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paint_settings()"
+            oninput="update_ux_paint_settings()"
           />
 
 
@@ -231,7 +231,7 @@ Key differences
           <select
             id="pressureQuantSelect"
             value="pressureQuantSize"
-            onchange="update_paint_settings()" >
+            onchange="update_ux_paint_settings()" >
             <option value="0" selected>OFF</option>
             <option value="4">4</option>
             <option value="8">8</option>
@@ -262,7 +262,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paint_settings()"
+            oninput="update_ux_paint_settings()"
           />
           <br />
           <label
@@ -277,7 +277,7 @@ Key differences
               step="0.1"
               value="0.0"
               list="pressureCurveTickmarks"
-              oninput="update_paint_settings()"
+              oninput="update_ux_paint_settings()"
             />
             <datalist id="pressureCurveTickmarks">
               <option value="0.0"></option>
@@ -304,7 +304,7 @@ Key differences
             max="1.0"
             step="0.01"
             value="0.0"
-            oninput="update_paint_settings()"
+            oninput="update_ux_paint_settings()"
           />
 
 		</div>

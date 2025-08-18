@@ -11,7 +11,7 @@ const canvas_context = canvas_el.getContext("2d");
 const curveCanvas = document.getElementById("curveCanvas");
 const curveCtx = curveCanvas.getContext("2d");
 
-update_paint_settings();
+update_ux_paint_settings();
 
 function initPage() {
   setCanvasProps();
@@ -56,7 +56,7 @@ function resetAdvanced() {
   ux_paint_brush_settings.pressure_curve_amount.value = 0.0;
   ux_paint_brush_settings.position_smoothing.value = 0.0;
   ux_paint_brush_settings.pressure_quant.value = 0.0;
-  update_paint_settings();
+  update_ux_paint_settings();
 }
 
 
