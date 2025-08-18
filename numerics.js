@@ -1,4 +1,15 @@
-function round_to_4_decimal_places(v) 
+
+function format4_1(num) {
+    const nbsp = "\u00A0";
+    return num.toFixed(1).padStart(6, nbsp );
+}
+
+function format1_4(num) {
+    return num.toFixed(4);
+}
+
+
+function round_to_4_decimal_places(v)
 {
   return Math.round(v * 10000) / 10000;
 }

@@ -1,6 +1,23 @@
 
+// STROKESTATS ----------------------------------------
 
 
+var ux_stroke_stats = {
+    stroke_count: document.getElementById("strokeCountVal"),
+    ptrevent_count: document.getElementById("pointerEventCountVal"),
+    stroke_duration: document.getElementById("strokeDurationVal"),
+    ptreventpersec: document.getElementById("strokeEventsPerSecVal"),
+};
+
+function update_ux_stroke_stats()
+{
+    ux_stroke_stats.stroke_count.innerText = paint_stroke_stats.stroke_count;
+    ux_stroke_stats.ptrevent_count.innerText = paint_stroke_stats.ptrevent_count;
+    ux_stroke_stats.stroke_duration.innerText = paint_stroke_stats.duration;
+    ux_stroke_stats.ptreventpersec.innerText = round_to_1_decimal_places( paint_stroke_stats.ptrevent_count / paint_stroke_stats.duration * 1000 ) ;
+}
+
+// POINTER STATS ----------------------------------------------
 var ux_pointer_stats = {
     buttons: document.getElementById("buttonsVal"),
     pressure_raw: document.getElementById("pressureRawVal"),
@@ -100,7 +117,7 @@ function update_ux_pointer_stats(ptr_rec) {
 
 
 
-//-----------------
+// BRUSH SETTINGS -----------------------------------
 
 
 var ux_paint_brush_settings = {
@@ -118,36 +135,9 @@ var ux_paint_brush_settings = {
 };
 
 
-
-
-// STROKESTATS
-var ux_stroke_stats = {
-  stroke_count: document.getElementById("strokeCountVal"),
-  ptrevent_count: document.getElementById("pointerEventCountVal"),
-  stroke_duration: document.getElementById("strokeDurationVal"),
-  ptreventpersec: document.getElementById("strokeEventsPerSecVal"),
-};
-
-// STROKESTATS
-function update_ux_stroke_stats()
-{
-  ux_stroke_stats.stroke_count.innerText = paint_stroke_stats.stroke_count;
-  ux_stroke_stats.ptrevent_count.innerText = paint_stroke_stats.ptrevent_count;
-  ux_stroke_stats.stroke_duration.innerText = paint_stroke_stats.duration;
-  ux_stroke_stats.ptreventpersec.innerText = round_to_1_decimal_places( paint_stroke_stats.ptrevent_count / paint_stroke_stats.duration * 1000 ) ;
-}
-
 var velocitySmoother = new NumericSmoother();
 velocitySmoother.setSmoothingAmount(0.5);
 
-function format4_1(num) {
-    const nbsp = "\u00A0";
-    return num.toFixed(1).padStart(6, nbsp );
-}
-
-function format1_4(num) {
-    return num.toFixed(4);
-}
 
 
 
