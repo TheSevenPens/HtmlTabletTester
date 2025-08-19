@@ -6,12 +6,12 @@ var pointer_button_code = {
     eraser: 0x20, // pen eraser button
 };
 
-var pointer_constants
+var pointer_constants =
 {
-    const max_tilt_altitude = 90.0;
-    const max_tilt_azimuth = 360.0;
-    const max_tilt_x = 60.0;
-    const max_tilt_y = 60.0;
+    max_tilt_altitude : 90.0,
+    max_tilt_azimuth:  360.0,
+    max_tilt_x : 60.0,
+    max_tilt_y: 60.0,
 }
 
 function button_to_string(button) {

@@ -8,6 +8,7 @@ var ux_paint_brush_settings = {
     pressure_smoothing: document.getElementById("pressureSmoothingSlider"),
     pressure_curve_amount: document.getElementById("pressureCurveAmountSlider"),
     tilt_smoothing: document.getElementById("tiltSmoothingSlider"),
+    tilt_smoothing_value: document.getElementById("tiltSmoothingValue"),
     pressure_quant: document.getElementById("pressureQuantSelect"),
 
 };
@@ -36,13 +37,11 @@ function update_ux_paint_settings() {
     paint_settings.tilt_altitude_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
     paint_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
 
-    // TODO: The lines below updated UI from the settings which is
-    // the opposite of what is supposed to happen in this method.
-    // Move somewhere else
     ux_pointer_stats.position_smoothing.innerText = paint_settings.pos_x_smoother.amount.toString();
     ux_pointer_stats.pressure_smoothing.innerText = paint_settings.pressure_smoother.amount.toString();
     ux_pointer_stats.pressure_curve_amount.innerText = paint_settings.pressure_curve_amount.amount.toFixed(1);
 
+    ux_paint_brush_settings.tilt_smoothing_value.innerText = paint_settings.tilt_x_smoother.amount.toString();
     drawPressureCurve();
 }
 

@@ -55,6 +55,7 @@ function resetAdvancedSettings() {
   ux_paint_brush_settings.pressure_curve_amount.value = 0.0;
   ux_paint_brush_settings.position_smoothing.value = 0.0;
   ux_paint_brush_settings.pressure_quant.value = 0.0;
+  ux_paint_brush_settings.tilt_smoothing.value = 0.0;
   update_ux_paint_settings();
 }
 
