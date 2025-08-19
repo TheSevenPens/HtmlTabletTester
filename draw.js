@@ -39,7 +39,7 @@ function drawPressureCurve() {
   app_pressure_curve_canvas_ctx.moveTo(0, app_pressure_curve_canvas.height);
   for (let x = 0; x <= app_pressure_curve_canvas.width; x++) {
     const pressure = x / app_pressure_curve_canvas.width;
-    const curvedPressure = paint_settings.pressure_curve_amount.apply( pressure );
+    const curvedPressure = pointer_settings.pressure_curve_amount.apply( pressure );
     const y = app_pressure_curve_canvas.height * (1 - curvedPressure);
     app_pressure_curve_canvas_ctx.lineTo(x, y);
   }

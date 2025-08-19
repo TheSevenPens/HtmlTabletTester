@@ -20,34 +20,33 @@ function update_paint_settings_from_ux() {
 
     // BRUSH FORMAT
     paint_settings.brush_size_control = ux_paint_brush_settings.brush_size.value;
-    var brush_size = parseInt(ux_pointer_stats.brush_size.value);
-    paint_settings.brush_size = brush_size;
+    paint_settings.brush_size = parseInt(ux_pointer_stats.brush_size.value);
     paint_settings.brush_color_control = ux_paint_brush_settings.brush_color.value;
 
     // POSITION
-    paint_settings.pos_x_smoother.amount = GetSmoothingValue(ux_pointer_settings.position_smoothing.value);
-    paint_settings.pos_y_smoother.amount = paint_settings.pos_x_smoother.amount;
+    pointer_settings.pos_x_smoother.amount = GetSmoothingValue(ux_pointer_settings.position_smoothing.value);
+    pointer_settings.pos_y_smoother.amount = pointer_settings.pos_x_smoother.amount;
 
     // PRESSURE
-    paint_settings.pressure_smoother.amount = GetSmoothingValue(ux_pointer_settings.pressure_smoothing.value);
-    paint_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_pointer_settings.pressureCurveAmountSlider.value));
-    paint_settings.pressure_quant = parseInt(ux_pointer_settings.pressure_quant.value);
+    pointer_settings.pressure_smoother.amount = GetSmoothingValue(ux_pointer_settings.pressure_smoothing.value);
+    pointer_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_pointer_settings.pressureCurveAmountSlider.value));
+    pointer_settings.pressure_quant = parseInt(ux_pointer_settings.pressure_quant.value);
 
     // TILT
     var tilt_smoothing = ux_pointer_settings.tilt_smoothing.value;
-    paint_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    paint_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    paint_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    paint_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    pointer_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    pointer_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    pointer_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    pointer_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
 
     update_ux_from_paint_settings();
 }
 
 function update_ux_from_paint_settings() {
-    ux_pointer_settings.position_smoothing.innerText = paint_settings.pos_x_smoother.amount.toString();
-    ux_pointer_settings.pressure_smoothing.innerText = paint_settings.pressure_smoother.amount.toString();
-    ux_pointer_settings.pressure_curve_amount.innerText = paint_settings.pressure_curve_amount.amount.toFixed(1);
-    ux_pointer_settings.tilt_smoothing_value.innerText = paint_settings.tilt_x_smoother.amount.toString();
+    ux_pointer_settings.position_smoothing.innerText = pointer_settings.pos_x_smoother.amount.toString();
+    ux_pointer_settings.pressure_smoothing.innerText = pointer_settings.pressure_smoother.amount.toString();
+    ux_pointer_settings.pressure_curve_amount.innerText = pointer_settings.pressure_curve_amount.amount.toFixed(1);
+    ux_pointer_settings.tilt_smoothing_value.innerText = pointer_settings.tilt_x_smoother.amount.toString();
     drawPressureCurve();
 }
 

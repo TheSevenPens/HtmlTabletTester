@@ -155,8 +155,8 @@ class PointerRecord {
         this.canvas_pos_x_raw = canvas_pos_x_raw;
         this.canvas_pos_y_raw = canvas_pos_y_raw;
 
-        this.canvas_pos_x = paint_settings.pos_x_smoother.apply(canvas_pos_x_raw);
-        this.canvas_pos_y = paint_settings.pos_y_smoother.apply(canvas_pos_y_raw);
+        this.canvas_pos_x = pointer_settings.pos_x_smoother.apply(canvas_pos_x_raw);
+        this.canvas_pos_y = pointer_settings.pos_y_smoother.apply(canvas_pos_y_raw);
 
         this.pressure_raw = pressure_raw;
         this.pressure_processed = process_pressure(pressure_raw);
@@ -169,8 +169,8 @@ class PointerRecord {
         this.tilt_azimuth = radians_to_degrees(ptr_event.azimuthAngle);
         this.tilt_altitude = radians_to_degrees(ptr_event.altitudeAngle);
 
-        this.tilt_x_processed = paint_settings.tilt_x_smoother.apply(ptr_event.tiltX);
-        this.tilt_y_processed = paint_settings.tilt_y_smoother.apply(ptr_event.tiltY);
+        this.tilt_x_processed = pointer_settings.tilt_x_smoother.apply(ptr_event.tiltX);
+        this.tilt_y_processed = pointer_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
         this.tilt_azimuth_processed = tiltxy_to_tiltazimuth(this.tilt_x_processed, this.tilt_y_processed);
         this.tilt_altitude_processed = tiltxy_to_tiltangle(this.tilt_x_processed, this.tilt_y_processed);
@@ -192,7 +192,7 @@ class PointerRecord {
 
                     const dist = Math.hypot(dx, dy);
                     const raw_speed = dist / dt;
-                    const smoothed_speed = paint_settings.velocity_smoother.apply(raw_speed);
+                    const smoothed_speed = pointer_settings.velocity_smoother.apply(raw_speed);
                     var direction = Math.atan2(dy, dx) * 180.0 / Math.PI;
                     if (direction < 0) {
                         direction = 359 + direction;
@@ -217,15 +217,15 @@ function get_ptr_rec(canvas_rect, ptr_event) {
 function process_pressure(input_pressure) {
     var output_pressure = input_pressure;
     // FIRST QUANTIZE
-    if (paint_settings.pressure_quant > 0) {
-        output_pressure = quantize(input_pressure, paint_settings.pressure_quant);
+    if (pointer_settings.pressure_quant > 0) {
+        output_pressure = quantize(input_pressure, pointer_settings.pressure_quant);
     }
 
     // SECOND APPLY A CURVE
-    output_pressure = paint_settings.pressure_curve_amount.apply(output_pressure);
+    output_pressure = pointer_settings.pressure_curve_amount.apply(output_pressure);
 
     // THIRD APPLY SMOOTHING (negative old values mean there is no old value)
-    output_pressure = paint_settings.pressure_smoother.apply(output_pressure);
+    output_pressure = pointer_settings.pressure_smoother.apply(output_pressure);
 
 
     return output_pressure;

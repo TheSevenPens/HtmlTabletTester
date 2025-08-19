@@ -9,6 +9,10 @@ var paint_settings =
         brush_color_control: "DEFAULT",
         eraser_size: 30,
         linecap: "round",
+    };
+
+var pointer_settings =
+    {
         pos_x_smoother: new NumericSmoother(0.0),
         pos_y_smoother: new NumericSmoother(0.0),
         pressure_smoother: new NumericSmoother(0.0),
