@@ -68,7 +68,7 @@ function update_ux_pointer_stats(ptr_rec) {
             if (dt > 0) {
 
                 var dist = Math.hypot(dx, dy);
-                var speed = velocitySmoother.apply(dist / dt);
+                var speed = paint_settings.velocity_smoother.apply(dist / dt);
                 var direction = Math.atan2(dy, dx) * 180 / Math.PI;
                 if (direction < 0) {
                     direction = 359 + direction;

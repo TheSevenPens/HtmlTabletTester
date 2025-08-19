@@ -21,27 +21,27 @@ function update_ux_paint_settings() {
     paint_settings.brush_color_control = ux_paint_brush_settings.brush_color.value;
 
     // POSITION
-    paint_settings.pos_x_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.position_smoothing.value);
-    paint_settings.pos_y_smoothing.amount = paint_settings.pos_x_smoothing.amount;
+    paint_settings.pos_x_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.position_smoothing.value);
+    paint_settings.pos_y_smoother.amount = paint_settings.pos_x_smoother.amount;
 
     // PRESSURE
-    paint_settings.pressure_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.pressure_smoothing.value);
-    paint_settings.pressure_curve.setCurveAmount(parseFloat(ux_paint_brush_settings.pressureCurveAmountSlider.value));
+    paint_settings.pressure_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.pressure_smoothing.value);
+    paint_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_paint_brush_settings.pressureCurveAmountSlider.value));
     paint_settings.pressure_quant = parseInt(ux_paint_brush_settings.pressure_quant.value);
 
 
     // TILT
-    paint_settings.tilt_x_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
+    paint_settings.tilt_x_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
     paint_settings.tilt_y_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
-    paint_settings.tilt_altitude_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
+    paint_settings.tilt_altitude_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
     paint_settings.tilt_azimuth_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
 
     // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
     // Move somewhere else
-    ux_pointer_stats.position_smoothing.innerText = paint_settings.pos_x_smoothing.amount.toString();
-    ux_pointer_stats.pressure_smoothing.innerText = paint_settings.pressure_smoothing.amount.toString();
-    ux_pointer_stats.pressure_curve_amount.innerText = paint_settings.pressure_curve.amount.toFixed(1);
+    ux_pointer_stats.position_smoothing.innerText = paint_settings.pos_x_smoother.amount.toString();
+    ux_pointer_stats.pressure_smoothing.innerText = paint_settings.pressure_smoother.amount.toString();
+    ux_pointer_stats.pressure_curve_amount.innerText = paint_settings.pressure_curve_amount.amount.toFixed(1);
 
     drawPressureCurve();
 }

@@ -149,8 +149,8 @@ class PointerRecord {
     this.canvas_pos_x_raw = canvas_pos_x_raw;
     this.canvas_pos_y_raw = canvas_pos_y_raw;
 
-    this.canvas_pos_x = paint_settings.pos_x_smoothing.apply(canvas_pos_x_raw);
-    this.canvas_pos_y = paint_settings.pos_y_smoothing.apply(canvas_pos_y_raw);
+    this.canvas_pos_x = paint_settings.pos_x_smoother.apply(canvas_pos_x_raw);
+    this.canvas_pos_y = paint_settings.pos_y_smoother.apply(canvas_pos_y_raw);
         
     this.pressure_raw= pressure_raw;
     this.pressure_processed = process_pressure(pressure_raw);
@@ -163,7 +163,7 @@ class PointerRecord {
     this.tilt_azimuth = radians_to_degrees( ptr_event.azimuthAngle );
     this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
         
-    this.tilt_x_processed = paint_settings.tilt_x_smoothing.apply( ptr_event.tiltX ) ;
+    this.tilt_x_processed = paint_settings.tilt_x_smoother.apply( ptr_event.tiltX ) ;
     this.tilt_y_processed = paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY);
 
     this.tilt_azimuth_processed = tiltxy_to_tiltazimuth( this.tilt_x_processed , this.tilt_y_processed );
@@ -192,10 +192,10 @@ function process_pressure( input_pressure )
     }
     
     // SECOND APPLY A CURVE
-    output_pressure = paint_settings.pressure_curve.apply( output_pressure );  
+    output_pressure = paint_settings.pressure_curve_amount.apply( output_pressure );
 
     // THIRD APPLY SMOOTHING (negative old values mean there is no old value)
-    output_pressure = paint_settings.pressure_smoothing.apply( output_pressure );
+    output_pressure = paint_settings.pressure_smoother.apply( output_pressure );
 
     
     return output_pressure;

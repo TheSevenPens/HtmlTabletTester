@@ -4,9 +4,9 @@ function paint_stroke_start()
     paint_state.isDrawing = true;
     paint_stroke_stats.ptrevent_count = 0;
     paint_stroke_stats.start_time = performance.now();
-    paint_settings.pos_x_smoothing.resetState();
-    paint_settings.pos_y_smoothing.resetState();
-    paint_settings.pressure_smoothing.resetState();
+    paint_settings.pos_x_smoother.resetState();
+    paint_settings.pos_y_smoother.resetState();
+    paint_settings.pressure_smoother.resetState();
 }
 
 function paint_stroke_stop()
@@ -122,13 +122,13 @@ function paint_dab( ptr_rec )
     {
         // If No pressure input
         // - reset any smoothing
-        paint_settings.pos_x_smoothing.resetState();
-        paint_settings.pos_y_smoothing.resetState();
-        paint_settings.pressure_smoothing.resetState();
-        paint_settings.tilt_x_smoothing.resetState();
+        paint_settings.pos_x_smoother.resetState();
+        paint_settings.pos_y_smoother.resetState();
+        paint_settings.pressure_smoother.resetState();
+        paint_settings.tilt_x_smoother.resetState();
         paint_settings.tilt_y_smoothing.resetState();
         paint_settings.tilt_azimuth_smoothing.resetState();
-        paint_settings.tilt_altitude_smoothing.resetState();
+        paint_settings.tilt_altitude_smoother.resetState();
 
     }
 
