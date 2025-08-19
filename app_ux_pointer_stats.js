@@ -64,16 +64,17 @@ function update_ux_pointer_stats(ptr_rec) {
         var dy = ptr_rec.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
 
         if (paint_state.time_old != null) {
-            var dt = (ptr_rec.time - paint_state.time_old) / 1000;
+            const dt = (ptr_rec.time - paint_state.time_old) / 1000.0;
             if (dt > 0) {
 
-                var dist = Math.hypot(dx, dy);
-                var speed = paint_settings.velocity_smoother.apply(dist / dt);
-                var direction = Math.atan2(dy, dx) * 180 / Math.PI;
+                const dist = Math.hypot(dx, dy);
+                const raw_speed = dist / dt;
+                const smoothed_speed = paint_settings.velocity_smoother.apply(raw_speed);
+                var direction = Math.atan2(dy, dx) * 180.0 / Math.PI;
                 if (direction < 0) {
                     direction = 359 + direction;
                 }
-                ux_pointer_stats.velocity.innerText = format4_1(speed);
+                ux_pointer_stats.velocity.innerText = format4_1(smoothed_speed);
                 ux_pointer_stats.direction.innerText = format4_1(direction);
 
             }

@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="93d27d59-5caa-45df-8035-706ad06f660b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_paint.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_paint.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_pointer.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_pointer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_ux_paint_settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_ux_paint_settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_ux_pointer_stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_ux_pointer_stats.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/draw.js" beforeDir="false" afterPath="$PROJECT_DIR$/draw.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paint.js" beforeDir="false" afterPath="$PROJECT_DIR$/paint.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paint_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/paint_data.js" afterDir="false" />
     </list>
@@ -68,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1755552336490</updated>
       <workItem from="1755552337743" duration="5508000" />
-      <workItem from="1755558399886" duration="936000" />
+      <workItem from="1755558399886" duration="1409000" />
     </task>
     <servers />
   </component>

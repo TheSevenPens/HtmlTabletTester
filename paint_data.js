@@ -14,11 +14,11 @@ var paint_settings =
         pressure_smoother: new NumericSmoother(0.0),
         pressure_curve_amount: new NumericCurve(0.0),
         tilt_x_smoother: new NumericSmoother(0.0),
-        tilt_y_smoothing: new NumericSmoother(0.0),
-        tilt_azimuth_smoothing: new NumericSmoother(0.0),
+        tilt_y_smoother: new NumericSmoother(0.0),
+        tilt_azimuth_smoother: new NumericSmoother(0.0),
         tilt_altitude_smoother: new NumericSmoother(0.0),
-        velocity_smoother: new NumericSmoother(0.5),
-        pressue_quant: 0,
+        velocity_smoother: new NumericSmoother(0.999),
+        pressure_quantization_levels: 0,
     };
 
 var paint_current_dab_settings =

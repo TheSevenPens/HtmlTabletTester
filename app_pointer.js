@@ -164,7 +164,7 @@ class PointerRecord {
     this.tilt_altitude = radians_to_degrees( ptr_event.altitudeAngle );
         
     this.tilt_x_processed = paint_settings.tilt_x_smoother.apply( ptr_event.tiltX ) ;
-    this.tilt_y_processed = paint_settings.tilt_y_smoothing.apply(ptr_event.tiltY);
+    this.tilt_y_processed = paint_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
     this.tilt_azimuth_processed = tiltxy_to_tiltazimuth( this.tilt_x_processed , this.tilt_y_processed );
     this.tilt_altitude_processed = tiltxy_to_tiltangle( this.tilt_x_processed , this.tilt_y_processed );

@@ -7,6 +7,11 @@ function paint_stroke_start()
     paint_settings.pos_x_smoother.resetState();
     paint_settings.pos_y_smoother.resetState();
     paint_settings.pressure_smoother.resetState();
+    paint_settings.tilt_x_smoother.resetState();
+    paint_settings.tilt_y_smoother.resetState();
+    paint_settings.tilt_azimuth_smoother.resetState();
+    paint_settings.tilt_altitude_smoother.resetState();
+    paint_settings.velocity_smoother.resetState();
 }
 
 function paint_stroke_stop()
@@ -126,8 +131,8 @@ function paint_dab( ptr_rec )
         paint_settings.pos_y_smoother.resetState();
         paint_settings.pressure_smoother.resetState();
         paint_settings.tilt_x_smoother.resetState();
-        paint_settings.tilt_y_smoothing.resetState();
-        paint_settings.tilt_azimuth_smoothing.resetState();
+        paint_settings.tilt_y_smoother.resetState();
+        paint_settings.tilt_azimuth_smoother.resetState();
         paint_settings.tilt_altitude_smoother.resetState();
 
     }

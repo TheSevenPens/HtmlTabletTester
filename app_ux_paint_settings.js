@@ -32,9 +32,9 @@ function update_ux_paint_settings() {
 
     // TILT
     paint_settings.tilt_x_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
-    paint_settings.tilt_y_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
+    paint_settings.tilt_y_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
     paint_settings.tilt_altitude_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
-    paint_settings.tilt_azimuth_smoothing.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
+    paint_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
 
     // TODO: The lines below updated UI from the settings which is
     // the opposite of what is supposed to happen in this method.
