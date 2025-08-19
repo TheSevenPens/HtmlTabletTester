@@ -1,4 +1,4 @@
-var EPenButton = {
+var pointer_button_code = {
     none: 0x0, // nothing is pressed
     tip: 0x1, // left mouse, touch contact, pen contact
     barrel: 0x2, // right mouse, pen barrel button
@@ -6,22 +6,24 @@ var EPenButton = {
     eraser: 0x20, // pen eraser button
 };
 
-const max_tilt_altitude = 90.0;
-const max_tilt_azimuth = 360.0;
-const max_tilt_x = 60.0;
-const max_tilt_y = 60.0;
-
+var pointer_constants
+{
+    const max_tilt_altitude = 90.0;
+    const max_tilt_azimuth = 360.0;
+    const max_tilt_x = 60.0;
+    const max_tilt_y = 60.0;
+}
 
 function button_to_string(button) {
-    if (button == EPenButton.none) {
+    if (button === pointer_button_code.none) {
         return "none";
-    } else if (button === EPenButton.tip) {
+    } else if (button === pointer_button_code.tip) {
         return "pen tip";
-    } else if (button === EPenButton.barrel) {
+    } else if (button === pointer_button_code.barrel) {
         return "pen button";
-    } else if (button === EPenButton.middle) {
+    } else if (button === pointer_button_code.middle) {
         return "middle mouse";
-    } else if (button === EPenButton.eraser) {
+    } else if (button === pointer_button_code.eraser) {
         return "eraser";
     } else {
         return "unknown";

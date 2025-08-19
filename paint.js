@@ -42,19 +42,19 @@ function get_dab_size( ptr_rec )
     }
     else if (paint_settings.brush_size_control === "TILTX")
     {
-        new_size = new_size * ptr_rec.tilt_x_processed / max_tilt_x;  
+        new_size = new_size * ptr_rec.tilt_x_processed / pointer_constants.max_tilt_x;
     }
     else if (paint_settings.brush_size_control === "TILTY")
     {
-        new_size = new_size * ptr_rec.tilt_y_processed / max_tilt_y;  
+        new_size = new_size * ptr_rec.tilt_y_processed / pointer_constants.max_tilt_y;
     }
     else if (paint_settings.brush_size_control === "TILTAZ")
     {
-        new_size = new_size * ptr_rec.tilt_azimuth_processed / max_tilt_azimuth;  
+        new_size = new_size * ptr_rec.tilt_azimuth_processed / pointer_constants.max_tilt_azimuth;
     }
     else if (paint_settings.brush_size_control === "TILTALT")
     {
-        new_size = new_size * ((1.0 - (ptr_rec.tilt_altitude_processed / max_tilt_altitude)) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger 
+        new_size = new_size * ((1.0 - (ptr_rec.tilt_altitude_processed / pointer_constants.max_tilt_altitude)) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger
     }
     new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
     new_size = round_to_3_decimal_places( new_size );
@@ -65,7 +65,7 @@ function get_dab_color( ptr_rec )
 {
     var dab_color = setting_stylus_pen_color;
 
-    if (ptr_rec.buttons === EPenButton.eraser)
+    if (ptr_rec.buttons === pointer_button_code.eraser)
     {
         dab_color = app_settings.canvas_color;
     }
@@ -76,7 +76,7 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control ==="TILTALT")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_altitude_processed/ max_tilt_altitude);
+        var hue = lerp(360, 150, ptr_rec.tilt_altitude_processed/ pointer_constants.max_tilt_altitude);
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="TILTAZ")
@@ -86,12 +86,12 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control ==="TILTX")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_x_processed/max_tilt_x );
+        var hue = lerp(360, 150, ptr_rec.tilt_x_processed/pointer_constants.max_tilt_x );
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="TILTY")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_y_processed/max_tilt_y);
+        var hue = lerp(360, 150, ptr_rec.tilt_y_processed/pointer_constants.max_tilt_y);
         dab_color = `hsl(${hue}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="BARRELROTATION")
