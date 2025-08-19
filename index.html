@@ -42,7 +42,7 @@
             <label>Size </label>
             <label for="brushSizeSelect"></label><select
                 id="brushSizeSelect"
-                onchange="update_paint_settings_from_ux()"
+                onchange="update_paint_and_pointer_settings_from_ux()"
         >
             <option value="1">1px</option>
             <option value="5">5px</option>
@@ -55,7 +55,7 @@
             <label>Scale size by </label>
             <label for="brushSizeControlSelect"></label><select
                 id="brushSizeControlSelect"
-                onchange="update_paint_settings_from_ux()"
+                onchange="update_paint_and_pointer_settings_from_ux()"
         >
             <option value="USER">Don't scale</option>
             <option value="PRESSURE" selected>Pressure</option>
@@ -68,7 +68,7 @@
             <label>Color </label>
             <label for="brushColorControlSelect"></label><select
                 id="brushColorControlSelect"
-                onchange="update_paint_settings_from_ux()"
+                onchange="update_paint_and_pointer_settings_from_ux()"
         >
             <option value="DEFAULT" selected>Black</option>
             <option value="RED">Red</option>
@@ -199,7 +199,7 @@
                     max="1.0"
                     step="0.01"
                     value="0.0"
-                    oninput="update_paint_settings_from_ux()"
+                    oninput="update_paint_and_pointer_settings_from_ux()"
             />
 
 
@@ -212,7 +212,7 @@
             <label>Pressure Quant </label>
             <label for="pressureQuantSelect"></label><select
                 id="pressureQuantSelect"
-                onchange="update_paint_settings_from_ux()">
+                onchange="update_paint_and_pointer_settings_from_ux()">
             <option value="0" selected>OFF</option>
             <option value="4">4</option>
             <option value="8">8</option>
@@ -243,7 +243,7 @@
                     max="1.0"
                     step="0.01"
                     value="0.0"
-                    oninput="update_paint_settings_from_ux()"
+                    oninput="update_paint_and_pointer_settings_from_ux()"
             />
             <br/>
             <label
@@ -258,7 +258,7 @@
                         step="0.1"
                         value="0.0"
                         list="pressureCurveTickmarks"
-                        oninput="update_paint_settings_from_ux()"
+                        oninput="update_paint_and_pointer_settings_from_ux()"
                 />
                 <datalist id="pressureCurveTickmarks">
                     <option value="0.0"></option>
@@ -286,7 +286,7 @@
                     max="1.0"
                     step="0.01"
                     value="0.0"
-                    oninput="update_paint_settings_from_ux()"
+                    oninput="update_paint_and_pointer_settings_from_ux()"
             />
 
         </div>

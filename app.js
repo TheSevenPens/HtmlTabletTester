@@ -51,12 +51,12 @@ function toggleAdvancedSettings() {
 }
 
 function resetAdvancedSettings() {
-  ux_paint_brush_settings.pressure_smoothing.value = 0.0;
-  ux_paint_brush_settings.pressure_curve_amount.value = 0.0;
-  ux_paint_brush_settings.position_smoothing.value = 0.0;
-  ux_paint_brush_settings.pressure_quant.value = 0.0;
-  ux_paint_brush_settings.tilt_smoothing.value = 0.0;
-  update_paint_settings_from_ux();
+  ux_paint_settings.pressure_smoothing.value = 0.0;
+  ux_paint_settings.pressure_curve_amount.value = 0.0;
+  ux_paint_settings.position_smoothing.value = 0.0;
+  ux_paint_settings.pressure_quant.value = 0.0;
+  ux_paint_settings.tilt_smoothing.value = 0.0;
+  update_paint_and_pointer_settings_from_ux();
 }
 
 function register_event_handlers() {
@@ -74,5 +74,5 @@ function register_document_hotkey_event_listeners() {
   });
 }
 
-update_paint_settings_from_ux();
+update_paint_and_pointer_settings_from_ux();
 register_event_handlers();

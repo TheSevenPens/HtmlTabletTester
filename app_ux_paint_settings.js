@@ -1,4 +1,4 @@
-var ux_paint_brush_settings = {
+var ux_paint_settings = {
     brush_size: document.getElementById("brushSizeControlSelect"),
     brush_color: document.getElementById("brushColorControlSelect"),
 };
@@ -16,13 +16,15 @@ var ux_pointer_settings = {
 };
 
 
-function update_paint_settings_from_ux() {
-
-    // BRUSH FORMAT
-    paint_settings.brush_size_control = ux_paint_brush_settings.brush_size.value;
+function update_paint_and_pointer_settings_from_ux() {
+    paint_settings.brush_size_control = ux_paint_settings.brush_size.value;
     paint_settings.brush_size = parseInt(ux_pointer_stats.brush_size.value);
-    paint_settings.brush_color_control = ux_paint_brush_settings.brush_color.value;
+    paint_settings.brush_color_control = ux_paint_settings.brush_color.value;
+    update_pointer_settings_from_ux();
+    update_ux_from_pointer_settings();
+}
 
+function update_pointer_settings_from_ux() {
     // POSITION
     pointer_settings.pos_x_smoother.amount = GetSmoothingValue(ux_pointer_settings.position_smoothing.value);
     pointer_settings.pos_y_smoother.amount = pointer_settings.pos_x_smoother.amount;
@@ -38,11 +40,8 @@ function update_paint_settings_from_ux() {
     pointer_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
     pointer_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
     pointer_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
-
-    update_ux_from_paint_settings();
 }
-
-function update_ux_from_paint_settings() {
+function update_ux_from_pointer_settings() {
     ux_pointer_settings.position_smoothing.innerText = pointer_settings.pos_x_smoother.amount.toString();
     ux_pointer_settings.pressure_smoothing.innerText = pointer_settings.pressure_smoother.amount.toString();
     ux_pointer_settings.pressure_curve_amount.innerText = pointer_settings.pressure_curve_amount.amount.toFixed(1);
