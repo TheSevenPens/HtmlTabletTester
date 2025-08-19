@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-
-<!--
-
-This is derived from the Wacom Scribble Demo: https://github.com/Wacom-Developer/wacom-device-kit-web
-
-Key differences
-- Basic cleanup and refactoring
-- Does not have different brushs colors. The brush colors are static.
-- Removed any IE-specific code
-
--->
 <html lang="en">
 <head>
     <script src="geometry.js"></script>
@@ -21,7 +10,6 @@ Key differences
     <script src="paint_data.js"></script>
     <script src="paint.js"></script>
     <script src="app_pointer.js"></script>
-
     <link rel="stylesheet" href="style.css"/>
     <title>SevenPens Tablet tester</title>
 </head>
@@ -38,15 +26,13 @@ Key differences
                 href="https://thesevenpens.github.io/HtmlTabletTester/"
                 target="_blank"
                 rel="noopener noreferrer"
-        >DOCS</a
-        >
+        >DOCS</a>
         |
         <a
                 href="https://github.com/TheSevenPens/HtmlTabletTester"
                 target="_blank"
                 rel="noopener noreferrer"
-        >CODE</a
-        >
+        >CODE</a>
     </p>
 
     <div class="controlscontainer">
@@ -55,45 +41,45 @@ Key differences
             <br/>
             <label>Size </label>
             <label for="brushSizeSelect"></label><select
-                    id="brushSizeSelect"
-                    onchange="update_ux_paint_settings()"
-            >
-                <option value="1">1px</option>
-                <option value="5">5px</option>
-                <option value="10">10px</option>
-                <option value="50" selected>50px</option>
-                <option value="100">100px</option>
-                <option value="300">300px</option>
-            </select>
+                id="brushSizeSelect"
+                onchange="update_ux_paint_settings()"
+        >
+            <option value="1">1px</option>
+            <option value="5">5px</option>
+            <option value="10">10px</option>
+            <option value="50" selected>50px</option>
+            <option value="100">100px</option>
+            <option value="300">300px</option>
+        </select>
             <br/>
             <label>Scale size by </label>
             <label for="brushSizeControlSelect"></label><select
-                    id="brushSizeControlSelect"
-                    onchange="update_ux_paint_settings()"
-            >
-                <option value="USER">Don't scale</option>
-                <option value="PRESSURE" selected>Pressure</option>
-                <option value="TILTX">Tilt (X)</option>
-                <option value="TILTY">Tilt (Y)</option>
-                <option value="TILTAZ">Tilt (azimuth)</option>
-                <option value="TILTALT">Tilt (altitude)</option>
-            </select>
+                id="brushSizeControlSelect"
+                onchange="update_ux_paint_settings()"
+        >
+            <option value="USER">Don't scale</option>
+            <option value="PRESSURE" selected>Pressure</option>
+            <option value="TILTX">Tilt (X)</option>
+            <option value="TILTY">Tilt (Y)</option>
+            <option value="TILTAZ">Tilt (azimuth)</option>
+            <option value="TILTALT">Tilt (altitude)</option>
+        </select>
             <br/>
             <label>Color </label>
             <label for="brushColorControlSelect"></label><select
-                    id="brushColorControlSelect"
-                    onchange="update_ux_paint_settings()"
-            >
-                <option value="DEFAULT" selected>Black</option>
-                <option value="RED">Red</option>
-                <option value="PRESSURE">Pressure</option>
-                <option value="TILTX">Tilt (X)</option>
-                <option value="TILTY">Tilt (Y)</option>
-                <option value="TILTAZ">Tilt (azimuth)</option>
-                <option value="TILTALT">Tilt (altitude)</option>
-                <option value="BARRELROTATION">Barrel rotation</option>
-                <option value="ERASER">Eraser</option>
-            </select>
+                id="brushColorControlSelect"
+                onchange="update_ux_paint_settings()"
+        >
+            <option value="DEFAULT" selected>Black</option>
+            <option value="RED">Red</option>
+            <option value="PRESSURE">Pressure</option>
+            <option value="TILTX">Tilt (X)</option>
+            <option value="TILTY">Tilt (Y)</option>
+            <option value="TILTAZ">Tilt (azimuth)</option>
+            <option value="TILTALT">Tilt (altitude)</option>
+            <option value="BARRELROTATION">Barrel rotation</option>
+            <option value="ERASER">Eraser</option>
+        </select>
 
             <br/>
             <label>
@@ -137,7 +123,7 @@ Key differences
         </div>
 
         <div class="controlscolumn">
-            <span style="font-weight: bold">BARREL ROTATION & TILT </span>
+            <span style="font-weight: bold">BARREL ROTATION & TILT </span> <br/>
             Barrel rotation:
             <label>
                 <span id="barrelRotationVal" class="monospace">---</span>
@@ -225,21 +211,21 @@ Key differences
 
             <label>Pressure Quant </label>
             <label for="pressureQuantSelect"></label><select
-                    id="pressureQuantSelect"
-                    onchange="update_ux_paint_settings()">
-                <option value="0" selected>OFF</option>
-                <option value="4">4</option>
-                <option value="8">8</option>
-                <option value="16">16</option>
-                <option value="32">32</option>
-                <option value="64">64</option>
-                <option value="128">128</option>
-                <option value="256">256</option>
-                <option value="1024">1024</option>
-                <option value="2048">2048</option>
-                <option value="4096">4096</option>
-                <option value="8129">8192</option>
-            </select>
+                id="pressureQuantSelect"
+                onchange="update_ux_paint_settings()">
+            <option value="0" selected>OFF</option>
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+            <option value="64">64</option>
+            <option value="128">128</option>
+            <option value="256">256</option>
+            <option value="1024">1024</option>
+            <option value="2048">2048</option>
+            <option value="4096">4096</option>
+            <option value="8129">8192</option>
+        </select>
             <br/>
 
 
