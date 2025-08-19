@@ -51,11 +51,11 @@ function toggleAdvancedSettings() {
 }
 
 function resetAdvancedSettings() {
-  ux_paint_settings.pressure_smoothing.value = 0.0;
-  ux_paint_settings.pressure_curve_amount.value = 0.0;
-  ux_paint_settings.position_smoothing.value = 0.0;
-  ux_paint_settings.pressure_quant.value = 0.0;
-  ux_paint_settings.tilt_smoothing.value = 0.0;
+  ux_paint_settings.pressure_smoothing_slider.value = 0.0;
+  ux_paint_settings.pressure_curve_amount_slider.value = 0.0;
+  ux_paint_settings.position_smoothing_slider.value = 0.0;
+  ux_paint_settings.pressure_quantization_dropdown.value = 0.0;
+  ux_paint_settings.tilt_smoothing_slider.value = 0.0;
   update_settings_from_ux();
 }
 
