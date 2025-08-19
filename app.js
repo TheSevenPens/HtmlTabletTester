@@ -56,7 +56,7 @@ function resetAdvancedSettings() {
   ux_paint_brush_settings.position_smoothing.value = 0.0;
   ux_paint_brush_settings.pressure_quant.value = 0.0;
   ux_paint_brush_settings.tilt_smoothing.value = 0.0;
-  update_ux_paint_settings();
+  update_paint_settings_from_ux();
 }
 
 function register_event_handlers() {
@@ -74,5 +74,5 @@ function register_document_hotkey_event_listeners() {
   });
 }
 
-update_ux_paint_settings();
+update_paint_settings_from_ux();
 register_event_handlers();

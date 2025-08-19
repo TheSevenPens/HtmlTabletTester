@@ -13,7 +13,7 @@ var ux_paint_brush_settings = {
 
 };
 
-function update_ux_paint_settings() {
+function update_paint_settings_from_ux() {
 
     // BRUSH FORMAT
     paint_settings.brush_size_control = ux_paint_brush_settings.brush_size.value;
@@ -37,6 +37,10 @@ function update_ux_paint_settings() {
     paint_settings.tilt_altitude_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
     paint_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(ux_paint_brush_settings.tilt_smoothing.value);
 
+    update_ux_from_paint_settings();
+}
+
+function update_ux_from_paint_settings() {
     ux_pointer_stats.position_smoothing.innerText = paint_settings.pos_x_smoother.amount.toString();
     ux_pointer_stats.pressure_smoothing.innerText = paint_settings.pressure_smoother.amount.toString();
     ux_pointer_stats.pressure_curve_amount.innerText = paint_settings.pressure_curve_amount.amount.toFixed(1);
