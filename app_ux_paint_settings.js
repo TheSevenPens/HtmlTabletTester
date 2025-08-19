@@ -16,12 +16,16 @@ var ux_pointer_settings = {
 };
 
 
-function update_paint_and_pointer_settings_from_ux() {
+function update_settings_from_ux() {
+    update_paint_settings_from_ux
+    update_pointer_settings_from_ux();
+    update_ux_from_pointer_settings();
+}
+
+function update_paint_settings_from_ux() {
     paint_settings.brush_size_control = ux_paint_settings.brush_size.value;
     paint_settings.brush_size = parseInt(ux_pointer_stats.brush_size.value);
     paint_settings.brush_color_control = ux_paint_settings.brush_color.value;
-    update_pointer_settings_from_ux();
-    update_ux_from_pointer_settings();
 }
 
 function update_pointer_settings_from_ux() {
