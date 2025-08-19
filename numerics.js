@@ -81,7 +81,7 @@ class NumericCurve {
   apply(input) {
     var output = input;
     var z = -1.0 *  this.amount;
-    if (z==0.0)
+    if (z===0.0)
     {
         output = input;
     }

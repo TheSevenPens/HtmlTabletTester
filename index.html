@@ -10,7 +10,7 @@ Key differences
 - Removed any IE-specific code
 
 -->
-<html>
+<html lang="en">
 <head>
     <script src="geometry.js"></script>
     <script src="ranges.js"></script>
@@ -54,7 +54,7 @@ Key differences
             <span style="font-weight: bold">STROKE FORMAT</span>
             <br/>
             <label>Size </label>
-            <select
+            <label for="brushSizeSelect"></label><select
                     id="brushSizeSelect"
                     onchange="update_ux_paint_settings()"
             >
@@ -67,7 +67,7 @@ Key differences
             </select>
             <br/>
             <label>Scale size by </label>
-            <select
+            <label for="brushSizeControlSelect"></label><select
                     id="brushSizeControlSelect"
                     onchange="update_ux_paint_settings()"
             >
@@ -80,7 +80,7 @@ Key differences
             </select>
             <br/>
             <label>Color </label>
-            <select
+            <label for="brushColorControlSelect"></label><select
                     id="brushColorControlSelect"
                     onchange="update_ux_paint_settings()"
             >
@@ -224,9 +224,8 @@ Key differences
             <br/>
 
             <label>Pressure Quant </label>
-            <select
+            <label for="pressureQuantSelect"></label><select
                     id="pressureQuantSelect"
-                    value="pressureQuantSize"
                     onchange="update_ux_paint_settings()">
                 <option value="0" selected>OFF</option>
                 <option value="4">4</option>

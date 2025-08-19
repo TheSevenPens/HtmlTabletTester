@@ -15,13 +15,13 @@ const max_tilt_y = 60.0;
 function button_to_string(button) {
     if (button == EPenButton.none) {
         return "none";
-    } else if (button == EPenButton.tip) {
+    } else if (button === EPenButton.tip) {
         return "pen tip";
-    } else if (button == EPenButton.barrel) {
+    } else if (button === EPenButton.barrel) {
         return "pen button";
-    } else if (button == EPenButton.middle) {
+    } else if (button === EPenButton.middle) {
         return "middle mouse";
-    } else if (button == EPenButton.eraser) {
+    } else if (button === EPenButton.eraser) {
         return "eraser";
     } else {
         return "unknown";
@@ -30,9 +30,9 @@ function button_to_string(button) {
 
 function is_target_pointer_event(ptr_event) {
     return (
-        ptr_event.pointerType == "mouse" ||
-        ptr_event.pointerType == "pen" ||
-        ptr_event.pointerType == "touch"
+        ptr_event.pointerType === "mouse" ||
+        ptr_event.pointerType === "pen" ||
+        ptr_event.pointerType === "touch"
     );
 }
 
