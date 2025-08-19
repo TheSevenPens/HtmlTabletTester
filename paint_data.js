@@ -17,7 +17,7 @@ var paint_settings =
         tilt_y_smoother: new NumericSmoother(0.0),
         tilt_azimuth_smoother: new NumericSmoother(0.0),
         tilt_altitude_smoother: new NumericSmoother(0.0),
-        velocity_smoother: new NumericSmoother(0.999),
+        velocity_smoother: new NumericSmoother(0.9),
         pressure_quantization_levels: 0,
     };
 

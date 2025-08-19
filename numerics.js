@@ -101,9 +101,10 @@ class NumericCurve {
 
 
 class NumericSmoother {
-  constructor() {
+  constructor(amount) {
     this.resetSettings();
     this.resetState();
+    this.setSmoothingAmount(amount);
   }
 
 
