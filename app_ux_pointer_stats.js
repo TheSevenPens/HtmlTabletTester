@@ -59,31 +59,10 @@ function update_ux_pointer_stats(ptr_rec) {
 
     ux_pointer_stats.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
-    if (paint_state.canvas_pos_old != null) {
-        var dx = ptr_rec.canvas_pos_x - paint_state.canvas_pos_old_all_events.x;
-        var dy = ptr_rec.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
-
-        if (paint_state.time_old != null) {
-            const dt = (ptr_rec.time - paint_state.time_old) / 1000.0;
-            if (dt > 0) {
-
-                const dist = Math.hypot(dx, dy);
-                const raw_speed = dist / dt;
-                const smoothed_speed = paint_settings.velocity_smoother.apply(raw_speed);
-                var direction = Math.atan2(dy, dx) * 180.0 / Math.PI;
-                if (direction < 0) {
-                    direction = 359 + direction;
-                }
-                ux_pointer_stats.velocity.innerText = format4_1(smoothed_speed);
-                ux_pointer_stats.direction.innerText = format4_1(direction);
-
-            }
-
-
-        }
-
+    if (ptr_rec.velocity>0) {
+        ux_pointer_stats.velocity.innerText = format4_1(ptr_rec.velocity);
+        ux_pointer_stats.direction.innerText = format4_1(ptr_rec.direction);
     }
-
 
     if (ptr_rec.pressure_processed > 0) {
         ux_pointer_stats.size.innerText =
