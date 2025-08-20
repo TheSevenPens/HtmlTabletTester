@@ -151,7 +151,7 @@ function tiltxy_to_tiltazimuth(tiltX,tiltY)
     return azimuth;
 }
 
-function tiltxy_to_tiltangle(tiltX,tiltY)
+function tiltxy_to_tiltltitude(tiltX, tiltY)
 {
    const angle = tiltX  || tiltY 
                 ? (Math.sqrt( tiltX  * tiltX  + tiltY  * tiltY))

@@ -173,7 +173,7 @@ class PointerRecord {
         this.tilt_y_processed = pointer_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
         this.tilt_azimuth_processed = tiltxy_to_tiltazimuth(this.tilt_x_processed, this.tilt_y_processed);
-        this.tilt_altitude_processed = tiltxy_to_tiltangle(this.tilt_x_processed, this.tilt_y_processed);
+        this.tilt_altitude_processed = tiltxy_to_tiltltitude(this.tilt_x_processed, this.tilt_y_processed);
 
         this.barrel_rotation = ptr_event.twist;
 
