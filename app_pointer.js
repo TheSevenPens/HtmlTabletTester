@@ -172,8 +172,8 @@ class PointerRecord {
         this.tilt_x_processed = pointer_settings.tilt_x_smoother.apply(ptr_event.tiltX);
         this.tilt_y_processed = pointer_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
-        this.tilt_azimuth_processed = tiltxy_to_tiltazimuth(this.tilt_x_processed, this.tilt_y_processed);
-        this.tilt_altitude_processed = tiltxy_to_tiltltitude(this.tilt_x_processed, this.tilt_y_processed);
+        this.tilt_azimuth_processed = radians_to_degrees(pointer_settings.tilt_azimuth_smoother.apply(ptr_event.azimuthAngle));
+        this.tilt_altitude_processed = radians_to_degrees(pointer_settings.tilt_altitude_smoother.apply(ptr_event.altitudeAngle));
 
         this.barrel_rotation = ptr_event.twist;
 
