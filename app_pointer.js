@@ -142,9 +142,8 @@ class PointerRecord {
         // if it is any other kind of event, then just the maximum pressure
         const pressure_raw = clamp_to_range(ptr_event.pressure, PRESSURE_RANGE);
 
-        const canvas_pos_x_raw = ptr_event.clientX - canvas_rect.left;
-        const canvas_pos_y_raw = ptr_event.clientY - canvas_rect.top;
-
+        const canvas_pos_x_raw = ptr_event.clientX - canvas_rect.left - app_canvas_left_width;
+        const canvas_pos_y_raw = ptr_event.clientY - canvas_rect.top - app_canvas_top_width;
         this.type = ptr_event.type;
         this.buttons = ptr_event.buttons;
         this.pointer_type = ptr_event.pointerType;
