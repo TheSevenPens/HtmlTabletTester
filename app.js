@@ -5,8 +5,6 @@ var app_settings = {
   download_filename: "TabletTester_Untitled",
 };
 
-
-
 function initPage() {
   setCanvasProps();
 }

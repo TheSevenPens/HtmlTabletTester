@@ -1,9 +1,6 @@
 
 const app_canvas_el = document.getElementById("myCanvas");
 const app_canvas_context = app_canvas_el.getContext("2d");
-const canvas_computed_style = window.getComputedStyle(app_canvas_el);
-const app_canvas_top_width =  parseInt(canvas_computed_style.getPropertyValue('border-top-width'));
-const app_canvas_left_width =  parseInt(canvas_computed_style.getPropertyValue('border-left-width'));
 const app_pressure_curve_canvas = document.getElementById("curveCanvas");
 const app_pressure_curve_canvas_ctx = app_pressure_curve_canvas.getContext("2d");
 

@@ -98,8 +98,6 @@ function register_window_load_event_listeners() {
     // gotpointercapture -> not handled
     // lostpointercapture -> not handled
 
-    console.log("INFO: Browser DOES support pointer events");
-
     app_canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
     app_canvas_el.addEventListener("pointerup", on_pointerup, false);
 
@@ -142,8 +140,8 @@ class PointerRecord {
         // if it is any other kind of event, then just the maximum pressure
         const pressure_raw = clamp_to_range(ptr_event.pressure, PRESSURE_RANGE);
 
-        const canvas_pos_x_raw = ptr_event.clientX - canvas_rect.left - app_canvas_left_width;
-        const canvas_pos_y_raw = ptr_event.clientY - canvas_rect.top - app_canvas_top_width;
+        const canvas_pos_x_raw = ptr_event.offsetX;
+        const canvas_pos_y_raw = ptr_event.offsetY;
         this.type = ptr_event.type;
         this.buttons = ptr_event.buttons;
         this.pointer_type = ptr_event.pointerType;
