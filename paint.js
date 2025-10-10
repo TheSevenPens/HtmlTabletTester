@@ -138,7 +138,7 @@ function paint_dab( ptr_rec )
     }
 
     
-    var current_pos = new Position( ptr_rec.canvas_pos_x, ptr_rec.canvas_pos_y);
+    var current_pos = new Position( ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
     
     switch (ptr_rec.type) 
     {

@@ -8,8 +8,8 @@ var ux_pointer_stats = {
     tilt_azimuth_processed: document.getElementById("tiltAzimuthProcessedVal"),
     tilt_altitude_processed: document.getElementById("tiltAltitudeProcessedVal"),
 
-    pos_x_canvas: document.getElementById("posXVal"),
-    pos_y_canvas: document.getElementById("posYVal"),
+    pos_x_canvas_processed: document.getElementById("posXVal"),
+    pos_y_canvas_processed: document.getElementById("posYVal"),
 
     velocity: document.getElementById("velocityVal"),
     direction: document.getElementById("directionVal"),
@@ -34,8 +34,8 @@ function update_ux_pointer_stats(ptr_rec) {
     ux_pointer_stats.tilt_y_processed.innerText = format4_1(ptr_rec.tilt_y_processed);
     ux_pointer_stats.tilt_azimuth_processed.innerText = format4_1(ptr_rec.tilt_azimuth_processed);
     ux_pointer_stats.tilt_altitude_processed.innerText = format4_1(ptr_rec.tilt_altitude_processed);
-    ux_pointer_stats.pos_x_canvas.innerText = format4_1(ptr_rec.canvas_pos_x);
-    ux_pointer_stats.pos_y_canvas.innerText = format4_1(ptr_rec.canvas_pos_y);
+    ux_pointer_stats.pos_x_canvas_processed.innerText = format4_1(ptr_rec.canvas_pos_x_processed);
+    ux_pointer_stats.pos_y_canvas_processed.innerText = format4_1(ptr_rec.canvas_pos_y_processed);
     ux_pointer_stats.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
     if (ptr_rec.velocity>0) {
@@ -56,8 +56,8 @@ function clear_ux_pointer_stats() {
     const empty = "-";
     ux_pointer_stats.buttons.innerText = empty;
 
-    ux_pointer_stats.pos_x_canvas.innerText = empty;
-    ux_pointer_stats.pos_y_canvas.innerText = empty;
+    ux_pointer_stats.pos_x_canvas_processed.innerText = empty;
+    ux_pointer_stats.pos_y_canvas_processed.innerText = empty;
     ux_pointer_stats.size.innerText = empty;
     ux_pointer_stats.pressure_processed.innerText = empty;
     ux_pointer_stats.barrel_rotation.innerText = empty;

@@ -62,7 +62,7 @@ function pointer_event_handler(ptr_event) {
     // perform the actual paint
     paint_dab(ptr_rec);
 
-    paint_state.canvas_pos_old_all_events = new Position(ptr_rec.canvas_pos_x, ptr_rec.canvas_pos_y);
+    paint_state.canvas_pos_old_all_events = new Position(ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
     paint_state.time_old = ptr_rec.time;
 }
 
@@ -152,8 +152,8 @@ class PointerRecord {
         this.canvas_pos_x_raw = canvas_pos_x_raw;
         this.canvas_pos_y_raw = canvas_pos_y_raw;
 
-        this.canvas_pos_x = pointer_settings.pos_x_smoother.apply(canvas_pos_x_raw);
-        this.canvas_pos_y = pointer_settings.pos_y_smoother.apply(canvas_pos_y_raw);
+        this.canvas_pos_x_processed = pointer_settings.pos_x_smoother.apply(canvas_pos_x_raw);
+        this.canvas_pos_y_processed = pointer_settings.pos_y_smoother.apply(canvas_pos_y_raw);
 
         this.pressure_raw = pressure_raw;
         this.pressure_processed = process_pressure(pressure_raw);
@@ -180,8 +180,8 @@ class PointerRecord {
         this.direction = 0;
 
         if (paint_state.canvas_pos_old != null) {
-            var dx = this.canvas_pos_x - paint_state.canvas_pos_old_all_events.x;
-            var dy = this.canvas_pos_y - paint_state.canvas_pos_old_all_events.y;
+            var dx = this.canvas_pos_x_processed - paint_state.canvas_pos_old_all_events.x;
+            var dy = this.canvas_pos_y_processed - paint_state.canvas_pos_old_all_events.y;
 
             if (paint_state.time_old != null) {
                 const dt = (this.time - paint_state.time_old) / 1000.0;
