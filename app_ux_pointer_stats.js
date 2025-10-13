@@ -56,18 +56,18 @@ function clear_ux_pointer_stats() {
     const empty = "-";
     ux_pointer_stats.buttons.innerText = empty;
 
-    ux_pointer_stats.pos_x_canvas_processed.innerText = empty;
-    ux_pointer_stats.pos_y_canvas_processed.innerText = empty;
+    ux_pointer_stats.pos_x_canvas_processed.innerText = "\u00a0---.-";
+    ux_pointer_stats.pos_y_canvas_processed.innerText = "\u00a0---.-";
     ux_pointer_stats.size.innerText = empty;
-    ux_pointer_stats.pressure_processed.innerText = empty;
+    ux_pointer_stats.pressure_processed.innerText = "-.----";
     ux_pointer_stats.barrel_rotation.innerText = empty;
 
-    ux_pointer_stats.tilt_x_processed.innerText = empty;
-    ux_pointer_stats.tilt_y_processed.innerText = empty;
-    ux_pointer_stats.tilt_altitude_processed.innerText = empty;
-    ux_pointer_stats.tilt_azimuth_processed.innerText = empty;
+    ux_pointer_stats.tilt_x_processed.innerText = "\u00a0\u00a0\u00a0-.-";
+    ux_pointer_stats.tilt_y_processed.innerText = "\u00a0\u00a0\u00a0-.-";
+    ux_pointer_stats.tilt_altitude_processed.innerText = "\u00a0\u00a0--.-";
+    ux_pointer_stats.tilt_azimuth_processed.innerText = "\u00a0\u00a0--.-";
 
-    ux_pointer_stats.velocity.innerText = empty;
-    ux_pointer_stats.direction.innerText = empty;
+    ux_pointer_stats.velocity.innerText = "\u00a0---.-";
+    ux_pointer_stats.direction.innerText = "\u00a0---.-";
 
 }

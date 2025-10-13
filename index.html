@@ -20,7 +20,7 @@
         oncontextmenu="return false;"
 >
 <div class="parent">
-    <h2>SevenPens Tablet Tester v0.820</h2>
+    <h2>SevenPens Tablet Tester v0.830</h2>
     <p>
         <a
                 href="https://thesevenpens.github.io/HtmlTabletTester/"
@@ -33,6 +33,10 @@
                 target="_blank"
                 rel="noopener noreferrer"
         >CODE</a>
+
+        <button type="button" onclick="clearCanvas()">Clear</button>
+        <button type="button" onclick="saveCanvas()">Save</button>
+
     </p>
 
     <div class="controlscontainer">
@@ -59,10 +63,10 @@
         >
             <option value="USER">Don't scale</option>
             <option value="PRESSURE" selected>Pressure</option>
-            <option value="TILTX">Tilt (X)</option>
-            <option value="TILTY">Tilt (Y)</option>
-            <option value="TILTAZ">Tilt (azimuth)</option>
-            <option value="TILTALT">Tilt (altitude)</option>
+            <option value="TILTX">Tilt X</option>
+            <option value="TILTY">Tilt Y</option>
+            <option value="TILTAZ">Tilt Azimuth</option>
+            <option value="TILTALT">Tilt Altitude</option>
         </select>
             <br/>
             <label>Color </label>
@@ -73,10 +77,10 @@
             <option value="DEFAULT" selected>Black</option>
             <option value="RED">Red</option>
             <option value="PRESSURE">Pressure</option>
-            <option value="TILTX">Tilt (X)</option>
-            <option value="TILTY">Tilt (Y)</option>
-            <option value="TILTAZ">Tilt (azimuth)</option>
-            <option value="TILTALT">Tilt (altitude)</option>
+            <option value="TILTX">Tilt X</option>
+            <option value="TILTY">Tilt Y</option>
+            <option value="TILTAZ">Tilt Azimuth</option>
+            <option value="TILTALT">Tilt Altitude</option>
             <option value="BARRELROTATION">Barrel rotation</option>
             <option value="ERASER">Eraser</option>
         </select>
@@ -99,10 +103,10 @@
             Buttons:
             <label> <span id="buttonsVal" class="monospace">---</span> </label>
             <br/>
-            Position x:
+            X:
             <label> <span id="posXVal" class="monospace">---</span> </label>
             <br/>
-            Position y:
+            Y:
             <label> <span id="posYVal" class="monospace">---</span> </label>
 
             <br/>
@@ -294,10 +298,6 @@
     </div>
 </div>
 
-<div>
-    <button type="button" onclick="clearCanvas()">Clear</button>
-    <button type="button" onclick="saveCanvas()">Save</button>
-</div>
 
 <div class="canvasDiv">
     <canvas id="myCanvas" height="450" style="border: 10px solid #d1d1d1">
@@ -305,12 +305,16 @@
 </div>
 
 <a id="link"></a>
-
 <script src="app_ux_pointer_settings.js"></script>
 <script src="app_ux_paint_settings.js"></script>
 <script src="app_ux_pointer_stats.js"></script>
 <script src="app_ux_stroke_stats.js"></script>
 <script src="app_canvas.js"></script>
 <script src="app.js"></script>
+
+<script>
+    clear_ux_pointer_stats();
+</script>
+
 </body>
 </html>
