@@ -20,7 +20,7 @@
         oncontextmenu="return false;"
 >
 <div class="parent">
-    <h2>SevenPens Tablet Tester v0.831</h2>
+    <h2>SevenPens Tablet Tester v0.833</h2>
     <p>
         <a
                 href="https://thesevenpens.github.io/HtmlTabletTester/"
@@ -190,8 +190,6 @@
 
     <div class="controlscontainer" id="advancedcontrols" style="display: none">
         <div class="controlscolumn">
-            <span style="font-weight: bold">ADV POSITION</span>
-            <br/>
 
             <label for="positionSmoothingSlider"> Position smoothing:
                 <span id="positionSmoothingValue">---</span></label>
@@ -206,14 +204,43 @@
                     oninput="update_settings_from_ux()"
             />
 
+            <br/>
+            <label for="pressureSmoothingSlider">
+                Pressure smoothing:
+                <span id="pressureSmoothingValue">---</span>
+            </label>
+
+            <br/>
+            <input
+                    type="range"
+                    id="pressureSmoothingSlider"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value="0.0"
+                    oninput="update_settings_from_ux()"
+            />
+
+            <br/>
+            <label for="tiltSmoothingSlider"
+            >Tilt smoothing:
+                <span id="tiltSmoothingValue">---</span>
+            </label>
+            <br/>
+            <input
+                    type="range"
+                    id="tiltSmoothingSlider"
+                    min="0.0"
+                    max="1.0"
+                    step="0.01"
+                    value="0.0"
+                    oninput="update_settings_from_ux()"
+            />
 
         </div>
         <div class="controlscolumn">
 
-            <span style="font-weight: bold">ADV PRESSURE</span>
-            <br/>
-
-            <label>Pressure Quant </label>
+            <label>Pressure quant </label>
             <label for="pressureQuantSelect"></label><select
                 id="pressureQuantSelect"
                 onchange="update_settings_from_ux()">
@@ -232,67 +259,35 @@
         </select>
             <br/>
 
+            <div class="controlscontainer" id="advancedcontrols2" >
+                <div class="controlscolumn">
+                    <label
+                    >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
+                        <br/>
 
-            <br/>
-            <label for="pressureSmoothingSlider">
-                Pressure smoothing:
-                <span id="pressureSmoothingValue">---</span>
-            </label>
-
-            <br/>
-            <input
-                    type="range"
-                    id="pressureSmoothingSlider"
-                    min="0.0"
-                    max="1.0"
-                    step="0.01"
-                    value="0.0"
-                    oninput="update_settings_from_ux()"
-            />
-            <br/>
-            <label
-            >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
-                <br/>
-
-                <input
-                        type="range"
-                        id="pressureCurveAmountSlider"
-                        min="-0.90"
-                        max="0.90"
-                        step="0.1"
-                        value="0.0"
-                        list="pressureCurveTickmarks"
-                        oninput="update_settings_from_ux()"
-                />
-                <datalist id="pressureCurveTickmarks">
-                    <option value="0.0"></option>
-                </datalist>
-            </label>
-            <br/>
-            <canvas id="curveCanvas" width="50" height="50"></canvas>
-
+                        <input
+                                type="range"
+                                id="pressureCurveAmountSlider"
+                                min="-0.90"
+                                max="0.90"
+                                step="0.1"
+                                value="0.0"
+                                list="pressureCurveTickmarks"
+                                oninput="update_settings_from_ux()"
+                        />
+                        <datalist id="pressureCurveTickmarks">
+                            <option value="0.0"></option>
+                        </datalist>
+                    </label>
+                </div>
+                <div class="controlscolumn">
+                    <canvas id="curveCanvas" width="40" height="40"></canvas>
+                </div>
+            </div>
 
         </div>
 
         <div class="controlscolumn">
-
-            <span style="font-weight: bold">ADV TILT</span>
-            <br/>
-            <label for="tiltSmoothingSlider"
-            >Tilt smoothing:
-                <span id="tiltSmoothingValue">---</span>
-            </label>
-            <br/>
-            <input
-                    type="range"
-                    id="tiltSmoothingSlider"
-                    min="0.0"
-                    max="1.0"
-                    step="0.01"
-                    value="0.0"
-                    oninput="update_settings_from_ux()"
-            />
-
         </div>
         <div class="controlscolumn">
             <button type="button" onclick="resetAdvancedSettings()">RESET ADVANCED</button>
