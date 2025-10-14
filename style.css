@@ -77,6 +77,24 @@ select {
     flex: 1; /* Each item takes equal space */
 }
 
+.basiccontainer {
+    display: flex; /* Enables Flexbox */
+    justify-content: space-between; /* Distributes items evenly */
+    align-items: top; /* Vertically centers items */
+    gap: 0px; /* Adds spacing between items */
+    padding: 0px;
+}
+
+.basiccolumn {
+    background-color: #f7f7f7;
+    border-width: 0px;
+    border-style: solid;
+    border-color: #e4e4e4;
+    color: rgb(0, 0, 0);
+    padding: 0px;
+    text-align: left;
+    flex: 1; /* Each item takes equal space */
+}
 
 
       
