@@ -1,6 +1,10 @@
 
 function paint_stroke_start()
 {
+    if (ux_paint_settings.erase_on_stroke_start.checked)
+    {
+        clearCanvas();
+    }
     paint_state.isDrawing = true;
     paint_stroke_stats.ptrevent_count = 0;
     paint_stroke_stats.start_time = performance.now();

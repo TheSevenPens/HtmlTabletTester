@@ -1,6 +1,8 @@
 var ux_paint_settings = {
     brush_size: document.getElementById("brushSizeControlSelect"),
     brush_color: document.getElementById("brushColorControlSelect"),
+    erase_on_stroke_start: document.getElementById("toggleEraseOnStartStrokeCheckbox")
+
 };
 
 
