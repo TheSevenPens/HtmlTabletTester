@@ -12,11 +12,23 @@ function initPage() {
 
 
 
-function toggleAdvancedSettings() {
-  const checkbox = document.getElementById("toggleAdvancedControlsCheckbox");
-  const div = document.getElementById("advancedcontrols");
-  div.style.display = checkbox.checked ? "flex" : "none";
+function toggleSmoothingSettings() {
+  const flyout = document.getElementById("smoothingFlyout");
+  flyout.style.display = flyout.style.display === "none" ? "block" : "none";
 }
+
+// Close flyout when clicking outside
+document.addEventListener('click', function(event) {
+  const smoothingFlyout = document.getElementById("smoothingFlyout");
+  const smoothingButton = document.getElementById("smoothingButton");
+  
+  if (smoothingFlyout && smoothingButton && 
+      !smoothingFlyout.contains(event.target) && 
+      !smoothingButton.contains(event.target) &&
+      smoothingFlyout.style.display !== "none") {
+    smoothingFlyout.style.display = "none";
+  }
+});
 
 function resetAdvancedSettings() {
   ux_pointer_settings.pressure_smoothing_slider.value = 0.0;

@@ -85,25 +85,6 @@
             <option value="BARRELROTATION">Barrel rotation</option>
             <option value="ERASER">Eraser</option>
         </select>
-
-            <br/>
-            <label>
-                <input
-                        type="checkbox"
-                        id="toggleAdvancedControlsCheckbox"
-                        onclick="toggleAdvancedSettings()"
-
-                />
-                Show advanced controls
-            </label>
-            <br/>
-            <label>
-                <input
-                        type="checkbox"
-                        id="toggleEraseOnStartStrokeCheckbox"
-                />
-                Erase on stroke start
-            </label>
         </div>
 
         <div class="controlscolumn">
@@ -112,10 +93,10 @@
             Buttons:
             <label> <span id="buttonsVal" class="monospace">---</span> </label>
             <br/>
-            X:
+            <span id="posXLabel">X:</span>
             <label> <span id="posXVal" class="monospace">---</span> </label>
             <br/>
-            Y:
+            <span id="posYLabel">Y:</span>
             <label> <span id="posYVal" class="monospace">---</span> </label>
 
             <br/>
@@ -132,20 +113,20 @@
         <div class="controlscolumn">
             <span style="font-weight: bold">SENSORS</span> <br/>
 
-            Pressure:
+            <span id="pressureLabel">Pressure:</span>
             <label> <span id="pressureProcessedVal" class="monospace">---</span> </label>
             <br/>
-            Tilt x:
+            <span id="tiltXLabel">Tilt x:</span>
             <label> <span id="tiltXProcessedVal" class="monospace">---</span> </label>
             <br/>
-            Tilt y:
+            <span id="tiltYLabel">Tilt y:</span>
             <label> <span id="tiltYProcessedVal" class="monospace">---</span> </label>
             <br/>
-            Tilt azimuth:
+            <span id="tiltAzimuthLabel">Tilt azimuth:</span>
             <label> <span id="tiltAzimuthProcessedVal" class="monospace">---</span> </label>
 
             <br/>
-            Tilt altitude:
+            <span id="tiltAltitudeLabel">Tilt altitude:</span>
             <label> <span id="tiltAltitudeProcessedVal" class="monospace">---</span> </label>
 
             <br/>
@@ -154,6 +135,117 @@
                 <span id="barrelRotationVal" class="monospace">---</span>
             </label>
 
+        </div>
+
+        <div class="controlscolumn" style="position: relative;">
+            <span style="font-weight: bold">ADVANCED</span>
+            <br/>
+            Size: <label> <span id="sizeVal" class="monospace">---</span></label>
+            <br/>
+            <label>
+                <input
+                        type="checkbox"
+                        id="toggleEraseOnStartStrokeCheckbox"
+                />
+                Erase on stroke start
+            </label>
+            <br/>
+            <button type="button" id="smoothingButton" onclick="toggleSmoothingSettings()">processing</button>
+            <div class="smoothing-flyout" id="smoothingFlyout" style="display: none;">
+                <label for="positionSmoothingSlider"> Position smoothing:
+                    <span id="positionSmoothingValue">---</span></label>
+                <br/>
+                <input
+                        type="range"
+                        id="positionSmoothingSlider"
+                        min="0.0"
+                        max="1.0"
+                        step="0.01"
+                        value="0.0"
+                        oninput="update_settings_from_ux()"
+                />
+
+                <br/>
+                <label for="pressureSmoothingSlider">
+                    Pressure smoothing:
+                    <span id="pressureSmoothingValue">---</span>
+                </label>
+
+                <br/>
+                <input
+                        type="range"
+                        id="pressureSmoothingSlider"
+                        min="0.0"
+                        max="1.0"
+                        step="0.01"
+                        value="0.0"
+                        oninput="update_settings_from_ux()"
+                />
+
+                <br/>
+                <label for="tiltSmoothingSlider"
+                >Tilt smoothing:
+                    <span id="tiltSmoothingValue">---</span>
+                </label>
+                <br/>
+                <input
+                        type="range"
+                        id="tiltSmoothingSlider"
+                        min="0.0"
+                        max="1.0"
+                        step="0.01"
+                        value="0.0"
+                        oninput="update_settings_from_ux()"
+                />
+
+                <br/>
+                <label>Pressure quant </label>
+                <label for="pressureQuantSelect"></label><select
+                    id="pressureQuantSelect"
+                    onchange="update_settings_from_ux()">
+                <option value="0" selected>OFF</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+                <option value="16">16</option>
+                <option value="32">32</option>
+                <option value="64">64</option>
+                <option value="128">128</option>
+                <option value="256">256</option>
+                <option value="1024">1024</option>
+                <option value="2048">2048</option>
+                <option value="4096">4096</option>
+                <option value="8129">8192</option>
+            </select>
+                <br/>
+
+                <div class="basiccontainer" id="advancedcontrols2" >
+                    <div class="basiccolumn">
+                        <label
+                        >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
+                            <br/>
+
+                            <input
+                                    type="range"
+                                    id="pressureCurveAmountSlider"
+                                    min="-0.90"
+                                    max="0.90"
+                                    step="0.1"
+                                    value="0.0"
+                                    list="pressureCurveTickmarks"
+                                    oninput="update_settings_from_ux()"
+                            />
+                            <datalist id="pressureCurveTickmarks">
+                                <option value="0.0"></option>
+                            </datalist>
+                        </label>
+                    </div>
+                    <div class="basiccolumn">
+                        <canvas id="curveCanvas" width="40" height="40"></canvas>
+                    </div>
+                </div>
+                <br/>
+                <button type="button" onclick="resetAdvancedSettings()">RESET ADVANCED</button>
+            </div>
         </div>
 
         <div class="controlscolumn">
@@ -178,124 +270,6 @@
             <label>
                 <span id="strokeEventsPerSecVal" class="monospace">---</span> events/sec
             </label>
-        </div>
-        <div class="controlscolumn">
-            <span style="font-weight: bold">LIVE FORMAT</span>
-            <br/>
-            Size: <label> <span id="sizeVal" class="monospace">---</span></label>
-            <br/>
-        </div>
-
-
-    </div>
-
-    <div class="controlscontainer" id="advancedcontrols" style="display: none">
-        <div class="controlscolumn">
-
-            <label for="positionSmoothingSlider"> Position smoothing:
-                <span id="positionSmoothingValue">---</span></label>
-            <br/>
-            <input
-                    type="range"
-                    id="positionSmoothingSlider"
-                    min="0.0"
-                    max="1.0"
-                    step="0.01"
-                    value="0.0"
-                    oninput="update_settings_from_ux()"
-            />
-
-            <br/>
-            <label for="pressureSmoothingSlider">
-                Pressure smoothing:
-                <span id="pressureSmoothingValue">---</span>
-            </label>
-
-            <br/>
-            <input
-                    type="range"
-                    id="pressureSmoothingSlider"
-                    min="0.0"
-                    max="1.0"
-                    step="0.01"
-                    value="0.0"
-                    oninput="update_settings_from_ux()"
-            />
-
-            <br/>
-            <label for="tiltSmoothingSlider"
-            >Tilt smoothing:
-                <span id="tiltSmoothingValue">---</span>
-            </label>
-            <br/>
-            <input
-                    type="range"
-                    id="tiltSmoothingSlider"
-                    min="0.0"
-                    max="1.0"
-                    step="0.01"
-                    value="0.0"
-                    oninput="update_settings_from_ux()"
-            />
-
-        </div>
-        <div class="controlscolumn">
-
-            <label>Pressure quant </label>
-            <label for="pressureQuantSelect"></label><select
-                id="pressureQuantSelect"
-                onchange="update_settings_from_ux()">
-            <option value="0" selected>OFF</option>
-            <option value="4">4</option>
-            <option value="8">8</option>
-            <option value="16">16</option>
-            <option value="32">32</option>
-            <option value="64">64</option>
-            <option value="128">128</option>
-            <option value="256">256</option>
-            <option value="1024">1024</option>
-            <option value="2048">2048</option>
-            <option value="4096">4096</option>
-            <option value="8129">8192</option>
-        </select>
-            <br/>
-
-            <div class="basiccontainer" id="advancedcontrols2" >
-                <div class="basiccolumn">
-                    <label
-                    >Pressure curve: <span id="pressureCurveAmountValue">1.0</span>
-                        <br/>
-
-                        <input
-                                type="range"
-                                id="pressureCurveAmountSlider"
-                                min="-0.90"
-                                max="0.90"
-                                step="0.1"
-                                value="0.0"
-                                list="pressureCurveTickmarks"
-                                oninput="update_settings_from_ux()"
-                        />
-                        <datalist id="pressureCurveTickmarks">
-                            <option value="0.0"></option>
-                        </datalist>
-                    </label>
-                </div>
-                <div class="basiccolumn">
-                    <canvas id="curveCanvas" width="40" height="40"></canvas>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="controlscolumn">
-        </div>
-        <div class="controlscolumn">
-            <button type="button" onclick="resetAdvancedSettings()">RESET ADVANCED</button>
-        </div>
-
-
-        <div class="controlscolumn">
         </div>
 
 
