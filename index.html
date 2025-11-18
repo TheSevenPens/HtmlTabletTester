@@ -150,6 +150,15 @@
                 Erase on stroke start
             </label>
             <br/>
+            <label>
+                <input
+                        type="checkbox"
+                        id="toggleStrokeStatsCheckbox"
+                        onchange="toggleStrokeStatsVisibility()"
+                />
+                Show stroke stats
+            </label>
+            <br/>
             <button type="button" id="smoothingButton" onclick="toggleSmoothingSettings()">processing</button>
             <div class="smoothing-flyout" id="smoothingFlyout" style="display: none;">
                 <label for="positionSmoothingSlider"> Position smoothing:
@@ -248,7 +257,7 @@
             </div>
         </div>
 
-        <div class="controlscolumn">
+        <div class="controlscolumn" id="strokeStatsPanel" style="display: none;">
             <span style="font-weight: bold">STROKE STATS</span>
             <br/>
             Count:

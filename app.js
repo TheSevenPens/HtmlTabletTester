@@ -17,6 +17,12 @@ function toggleSmoothingSettings() {
   flyout.style.display = flyout.style.display === "none" ? "block" : "none";
 }
 
+function toggleStrokeStatsVisibility() {
+  const checkbox = document.getElementById("toggleStrokeStatsCheckbox");
+  const strokeStatsPanel = document.getElementById("strokeStatsPanel");
+  strokeStatsPanel.style.display = checkbox.checked ? "block" : "none";
+}
+
 // Close flyout when clicking outside
 document.addEventListener('click', function(event) {
   const smoothingFlyout = document.getElementById("smoothingFlyout");
