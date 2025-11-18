@@ -79,6 +79,32 @@ select {
     flex: 1; /* Each item takes equal space */
 }
 
+div.controlscolumn#headerColumn{
+    flex: 0 0 140px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 140px;
+}
+
+div.controlscolumn#strokeFormatColumn{
+    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 180px;
+}
+
+div.controlscolumn#pointerColumn{
+    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 180px;
+}
+
+div.controlscolumn#sensorsColumn{
+    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 180px;
+}
+
+div.controlscolumn#advancedColumn{
+    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 180px;
+}
+
+
 .basiccontainer {
     display: flex; /* Enables Flexbox */
     justify-content: space-between; /* Distributes items evenly */

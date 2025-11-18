@@ -21,7 +21,7 @@
 >
 <div class="parent">
     <div class="controlscontainer">
-        <div class="controlscolumn">
+        <div class="controlscolumn" id="headerColumn">
             <h3>SevenPens <br/> Tablet Tester <br/> v0.901</h3>
             <p>
                 <a
@@ -41,7 +41,7 @@
 
             </p>
         </div>
-        <div class="controlscolumn">
+        <div class="controlscolumn" id="strokeFormatColumn">
             <span style="font-weight: bold">STROKE FORMAT</span>
             <br/>
             <label>Size </label>
@@ -87,7 +87,7 @@
         </select>
         </div>
 
-        <div class="controlscolumn">
+        <div class="controlscolumn" id="pointerColumn">
             <span style="font-weight: bold">POINTER</span>
             <br/>
             Buttons:
@@ -110,7 +110,7 @@
 
         </div>
 
-        <div class="controlscolumn">
+        <div class="controlscolumn" id="sensorsColumn">
             <span style="font-weight: bold">SENSORS</span> <br/>
 
             <span id="pressureLabel">Pressure:</span>
@@ -137,7 +137,7 @@
 
         </div>
 
-        <div class="controlscolumn" style="position: relative;">
+        <div class="controlscolumn" id="advancedColumn" style="position: relative;">
             <span style="font-weight: bold">ADVANCED</span>
             <br/>
             Live size: <label> <span id="sizeVal" class="monospace">---</span></label>
@@ -281,6 +281,8 @@
             </label>
         </div>
 
+        <div class="controlscolumn" id="fillPanel">
+        </div>
 
     </div>
 </div>
