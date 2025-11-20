@@ -14,15 +14,10 @@ var ux_pointer_stats = {
     velocity: document.getElementById("velocityVal"),
     direction: document.getElementById("directionVal"),
 
-
-    size: document.getElementById("sizeVal"),
     brush_size: document.getElementById("brushSizeSelect"),
     barrel_rotation: document.getElementById("barrelRotationVal"),
-    position_smoothing: document.getElementById("positionSmoothingValue"),
-    pressure_smoothing: document.getElementById("pressureSmoothingValue"),
-    pressure_curve_amount: document.getElementById("pressureCurveAmountValue"),
 
-    pressure_quant: document.getElementById("pressureQuant"),
+    size: document.getElementById("sizeVal"),
 
 };
 
