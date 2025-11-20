@@ -1,4 +1,3 @@
-
 const app_canvas_el = document.getElementById("myCanvas");
 const app_canvas_context = app_canvas_el.getContext("2d");
 const app_pressure_curve_canvas = document.getElementById("curveCanvas");
