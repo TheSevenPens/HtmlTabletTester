@@ -1,5 +1,3 @@
-/////////////////////////////////////////////////////////////////////////
-
 const app_settings = {
   canvas_color: "rgba(230, 230, 250, 1.0)",
   download_filename: "TabletTester_Untitled",
@@ -8,9 +6,6 @@ const app_settings = {
 function initPage() {
   setCanvasProps();
 }
-
-
-
 
 function toggleSmoothingSettings() {
   const flyout = document.getElementById("smoothingFlyout");
@@ -22,19 +17,6 @@ function toggleStrokeStatsVisibility() {
   const strokeStatsPanel = document.getElementById("strokeStatsPanel");
   strokeStatsPanel.style.display = checkbox.checked ? "block" : "none";
 }
-
-// Close flyout when clicking outside
-document.addEventListener('click', function(event) {
-  const smoothingFlyout = document.getElementById("smoothingFlyout");
-  const smoothingButton = document.getElementById("smoothingButton");
-  
-  if (smoothingFlyout && smoothingButton && 
-      !smoothingFlyout.contains(event.target) && 
-      !smoothingButton.contains(event.target) &&
-      smoothingFlyout.style.display !== "none") {
-    smoothingFlyout.style.display = "none";
-  }
-});
 
 function resetAdvancedSettings() {
   ux_processing_settings.pressure_smoothing_slider.value = 0.0;
@@ -59,6 +41,19 @@ function register_document_hotkey_event_listeners() {
     }
   });
 }
+
+// Close flyout when clicking outside
+document.addEventListener('click', function(event) {
+    const smoothingFlyout = document.getElementById("smoothingFlyout");
+    const smoothingButton = document.getElementById("smoothingButton");
+
+    if (smoothingFlyout && smoothingButton &&
+        !smoothingFlyout.contains(event.target) &&
+        !smoothingButton.contains(event.target) &&
+        smoothingFlyout.style.display !== "none") {
+        smoothingFlyout.style.display = "none";
+    }
+});
 
 update_settings_from_ux();
 register_event_handlers();
