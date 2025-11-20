@@ -80,28 +80,28 @@ select {
 }
 
 div.controlscolumn#headerColumn{
+    flex: 0 0 110px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 110px;
+}
+
+div.controlscolumn#strokeFormatColumn{
+    flex: 0 0 160px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 160px;
+}
+
+div.controlscolumn#pointerColumn{
     flex: 0 0 140px; /* Fixed width: don't grow, don't shrink, 200px base */
     width: 140px;
 }
 
-div.controlscolumn#strokeFormatColumn{
-    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
-    width: 180px;
-}
-
-div.controlscolumn#pointerColumn{
-    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
-    width: 180px;
-}
-
 div.controlscolumn#sensorsColumn{
-    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
-    width: 180px;
+    flex: 0 0 140px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 140px;
 }
 
 div.controlscolumn#advancedColumn{
-    flex: 0 0 180px; /* Fixed width: don't grow, don't shrink, 200px base */
-    width: 180px;
+    flex: 0 0 140px; /* Fixed width: don't grow, don't shrink, 200px base */
+    width: 140px;
 }
 
 
