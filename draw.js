@@ -11,27 +11,11 @@ function draw_line( canvas_context, from_pos, to_pos, width, color, linecap)
     canvas_context.beginPath();
     canvas_context.lineCap = linecap;
     canvas_context.moveTo(from_pos.x, from_pos.y);
-    var midPoint = lerp_point(from_pos, to_pos, 0.5);
+    const midPoint = lerp_point(from_pos, to_pos, 0.5);
     canvas_context.quadraticCurveTo(from_pos.x, from_pos.y, midPoint.x, midPoint.y);
     canvas_context.lineTo(to_pos.x, to_pos.y);
     canvas_context.stroke();
 }
-
-function draw_centered_box( canvas_context, pos, size, color)
-{
-    /*
-    console.log("BOX");
-    var ex = pos.x - (size.width/2.0);
-    var ey = pos.y - (size.height/2.0);
-    canvas_context.fillStyle = color;  
-    canvas_context.fillRect(
-        ex, 
-        ey, 
-        size.width, size.height);
-    canvas_context.fill();*/
-    draw_line( canvas_context, pos, pos, size, "rounded");
-}
-
 
 function drawPressureCurve() {
   app_pressure_curve_canvas_ctx.clearRect(0, 0, app_pressure_curve_canvas.width, app_pressure_curve_canvas.height);

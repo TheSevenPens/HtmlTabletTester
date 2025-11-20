@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 
-var app_settings = {
+const app_settings = {
   canvas_color: "rgba(230, 230, 250, 1.0)",
   download_filename: "TabletTester_Untitled",
 };

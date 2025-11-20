@@ -48,11 +48,11 @@ function quantize(value, levels)
 function GetSmoothingValue(input) 
 {
     // first map it with a curve
-    var output1 =  easeOutCubic( input );
+    const output1 =  easeOutCubic( input );
     // second restrict to a slightly smaller range 
-    var output2 = lerp( 0.985, 0.0, output1);
+    const output2 = lerp( 0.985, 0.0, output1);
     // round it so that we easier-to-read numbers for the user
-    var output3 = round_to_4_decimal_places(output2); 
+    const output3 = round_to_4_decimal_places(output2);
 
     return output3;
 }
@@ -80,7 +80,7 @@ class NumericCurve {
 
   apply(input) {
     var output = input;
-    var z = -1.0 *  this.amount;
+    const z = -1.0 *  this.amount;
     if (z===0.0)
     {
         output = input;
@@ -130,7 +130,7 @@ class NumericSmoother {
     {
         if (this.amount>0.0)
         {
-            var alpha = 1.0-this.amount;
+            const alpha = 1.0-this.amount;
             output = ( alpha * input ) + ((1.0 - alpha) * this.old_smoothed);
         }
     }

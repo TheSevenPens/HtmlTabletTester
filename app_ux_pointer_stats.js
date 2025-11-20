@@ -1,5 +1,5 @@
 // POINTER STATS ----------------------------------------------
-var ux_pointer_stats = {
+const ux_pointer_stats = {
     buttons: document.getElementById("buttonsVal"),
     pressure_processed: document.getElementById("pressureProcessedVal"),
 

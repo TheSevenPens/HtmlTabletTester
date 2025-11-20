@@ -1,4 +1,4 @@
-var ux_processing_settings = {
+let ux_processing_settings = {
     pressureCurveAmountSlider: document.getElementById(
         "pressureCurveAmountSlider"
     ),
@@ -24,7 +24,7 @@ function update_processing_settings_from_ux() {
     processing_settings.pressure_quant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
 
     // TILT
-    var tilt_smoothing = ux_processing_settings.tilt_smoothing_slider.value;
+    const tilt_smoothing = ux_processing_settings.tilt_smoothing_slider.value;
     processing_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
     processing_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
     processing_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);

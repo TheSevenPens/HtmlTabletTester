@@ -1,4 +1,4 @@
-var pointer_button_code = {
+const pointer_button_code = {
     none: 0x0, // nothing is pressed
     tip: 0x1, // left mouse, touch contact, pen contact
     barrel: 0x2, // right mouse, pen barrel button
@@ -6,7 +6,7 @@ var pointer_button_code = {
     eraser: 0x20, // pen eraser button
 };
 
-var pointer_constants =
+const pointer_constants =
 {
     max_tilt_altitude : 90.0,
     max_tilt_azimuth:  360.0,
@@ -52,10 +52,10 @@ function pointer_event_handler(ptr_event) {
     }
 
     // The paint system needs to know the dimensions of the canvas it will draw on
-    var canvas_rect = app_canvas_el.getBoundingClientRect();
+    const canvas_rect = app_canvas_el.getBoundingClientRect();
     // given the canvas and the pointer event the paint_rec
     // has all the information needed to draw
-    var ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
+    const ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
 
     // Live stats such as pointer position need to updated
     update_ux_pointer_stats(ptr_rec);
@@ -133,8 +133,6 @@ function register_window_load_event_listeners() {
 
 class PointerRecord {
     constructor(canvas_rect, ptr_event) {
-        var canvas_rect = app_canvas_el.getBoundingClientRect();
-
         // get the pressure reported in the event
         // if it is pointer pen event, just use that pressure
         // if it is any other kind of event, then just the maximum pressure
@@ -180,8 +178,8 @@ class PointerRecord {
         this.direction = 0;
 
         if (paint_state.canvas_pos_old != null) {
-            var dx = this.canvas_pos_x_processed - paint_state.canvas_pos_old_all_events.x;
-            var dy = this.canvas_pos_y_processed - paint_state.canvas_pos_old_all_events.y;
+            const dx = this.canvas_pos_x_processed - paint_state.canvas_pos_old_all_events.x;
+            const dy = this.canvas_pos_y_processed - paint_state.canvas_pos_old_all_events.y;
 
             if (paint_state.time_old != null) {
                 const dt = (this.time - paint_state.time_old) / 1000.0;

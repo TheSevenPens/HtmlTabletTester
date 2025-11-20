@@ -75,13 +75,13 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control ==="PRESSURE")
     {
-        var hue = lerp(360, 150, ptr_rec.pressure_processed);
-        dab_color = `hsl(${hue}, 100%, 50%)`;
+        const hue1 = lerp(360, 150, ptr_rec.pressure_processed);
+        dab_color = `hsl(${hue1}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="TILTALT")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_altitude_processed/ pointer_constants.max_tilt_altitude);
-        dab_color = `hsl(${hue}, 100%, 50%)`;
+        const hue2 = lerp(360, 150, ptr_rec.tilt_altitude_processed/ pointer_constants.max_tilt_altitude);
+        dab_color = `hsl(${hue2}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="TILTAZ")
     {
@@ -90,13 +90,13 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control ==="TILTX")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_x_processed/pointer_constants.max_tilt_x );
-        dab_color = `hsl(${hue}, 100%, 50%)`;
+        const hue3 = lerp(360, 150, ptr_rec.tilt_x_processed/pointer_constants.max_tilt_x );
+        dab_color = `hsl(${hue3}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="TILTY")
     {
-        var hue = lerp(360, 150, ptr_rec.tilt_y_processed/pointer_constants.max_tilt_y);
-        dab_color = `hsl(${hue}, 100%, 50%)`;
+        const hue4 = lerp(360, 150, ptr_rec.tilt_y_processed/pointer_constants.max_tilt_y);
+        dab_color = `hsl(${hue4}, 100%, 50%)`;
     }
     else if (paint_settings.brush_color_control ==="BARRELROTATION")
     {
@@ -118,7 +118,7 @@ function get_dab_color( ptr_rec )
 function update_dab_settings( ptr_rec )
 {
     // SIZE
-    var new_size = get_dab_size( ptr_rec );
+    const new_size = get_dab_size( ptr_rec );
     paint_current_dab_settings.brush_size = new_size;
 
     // COLOR
@@ -141,8 +141,8 @@ function paint_dab( ptr_rec )
 
     }
 
-    
-    var current_pos = new Position( ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
+
+    const current_pos = new Position( ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
     
     switch (ptr_rec.type) 
     {

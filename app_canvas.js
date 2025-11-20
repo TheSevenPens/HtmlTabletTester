@@ -23,8 +23,8 @@ function getCanvasName() {
 }
 
 function saveCanvas() {
-    var link = document.getElementById("link");
-    var url = app_canvas_el
+    const link = document.getElementById("link");
+    const url = app_canvas_el
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
     link.setAttribute("download", getCanvasName());

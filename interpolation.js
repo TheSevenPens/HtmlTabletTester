@@ -3,7 +3,7 @@
 //
 function lerp(a, b, t ) 
 {
-    var c = (a * t) + (b * (1-t));
+    const c = (a * t) + (b * (1-t));
     return c;
 }
 
@@ -12,7 +12,7 @@ function lerp(a, b, t )
 //
 function lerp_point(a, b, t) 
 {
-    var p = 
+    const p =
     {
         x: lerp(a.x, b.x, t),
         y: lerp(a.y, b.y, t)
