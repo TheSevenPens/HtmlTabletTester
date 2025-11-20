@@ -10,7 +10,7 @@ var ux_paint_settings = {
 
 function update_settings_from_ux() {
     update_paint_settings_from_ux();
-    update_pointer_settings_from_ux();
+    update_processing_settings_from_ux();
 }
 
 function update_paint_settings_from_ux() {

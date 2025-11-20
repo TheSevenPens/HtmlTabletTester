@@ -11,7 +11,7 @@ var paint_settings =
         linecap: "round",
     };
 
-var pointer_settings =
+var processing_settings =
     {
         pos_x_smoother: new NumericSmoother(0.0),
         pos_y_smoother: new NumericSmoother(0.0),

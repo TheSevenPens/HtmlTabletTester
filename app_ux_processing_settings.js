@@ -13,32 +13,32 @@ var ux_processing_settings = {
     pressure_quantization_dropdown: document.getElementById("pressureQuantSelect"),
 };
 
-function update_pointer_settings_from_ux() {
+function update_processing_settings_from_ux() {
     // POSITION
-    pointer_settings.pos_x_smoother.amount = GetSmoothingValue(ux_processing_settings.position_smoothing_slider.value);
-    pointer_settings.pos_y_smoother.amount = pointer_settings.pos_x_smoother.amount;
+    processing_settings.pos_x_smoother.amount = GetSmoothingValue(ux_processing_settings.position_smoothing_slider.value);
+    processing_settings.pos_y_smoother.amount = processing_settings.pos_x_smoother.amount;
 
     // PRESSURE
-    pointer_settings.pressure_smoother.amount = GetSmoothingValue(ux_processing_settings.pressure_smoothing_slider.value);
-    pointer_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_processing_settings.pressureCurveAmountSlider.value));
-    pointer_settings.pressure_quant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
+    processing_settings.pressure_smoother.amount = GetSmoothingValue(ux_processing_settings.pressure_smoothing_slider.value);
+    processing_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_processing_settings.pressureCurveAmountSlider.value));
+    processing_settings.pressure_quant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
 
     // TILT
     var tilt_smoothing = ux_processing_settings.tilt_smoothing_slider.value;
-    pointer_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    pointer_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    pointer_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    pointer_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
 
-    update_ux_from_pointer_settings();
+    update_ux_from_processing_settings();
 
 }
 
-function update_ux_from_pointer_settings() {
-    ux_processing_settings.position_smoothing_value.innerText = pointer_settings.pos_x_smoother.amount.toString();
-    ux_processing_settings.pressure_smoothing_value.innerText = pointer_settings.pressure_smoother.amount.toString();
-    ux_processing_settings.pressure_curve_amount_value.innerText = pointer_settings.pressure_curve_amount.amount.toFixed(1);
-    ux_processing_settings.tilt_smoothing_value.innerText = pointer_settings.tilt_x_smoother.amount.toString();
+function update_ux_from_processing_settings() {
+    ux_processing_settings.position_smoothing_value.innerText = processing_settings.pos_x_smoother.amount.toString();
+    ux_processing_settings.pressure_smoothing_value.innerText = processing_settings.pressure_smoother.amount.toString();
+    ux_processing_settings.pressure_curve_amount_value.innerText = processing_settings.pressure_curve_amount.amount.toFixed(1);
+    ux_processing_settings.tilt_smoothing_value.innerText = processing_settings.tilt_x_smoother.amount.toString();
     drawPressureCurve();
     
     // Update pressure label color based on pressure processing settings

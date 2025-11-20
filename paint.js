@@ -8,14 +8,14 @@ function paint_stroke_start()
     paint_state.isDrawing = true;
     paint_stroke_stats.ptrevent_count = 0;
     paint_stroke_stats.start_time = performance.now();
-    pointer_settings.pos_x_smoother.resetState();
-    pointer_settings.pos_y_smoother.resetState();
-    pointer_settings.pressure_smoother.resetState();
-    pointer_settings.tilt_x_smoother.resetState();
-    pointer_settings.tilt_y_smoother.resetState();
-    pointer_settings.tilt_azimuth_smoother.resetState();
-    pointer_settings.tilt_altitude_smoother.resetState();
-    pointer_settings.velocity_smoother.resetState();
+    processing_settings.pos_x_smoother.resetState();
+    processing_settings.pos_y_smoother.resetState();
+    processing_settings.pressure_smoother.resetState();
+    processing_settings.tilt_x_smoother.resetState();
+    processing_settings.tilt_y_smoother.resetState();
+    processing_settings.tilt_azimuth_smoother.resetState();
+    processing_settings.tilt_altitude_smoother.resetState();
+    processing_settings.velocity_smoother.resetState();
 }
 
 function paint_stroke_stop()
@@ -131,13 +131,13 @@ function paint_dab( ptr_rec )
     {
         // If No pressure input
         // - reset any smoothing
-        pointer_settings.pos_x_smoother.resetState();
-        pointer_settings.pos_y_smoother.resetState();
-        pointer_settings.pressure_smoother.resetState();
-        pointer_settings.tilt_x_smoother.resetState();
-        pointer_settings.tilt_y_smoother.resetState();
-        pointer_settings.tilt_azimuth_smoother.resetState();
-        pointer_settings.tilt_altitude_smoother.resetState();
+        processing_settings.pos_x_smoother.resetState();
+        processing_settings.pos_y_smoother.resetState();
+        processing_settings.pressure_smoother.resetState();
+        processing_settings.tilt_x_smoother.resetState();
+        processing_settings.tilt_y_smoother.resetState();
+        processing_settings.tilt_azimuth_smoother.resetState();
+        processing_settings.tilt_altitude_smoother.resetState();
 
     }
 

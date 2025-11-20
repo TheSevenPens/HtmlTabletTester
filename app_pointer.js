@@ -152,8 +152,8 @@ class PointerRecord {
         this.canvas_pos_x_raw = canvas_pos_x_raw;
         this.canvas_pos_y_raw = canvas_pos_y_raw;
 
-        this.canvas_pos_x_processed = pointer_settings.pos_x_smoother.apply(canvas_pos_x_raw);
-        this.canvas_pos_y_processed = pointer_settings.pos_y_smoother.apply(canvas_pos_y_raw);
+        this.canvas_pos_x_processed = processing_settings.pos_x_smoother.apply(canvas_pos_x_raw);
+        this.canvas_pos_y_processed = processing_settings.pos_y_smoother.apply(canvas_pos_y_raw);
 
         this.pressure_raw = pressure_raw;
         this.pressure_processed = process_pressure(pressure_raw);
@@ -166,11 +166,11 @@ class PointerRecord {
         this.tilt_azimuth = radians_to_degrees(ptr_event.azimuthAngle);
         this.tilt_altitude = radians_to_degrees(ptr_event.altitudeAngle);
 
-        this.tilt_x_processed = pointer_settings.tilt_x_smoother.apply(ptr_event.tiltX);
-        this.tilt_y_processed = pointer_settings.tilt_y_smoother.apply(ptr_event.tiltY);
+        this.tilt_x_processed = processing_settings.tilt_x_smoother.apply(ptr_event.tiltX);
+        this.tilt_y_processed = processing_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
-        this.tilt_azimuth_processed = radians_to_degrees(pointer_settings.tilt_azimuth_smoother.apply(ptr_event.azimuthAngle));
-        this.tilt_altitude_processed = radians_to_degrees(pointer_settings.tilt_altitude_smoother.apply(ptr_event.altitudeAngle));
+        this.tilt_azimuth_processed = radians_to_degrees(processing_settings.tilt_azimuth_smoother.apply(ptr_event.azimuthAngle));
+        this.tilt_altitude_processed = radians_to_degrees(processing_settings.tilt_altitude_smoother.apply(ptr_event.altitudeAngle));
 
         this.barrel_rotation = ptr_event.twist;
 
@@ -189,7 +189,7 @@ class PointerRecord {
 
                     const dist = Math.hypot(dx, dy);
                     const raw_speed = dist / dt;
-                    const smoothed_speed = pointer_settings.velocity_smoother.apply(raw_speed);
+                    const smoothed_speed = processing_settings.velocity_smoother.apply(raw_speed);
                     var direction = Math.atan2(dy, dx) * 180.0 / Math.PI;
                     if (direction < 0) {
                         direction = 359 + direction;
@@ -214,15 +214,15 @@ function get_ptr_rec(canvas_rect, ptr_event) {
 function process_pressure(input_pressure) {
     var output_pressure = input_pressure;
     // FIRST QUANTIZE
-    if (pointer_settings.pressure_quant > 0) {
-        output_pressure = quantize(input_pressure, pointer_settings.pressure_quant);
+    if (processing_settings.pressure_quant > 0) {
+        output_pressure = quantize(input_pressure, processing_settings.pressure_quant);
     }
 
     // SECOND APPLY A CURVE
-    output_pressure = pointer_settings.pressure_curve_amount.apply(output_pressure);
+    output_pressure = processing_settings.pressure_curve_amount.apply(output_pressure);
 
     // THIRD APPLY SMOOTHING (negative old values mean there is no old value)
-    output_pressure = pointer_settings.pressure_smoother.apply(output_pressure);
+    output_pressure = processing_settings.pressure_smoother.apply(output_pressure);
 
 
     return output_pressure;
