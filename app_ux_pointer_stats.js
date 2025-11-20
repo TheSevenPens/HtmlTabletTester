@@ -21,21 +21,21 @@ const ux_pointer_stats = {
 
 };
 
-function update_ux_pointer_stats(ptr_rec) {
-    ux_pointer_stats.buttons.innerText = ptr_rec.buttons + " (" + button_to_string(ptr_rec.buttons) + ")";
+function updateUxPointerStats(ptr_rec) {
+    ux_pointer_stats.buttons.innerText = ptr_rec.buttons + " (" + buttonToString(ptr_rec.buttons) + ")";
 
-    ux_pointer_stats.pressure_processed.innerText = format1_4(ptr_rec.pressure_processed);
-    ux_pointer_stats.tilt_x_processed.innerText = format4_1(ptr_rec.tilt_x_processed);
-    ux_pointer_stats.tilt_y_processed.innerText = format4_1(ptr_rec.tilt_y_processed);
-    ux_pointer_stats.tilt_azimuth_processed.innerText = format4_1(ptr_rec.tilt_azimuth_processed);
-    ux_pointer_stats.tilt_altitude_processed.innerText = format4_1(ptr_rec.tilt_altitude_processed);
-    ux_pointer_stats.pos_x_canvas_processed.innerText = format4_1(ptr_rec.canvas_pos_x_processed);
-    ux_pointer_stats.pos_y_canvas_processed.innerText = format4_1(ptr_rec.canvas_pos_y_processed);
+    ux_pointer_stats.pressure_processed.innerText = format1Digit4Decimals(ptr_rec.pressure_processed);
+    ux_pointer_stats.tilt_x_processed.innerText = format4Digits1Decimal(ptr_rec.tilt_x_processed);
+    ux_pointer_stats.tilt_y_processed.innerText = format4Digits1Decimal(ptr_rec.tilt_y_processed);
+    ux_pointer_stats.tilt_azimuth_processed.innerText = format4Digits1Decimal(ptr_rec.tilt_azimuth_processed);
+    ux_pointer_stats.tilt_altitude_processed.innerText = format4Digits1Decimal(ptr_rec.tilt_altitude_processed);
+    ux_pointer_stats.pos_x_canvas_processed.innerText = format4Digits1Decimal(ptr_rec.canvas_pos_x_processed);
+    ux_pointer_stats.pos_y_canvas_processed.innerText = format4Digits1Decimal(ptr_rec.canvas_pos_y_processed);
     ux_pointer_stats.barrel_rotation.innerText = ptr_rec.barrel_rotation.toString();
 
     if (ptr_rec.velocity>0) {
-        ux_pointer_stats.velocity.innerText = format4_1(ptr_rec.velocity);
-        ux_pointer_stats.direction.innerText = format4_1(ptr_rec.direction);
+        ux_pointer_stats.velocity.innerText = format4Digits1Decimal(ptr_rec.velocity);
+        ux_pointer_stats.direction.innerText = format4Digits1Decimal(ptr_rec.direction);
     }
 
     if (ptr_rec.pressure_processed > 0) {
@@ -47,7 +47,7 @@ function update_ux_pointer_stats(ptr_rec) {
 }
 
 
-function clear_ux_pointer_stats() {
+function clearUxPointerStats() {
     const empty = "-";
     ux_pointer_stats.buttons.innerText = empty;
 

@@ -24,15 +24,15 @@ function resetAdvancedSettings() {
   ux_processing_settings.position_smoothing_slider.value = 0.0;
   ux_processing_settings.pressure_quantization_dropdown.value = 0.0;
   ux_processing_settings.tilt_smoothing_slider.value = 0.0;
-  update_settings_from_ux();
+  updateSettingsFromUx();
 }
 
-function register_event_handlers() {
-  window.addEventListener("load", register_window_load_event_listeners, true);
-  register_document_hotkey_event_listeners();
+function registerEventHandlers() {
+  window.addEventListener("load", registerWindowLoadEventListeners, true);
+  registerDocumentHotkeyEventListeners();
 }
 
-function register_document_hotkey_event_listeners() {
+function registerDocumentHotkeyEventListeners() {
   // Hotkey for DELETE or BACKSPACE
   document.addEventListener("keydown", (e) => {
     if (e.key === "Delete" || e.key === "Backspace") {
@@ -55,10 +55,10 @@ document.addEventListener('click', function(event) {
     }
 });
 
-function update_settings_from_ux() {
-    update_format_settings_from_ux();
-    update_processing_settings_from_ux();
+function updateSettingsFromUx() {
+    updateFormatSettingsFromUx();
+    updateProcessingSettingsFromUx();
 }
 
-update_settings_from_ux();
-register_event_handlers();
+updateSettingsFromUx();
+registerEventHandlers();

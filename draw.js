@@ -4,14 +4,14 @@ function clearCanvas()
     app_canvas_context.fillRect(0, 0, app_canvas_el.width, app_canvas_el.height);
 }
 
-function draw_line( canvas_context, from_pos, to_pos, width, color, linecap)
+function drawLine( canvas_context, from_pos, to_pos, width, color, linecap)
 {
     canvas_context.lineWidth = width;
     canvas_context.strokeStyle = color;    
     canvas_context.beginPath();
     canvas_context.lineCap = linecap;
     canvas_context.moveTo(from_pos.x, from_pos.y);
-    const midPoint = lerp_point(from_pos, to_pos, 0.5);
+    const midPoint = lerpPoint(from_pos, to_pos, 0.5);
     canvas_context.quadraticCurveTo(from_pos.x, from_pos.y, midPoint.x, midPoint.y);
     canvas_context.lineTo(to_pos.x, to_pos.y);
     canvas_context.stroke();

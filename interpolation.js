@@ -10,7 +10,7 @@ function lerp(a, b, t )
 /////////////////////////////////////////////////////////////////////////
 // Linear interpolate between two points
 //
-function lerp_point(a, b, t) 
+function lerpPoint(a, b, t) 
 {
     const p =
     {

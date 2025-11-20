@@ -1,5 +1,5 @@
 
-function paint_stroke_start()
+function paintStrokeStart()
 {
     if (ux_format_settings.erase_on_stroke_start.checked)
     {
@@ -18,7 +18,7 @@ function paint_stroke_start()
     processing_settings.velocity_smoother.resetState();
 }
 
-function paint_stroke_stop()
+function paintStrokeStop()
 {
     paint_state.isDrawing = false;
     paint_stroke_stats.stroke_count = paint_stroke_stats.stroke_count + 1;
@@ -27,7 +27,7 @@ function paint_stroke_stop()
 }
 
 
-function get_dab_size( ptr_rec )
+function getDabSize( ptr_rec )
 {
     var new_size = paint_settings.brush_size;
 
@@ -60,12 +60,12 @@ function get_dab_size( ptr_rec )
     {
         new_size = new_size * ((1.0 - (ptr_rec.tilt_altitude_processed / pointer_constants.max_tilt_altitude)) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger
     }
-    new_size = clamp_to_range( new_size, BRUSHSIZE_RANGE )
-    new_size = round_to_3_decimal_places( new_size );
+    new_size = clampToRange( new_size, BRUSHSIZE_RANGE )
+    new_size = roundTo3DecimalPlaces( new_size );
     return new_size;
 }
 
-function get_dab_color( ptr_rec )
+function getDabColor( ptr_rec )
 {
     var dab_color = setting_stylus_pen_color;
 
@@ -85,7 +85,7 @@ function get_dab_color( ptr_rec )
     }
     else if (paint_settings.brush_color_control ==="TILTAZ")
     {
-        dab_color = angle_to_color( ptr_rec.tilt_azimuth_processed, azimuth_color_stops, azimuth_angle_stops ) ;
+        dab_color = angleToColor( ptr_rec.tilt_azimuth_processed, azimuth_color_stops, azimuth_angle_stops ) ;
         dab_color = dab_color.toWebRGB();
     }
     else if (paint_settings.brush_color_control ==="TILTX")
@@ -115,17 +115,17 @@ function get_dab_color( ptr_rec )
     return dab_color;
 }
 
-function update_dab_settings( ptr_rec )
+function updateDabSettings( ptr_rec )
 {
     // SIZE
-    const new_size = get_dab_size( ptr_rec );
+    const new_size = getDabSize( ptr_rec );
     paint_current_dab_settings.brush_size = new_size;
 
     // COLOR
-    paint_current_dab_settings.brush_color = get_dab_color( ptr_rec  );
+    paint_current_dab_settings.brush_color = getDabColor( ptr_rec  );
 }
 
-function paint_dab( ptr_rec )
+function paintDab( ptr_rec )
 {
     if (ptr_rec.pressure_raw <= 0)
     {
@@ -147,7 +147,7 @@ function paint_dab( ptr_rec )
     switch (ptr_rec.type) 
     {
         case "pointerdown":
-            paint_stroke_start();
+            paintStrokeStart();
             paint_state.canvas_pos_old = current_pos;
             break;
 
@@ -157,12 +157,12 @@ function paint_dab( ptr_rec )
                 return;
             }
 
-            update_dab_settings(ptr_rec);
+            updateDabSettings(ptr_rec);
 
 
             if (ptr_rec.pressure_raw > 0) 
             {
-                draw_line( app_canvas_context,
+                drawLine( app_canvas_context,
                     paint_state.canvas_pos_old, 
                     current_pos, 
                     paint_current_dab_settings.brush_size,

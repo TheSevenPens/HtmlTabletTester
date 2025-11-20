@@ -5,7 +5,7 @@ const ux_format_settings = {
 
 };
 
-function update_format_settings_from_ux() {
+function updateFormatSettingsFromUx() {
     paint_settings.brush_size_control = ux_format_settings.brush_size.value;
     paint_settings.brush_size = parseInt(ux_pointer_stats.brush_size.value);
     paint_settings.brush_color_control = ux_format_settings.brush_color.value;

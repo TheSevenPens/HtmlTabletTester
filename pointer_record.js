@@ -3,7 +3,7 @@
         // get the pressure reported in the event
         // if it is pointer pen event, just use that pressure
         // if it is any other kind of event, then just the maximum pressure
-        const pressure_raw = clamp_to_range(ptr_event.pressure, PRESSURE_RANGE);
+        const pressure_raw = clampToRange(ptr_event.pressure, PRESSURE_RANGE);
 
         const canvas_pos_x_raw = ptr_event.offsetX;
         const canvas_pos_y_raw = ptr_event.offsetY;
@@ -21,21 +21,21 @@
         this.canvas_pos_y_processed = processing_settings.pos_y_smoother.apply(canvas_pos_y_raw);
 
         this.pressure_raw = pressure_raw;
-        this.pressure_processed = process_pressure(pressure_raw);
+        this.pressure_processed = processPressure(pressure_raw);
 
         this.buttons = ptr_event.buttons;
 
         this.tilt_x = ptr_event.tiltX;
         this.tilt_y = ptr_event.tiltY;
 
-        this.tilt_azimuth = radians_to_degrees(ptr_event.azimuthAngle);
-        this.tilt_altitude = radians_to_degrees(ptr_event.altitudeAngle);
+        this.tilt_azimuth = radiansToDegrees(ptr_event.azimuthAngle);
+        this.tilt_altitude = radiansToDegrees(ptr_event.altitudeAngle);
 
         this.tilt_x_processed = processing_settings.tilt_x_smoother.apply(ptr_event.tiltX);
         this.tilt_y_processed = processing_settings.tilt_y_smoother.apply(ptr_event.tiltY);
 
-        this.tilt_azimuth_processed = radians_to_degrees(processing_settings.tilt_azimuth_smoother.apply(ptr_event.azimuthAngle));
-        this.tilt_altitude_processed = radians_to_degrees(processing_settings.tilt_altitude_smoother.apply(ptr_event.altitudeAngle));
+        this.tilt_azimuth_processed = radiansToDegrees(processing_settings.tilt_azimuth_smoother.apply(ptr_event.azimuthAngle));
+        this.tilt_altitude_processed = radiansToDegrees(processing_settings.tilt_altitude_smoother.apply(ptr_event.altitudeAngle));
 
         this.barrel_rotation = ptr_event.twist;
 

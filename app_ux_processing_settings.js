@@ -13,28 +13,28 @@ let ux_processing_settings = {
     pressure_quantization_dropdown: document.getElementById("pressureQuantSelect"),
 };
 
-function update_processing_settings_from_ux() {
+function updateProcessingSettingsFromUx() {
     // POSITION
-    processing_settings.pos_x_smoother.amount = GetSmoothingValue(ux_processing_settings.position_smoothing_slider.value);
+    processing_settings.pos_x_smoother.amount = getSmoothingValue(ux_processing_settings.position_smoothing_slider.value);
     processing_settings.pos_y_smoother.amount = processing_settings.pos_x_smoother.amount;
 
     // PRESSURE
-    processing_settings.pressure_smoother.amount = GetSmoothingValue(ux_processing_settings.pressure_smoothing_slider.value);
+    processing_settings.pressure_smoother.amount = getSmoothingValue(ux_processing_settings.pressure_smoothing_slider.value);
     processing_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_processing_settings.pressureCurveAmountSlider.value));
     processing_settings.pressure_quant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
 
     // TILT
     const tilt_smoothing = ux_processing_settings.tilt_smoothing_slider.value;
-    processing_settings.tilt_x_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_y_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_altitude_smoother.amount = GetSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_azimuth_smoother.amount = GetSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_x_smoother.amount = getSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_y_smoother.amount = getSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_altitude_smoother.amount = getSmoothingValue(tilt_smoothing);
+    processing_settings.tilt_azimuth_smoother.amount = getSmoothingValue(tilt_smoothing);
 
-    update_ux_from_processing_settings();
+    updateUxFromProcessingSettings();
 
 }
 
-function update_ux_from_processing_settings() {
+function updateUxFromProcessingSettings() {
     ux_processing_settings.position_smoothing_value.innerText = processing_settings.pos_x_smoother.amount.toString();
     ux_processing_settings.pressure_smoothing_value.innerText = processing_settings.pressure_smoother.amount.toString();
     ux_processing_settings.pressure_curve_amount_value.innerText = processing_settings.pressure_curve_amount.amount.toFixed(1);
@@ -42,16 +42,16 @@ function update_ux_from_processing_settings() {
     drawPressureCurve();
     
     // Update pressure label color based on pressure processing settings
-    update_pressure_label_color();
+    updatePressureLabelColor();
     
     // Update tilt label colors based on tilt smoothing
-    update_tilt_label_colors();
+    updateTiltLabelColors();
     
     // Update position label colors based on position smoothing
-    update_position_label_colors();
+    updatePositionLabelColors();
 }
 
-function update_pressure_label_color() {
+function updatePressureLabelColor() {
     const pressureLabel = document.getElementById("pressureLabel");
     if (!pressureLabel) return;
     
@@ -68,7 +68,7 @@ function update_pressure_label_color() {
     pressureLabel.style.color = isProcessingActive ? "red" : "";
 }
 
-function update_tilt_label_colors() {
+function updateTiltLabelColors() {
     const tiltXLabel = document.getElementById("tiltXLabel");
     const tiltYLabel = document.getElementById("tiltYLabel");
     const tiltAzimuthLabel = document.getElementById("tiltAzimuthLabel");
@@ -87,7 +87,7 @@ function update_tilt_label_colors() {
     tiltAltitudeLabel.style.color = color;
 }
 
-function update_position_label_colors() {
+function updatePositionLabelColors() {
     const posXLabel = document.getElementById("posXLabel");
     const posYLabel = document.getElementById("posYLabel");
     

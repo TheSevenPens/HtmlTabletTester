@@ -1,35 +1,35 @@
 
-function format4_1(num) {
+function format4Digits1Decimal(num) {
     const nbsp = "\u00A0";
     return num.toFixed(1).padStart(6, nbsp );
 }
 
-function format1_4(num) {
+function format1Digit4Decimals(num) {
     return num.toFixed(4);
 }
 
 
-function round_to_4_decimal_places(v)
+function roundTo4DecimalPlaces(v)
 {
   return Math.round(v * 10000) / 10000;
 }
 
-function round_to_3_decimal_places(v) 
+function roundTo3DecimalPlaces(v) 
 {
   return Math.round(v * 1000) / 1000;
 }
 
-function round_to_2_decimal_places(v) 
+function roundTo2DecimalPlaces(v) 
 {
   return Math.round(v * 100) / 100;
 }
 
-function round_to_1_decimal_places(v) 
+function roundTo1DecimalPlaces(v) 
 {
   return Math.round(v * 10) / 10;
 }
 
-function radians_to_degrees(r)
+function radiansToDegrees(r)
 {
     return (r * 57.2958);
 }
@@ -45,14 +45,14 @@ function quantize(value, levels)
   return Math.round(value * (levels - 1)) / (levels - 1);
 }
 
-function GetSmoothingValue(input) 
+function getSmoothingValue(input) 
 {
     // first map it with a curve
     const output1 =  easeOutCubic( input );
     // second restrict to a slightly smaller range 
     const output2 = lerp( 0.985, 0.0, output1);
     // round it so that we easier-to-read numbers for the user
-    const output3 = round_to_4_decimal_places(output2);
+    const output3 = roundTo4DecimalPlaces(output2);
 
     return output3;
 }
@@ -140,7 +140,7 @@ class NumericSmoother {
 
 }
 
-function tiltxy_to_tiltazimuth(tiltX,tiltY)
+function tiltxyToTiltAzimuth(tiltX,tiltY)
 {
     var azimuth = tiltX || tiltY 
                 ? (Math.atan2(tiltY, tiltX) * 180 / Math.PI) 
@@ -151,7 +151,7 @@ function tiltxy_to_tiltazimuth(tiltX,tiltY)
     return azimuth;
 }
 
-function tiltxy_to_tiltltitude(tiltX, tiltY)
+function tiltxyToTiltAltitude(tiltX, tiltY)
 {
    const angle = tiltX  || tiltY 
                 ? (Math.sqrt( tiltX  * tiltX  + tiltY  * tiltY))

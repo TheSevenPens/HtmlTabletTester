@@ -34,7 +34,7 @@ const azimuth_color_stops = [
 
 const azimuth_angle_stops = [0, 90, 180, 270, 360]; 
 
-function angle_to_color(angle, color_stops, angle_stops) {
+function angleToColor(angle, color_stops, angle_stops) {
     const normalizedAngle = angle % 360;
     let lowerIdx = 0;
     let upperIdx = 1;

@@ -15,7 +15,7 @@ const pointer_constants =
     max_tilt_y: 60.0,
 }
 
-function button_to_string(button) {
+function buttonToString(button) {
     if (button === pointer_button_code.none) {
         return "none";
     } else if (button === pointer_button_code.tip) {
@@ -31,7 +31,7 @@ function button_to_string(button) {
     }
 }
 
-function is_target_pointer_event(ptr_event) {
+function isTargetPointerEvent(ptr_event) {
     return (
         ptr_event.pointerType === "mouse" ||
         ptr_event.pointerType === "pen" ||
@@ -39,16 +39,16 @@ function is_target_pointer_event(ptr_event) {
     );
 }
 
-function default_ptr_event_handler_do_nothing(ptr_event) {
+function defaultPtrEventHandlerDoNothing(ptr_event) {
     // do nothing
 }
 
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
 //
-function pointer_event_handler(ptr_event) {
+function pointerEventHandler(ptr_event) {
     // Ignore events we don't care about
-    if (!is_target_pointer_event(ptr_event)) {
+    if (!isTargetPointerEvent(ptr_event)) {
         return;
     }
 
@@ -56,32 +56,32 @@ function pointer_event_handler(ptr_event) {
     const canvas_rect = app_canvas_el.getBoundingClientRect();
     // given the canvas and the pointer event the paint_rec
     // has all the information needed to draw
-    const ptr_rec = get_ptr_rec(canvas_rect, ptr_event);
+    const ptr_rec = getPtrRec(canvas_rect, ptr_event);
 
     // Live stats such as pointer position need to updated
-    update_ux_pointer_stats(ptr_rec);
+    updateUxPointerStats(ptr_rec);
     // perform the actual paint
-    paint_dab(ptr_rec);
+    paintDab(ptr_rec);
 
     paint_state.canvas_pos_old_all_events = new Position(ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
     paint_state.time_old = ptr_rec.time;
 }
 
-function on_pointerup(ptr_event) {
-    paint_stroke_stop();
-    update_ux_stroke_stats();
+function onPointerUp(ptr_event) {
+    paintStrokeStop();
+    updateUxStrokeStats();
 }
 
-function on_pointerenter(ptr_event) {
+function onPointerEnter(ptr_event) {
     document.body.style.cursor = "crosshair";
 }
 
-function on_pointerleave(ptr_event) {
+function onPointerLeave(ptr_event) {
     document.body.style.cursor = "default";
-    clear_ux_pointer_stats();
+    clearUxPointerStats();
 }
 
-function register_window_load_event_listeners() {
+function registerWindowLoadEventListeners() {
     if (!window.PointerEvent) {
         console.log("INFO: Browser DOES NOT support pointer events");
         return;
@@ -99,45 +99,45 @@ function register_window_load_event_listeners() {
     // gotpointercapture -> not handled
     // lostpointercapture -> not handled
 
-    app_canvas_el.addEventListener("pointerdown", pointer_event_handler, false);
-    app_canvas_el.addEventListener("pointerup", on_pointerup, false);
+    app_canvas_el.addEventListener("pointerdown", pointerEventHandler, false);
+    app_canvas_el.addEventListener("pointerup", onPointerUp, false);
 
-    app_canvas_el.addEventListener("pointercancel", pointer_event_handler, false);
-    app_canvas_el.addEventListener("pointermove", pointer_event_handler, false);
+    app_canvas_el.addEventListener("pointercancel", pointerEventHandler, false);
+    app_canvas_el.addEventListener("pointermove", pointerEventHandler, false);
 
     app_canvas_el.addEventListener(
         "pointerover",
-        default_ptr_event_handler_do_nothing,
+        defaultPtrEventHandlerDoNothing,
         false
     );
 
     app_canvas_el.addEventListener(
         "pointerout",
-        default_ptr_event_handler_do_nothing,
+        defaultPtrEventHandlerDoNothing,
         false
     );
 
-    app_canvas_el.addEventListener("pointerenter", on_pointerenter, false);
-    app_canvas_el.addEventListener("pointerleave", on_pointerleave, false);
+    app_canvas_el.addEventListener("pointerenter", onPointerEnter, false);
+    app_canvas_el.addEventListener("pointerleave", onPointerLeave, false);
 
     app_canvas_el.addEventListener(
         "gotpointercapture",
-        default_ptr_event_handler_do_nothing,
+        defaultPtrEventHandlerDoNothing,
         false
     );
     app_canvas_el.addEventListener(
         "lostpointercapture",
-        default_ptr_event_handler_do_nothing,
+        defaultPtrEventHandlerDoNothing,
         false
     );
 }
 
-function get_ptr_rec(canvas_rect, ptr_event) {
+function getPtrRec(canvas_rect, ptr_event) {
     paint_stroke_stats.ptrevent_count = paint_stroke_stats.ptrevent_count + 1;
     return new PointerRecord(canvas_rect, ptr_event);
 }
 
-function process_pressure(input_pressure) {
+function processPressure(input_pressure) {
     var output_pressure = input_pressure;
     // FIRST QUANTIZE
     if (processing_settings.pressure_quant > 0) {

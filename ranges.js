@@ -21,7 +21,7 @@ function clamp(v, lower, upper)
 /////////////////////////////////////////////////////////////////////////
 // clamp to range
 //
-function clamp_to_range(v, r) 
+function clampToRange(v, r) 
 {
     return clamp(v, r.Min, r.Max);
 }

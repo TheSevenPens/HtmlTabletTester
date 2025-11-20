@@ -48,7 +48,7 @@
             <label>Size </label>
             <label for="brushSizeSelect"></label><select
                 id="brushSizeSelect"
-                onchange="update_settings_from_ux()"
+                onchange="updateSettingsFromUx()"
         >
             <option value="1">1px</option>
             <option value="5">5px</option>
@@ -61,7 +61,7 @@
             <label>Scale size by </label>
             <label for="brushSizeControlSelect"></label><select
                 id="brushSizeControlSelect"
-                onchange="update_settings_from_ux()"
+                onchange="updateSettingsFromUx()"
         >
             <option value="USER">Don't scale</option>
             <option value="PRESSURE" selected>Pressure</option>
@@ -74,7 +74,7 @@
             <label>Color </label>
             <label for="brushColorControlSelect"></label><select
                 id="brushColorControlSelect"
-                onchange="update_settings_from_ux()"
+                onchange="updateSettingsFromUx()"
         >
             <option value="DEFAULT" selected>Black</option>
             <option value="RED">Red</option>
@@ -172,7 +172,7 @@
                         max="1.0"
                         step="0.01"
                         value="0.0"
-                        oninput="update_settings_from_ux()"
+                        oninput="updateSettingsFromUx()"
                 />
 
                 <br/>
@@ -189,7 +189,7 @@
                         max="1.0"
                         step="0.01"
                         value="0.0"
-                        oninput="update_settings_from_ux()"
+                        oninput="updateSettingsFromUx()"
                 />
 
                 <br/>
@@ -205,14 +205,14 @@
                         max="1.0"
                         step="0.01"
                         value="0.0"
-                        oninput="update_settings_from_ux()"
+                        oninput="updateSettingsFromUx()"
                 />
 
                 <br/>
                 <label>Pressure quant </label>
                 <label for="pressureQuantSelect"></label><select
                     id="pressureQuantSelect"
-                    onchange="update_settings_from_ux()">
+                    onchange="updateSettingsFromUx()">
                 <option value="0" selected>OFF</option>
                 <option value="4">4</option>
                 <option value="8">8</option>
@@ -242,7 +242,7 @@
                                     step="0.1"
                                     value="0.0"
                                     list="pressureCurveTickmarks"
-                                    oninput="update_settings_from_ux()"
+                                    oninput="updateSettingsFromUx()"
                             />
                             <datalist id="pressureCurveTickmarks">
                                 <option value="0.0"></option>
@@ -302,7 +302,7 @@
 <script src="app.js"></script>
 
 <script>
-    clear_ux_pointer_stats();
+    clearUxPointerStats();
 </script>
 
 </body>
