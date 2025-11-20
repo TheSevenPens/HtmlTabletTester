@@ -1,7 +1,7 @@
 
 function paint_stroke_start()
 {
-    if (ux_paint_settings.erase_on_stroke_start.checked)
+    if (ux_format_settings.erase_on_stroke_start.checked)
     {
         clearCanvas();
     }
