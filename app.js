@@ -55,5 +55,10 @@ document.addEventListener('click', function(event) {
     }
 });
 
+function update_settings_from_ux() {
+    update_format_settings_from_ux();
+    update_processing_settings_from_ux();
+}
+
 update_settings_from_ux();
 register_event_handlers();
