@@ -1,6 +1,6 @@
-const app_settings = {
-  canvas_color: "rgba(230, 230, 250, 1.0)",
-  download_filename: "TabletTester_Untitled",
+const appSettings = {
+  canvasColor: "rgba(230, 230, 250, 1.0)",
+  downloadFilename: "TabletTester_Untitled",
 };
 
 function initPage() {
@@ -19,11 +19,11 @@ function toggleStrokeStatsVisibility() {
 }
 
 function resetAdvancedSettings() {
-  ux_processing_settings.pressure_smoothing_slider.value = 0.0;
-  ux_processing_settings.pressure_curve_amount_slider.value = 0.0;
-  ux_processing_settings.position_smoothing_slider.value = 0.0;
-  ux_processing_settings.pressure_quantization_dropdown.value = 0.0;
-  ux_processing_settings.tilt_smoothing_slider.value = 0.0;
+  uxProcessingSettings.pressureSmoothingSlider.value = 0.0;
+  uxProcessingSettings.pressureCurveAmountSlider.value = 0.0;
+  uxProcessingSettings.positionSmoothingSlider.value = 0.0;
+  uxProcessingSettings.pressureQuantizationDropdown.value = 0.0;
+  uxProcessingSettings.tiltSmoothingSlider.value = 0.0;
   updateSettingsFromUx();
 }
 

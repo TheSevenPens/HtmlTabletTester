@@ -1,49 +1,50 @@
-const setting_stylus_pen_color = "black";
+const settingStylusPenColor = "black";
 const PRESSURE_RANGE = new OrderedRange(0.0,1.0);
 const BRUSHSIZE_RANGE = new OrderedRange(0.1,300.0);
 
-const paint_settings =
+const paintSettings =
     {
-        brush_size: 50,
-        brush_size_control: "PRESSURE",
-        brush_color_control: "DEFAULT",
-        eraser_size: 30,
+        brushSize: 50,
+        brushSizeControl: "PRESSURE",
+        brushColorControl: "DEFAULT",
+        eraserSize: 30,
         linecap: "round",
     };
 
-const processing_settings =
+const processingSettings =
     {
-        pos_x_smoother: new NumericSmoother(0.0),
-        pos_y_smoother: new NumericSmoother(0.0),
-        pressure_smoother: new NumericSmoother(0.0),
-        pressure_curve_amount: new NumericCurve(0.0),
-        tilt_x_smoother: new NumericSmoother(0.0),
-        tilt_y_smoother: new NumericSmoother(0.0),
-        tilt_azimuth_smoother: new NumericSmoother(0.0),
-        tilt_altitude_smoother: new NumericSmoother(0.0),
-        velocity_smoother: new NumericSmoother(0.9),
-        pressure_quantization_levels: 0,
+        posXSmoother: new NumericSmoother(0.0),
+        posYSmoother: new NumericSmoother(0.0),
+        pressureSmoother: new NumericSmoother(0.0),
+        pressureCurveAmount: new NumericCurve(0.0),
+        tiltXSmoother: new NumericSmoother(0.0),
+        tiltYSmoother: new NumericSmoother(0.0),
+        tiltAzimuthSmoother: new NumericSmoother(0.0),
+        tiltAltitudeSmoother: new NumericSmoother(0.0),
+        velocitySmoother: new NumericSmoother(0.9),
+        pressureQuant: 0,
+        pressureQuantizationLevels: 0,
     };
 
-const paint_current_dab_settings =
+const paintCurrentDabSettings =
     {
-        brush_size: 1,
-        brush_color: setting_stylus_pen_color,
+        brushSize: 1,
+        brushColor: settingStylusPenColor,
     };
 
-const paint_state =
+const paintState =
     {
-        canvas_pos_old_all_events : { x: 0, y: 0 },
-        canvas_pos_old: { x: 0, y: 0 },
+        canvasPosOldAllEvents : { x: 0, y: 0 },
+        canvasPosOld: { x: 0, y: 0 },
         isDrawing: false,
-        time_old: null,
+        timeOld: null,
     };
 
-const paint_stroke_stats=
+const paintStrokeStats=
     {
-        stroke_count: 0,
-        ptrevent_count: 0,
-        start_time: 0,
-        end_time: 0,
+        strokeCount: 0,
+        ptreventCount: 0,
+        startTime: 0,
+        endTime: 0,
         duration: 0,
     };

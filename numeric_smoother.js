@@ -18,21 +18,21 @@ class NumericSmoother {
 
   resetState() 
   {
-    this.old_smoothed = null;
+    this.oldSmoothed = null;
   }
 
   apply(input) 
   {
     var output = input;
-    if (this.old_smoothed != null )
+    if (this.oldSmoothed != null )
     {
         if (this.amount>0.0)
         {
             const alpha = 1.0-this.amount;
-            output = ( alpha * input ) + ((1.0 - alpha) * this.old_smoothed);
+            output = ( alpha * input ) + ((1.0 - alpha) * this.oldSmoothed);
         }
     }
-    this.old_smoothed = output;
+    this.oldSmoothed = output;
     return output;
   }
 

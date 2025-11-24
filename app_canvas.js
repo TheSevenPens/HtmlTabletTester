@@ -1,7 +1,7 @@
-const app_canvas_el = document.getElementById("myCanvas");
-const app_canvas_context = app_canvas_el.getContext("2d");
-const app_pressure_curve_canvas = document.getElementById("curveCanvas");
-const app_pressure_curve_canvas_ctx = app_pressure_curve_canvas.getContext("2d");
+const appCanvasEl = document.getElementById("myCanvas");
+const appCanvasContext = appCanvasEl.getContext("2d");
+const appPressureCurveCanvas = document.getElementById("curveCanvas");
+const appPressureCurveCanvasCtx = appPressureCurveCanvas.getContext("2d");
 
 /////////////////////////////////////////////////////////////////////////
 // Init canvas properties.
@@ -9,8 +9,8 @@ const app_pressure_curve_canvas_ctx = app_pressure_curve_canvas.getContext("2d")
 // Canvas cleared to restore background color.
 //
 function setCanvasProps() {
-    if (app_canvas_el.width < window.innerWidth) {
-        app_canvas_el.width = window.innerWidth - 50;
+    if (appCanvasEl.width < window.innerWidth) {
+        appCanvasEl.width = window.innerWidth - 50;
     }
 
     clearCanvas(); // ensures background saved with drawn image
@@ -26,12 +26,12 @@ function getCanvasName() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const timestamp = `${year}${month}${day}_${hours}${minutes}${seconds}`;
-    return app_settings.download_filename + "_" + timestamp + ".png";
+    return appSettings.downloadFilename + "_" + timestamp + ".png";
 }
 
 function saveCanvas() {
     const link = document.getElementById("link");
-    const url = app_canvas_el
+    const url = appCanvasEl
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
     link.setAttribute("download", getCanvasName());

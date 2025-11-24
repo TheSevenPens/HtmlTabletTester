@@ -1,5 +1,5 @@
 
-const pointer_button_code = {
+const pointerButtonCode = {
     none: 0x0, // nothing is pressed
     tip: 0x1, // left mouse, touch contact, pen contact
     barrel: 0x2, // right mouse, pen barrel button
@@ -7,76 +7,76 @@ const pointer_button_code = {
     eraser: 0x20, // pen eraser button
 };
 
-const pointer_constants =
+const pointerConstants =
 {
-    max_tilt_altitude : 90.0,
-    max_tilt_azimuth:  360.0,
-    max_tilt_x : 60.0,
-    max_tilt_y: 60.0,
+    maxTiltAltitude : 90.0,
+    maxTiltAzimuth:  360.0,
+    maxTiltX : 60.0,
+    maxTiltY: 60.0,
 }
 
 function buttonToString(button) {
-    if (button === pointer_button_code.none) {
+    if (button === pointerButtonCode.none) {
         return "none";
-    } else if (button === pointer_button_code.tip) {
+    } else if (button === pointerButtonCode.tip) {
         return "pen tip";
-    } else if (button === pointer_button_code.barrel) {
+    } else if (button === pointerButtonCode.barrel) {
         return "pen button";
-    } else if (button === pointer_button_code.middle) {
+    } else if (button === pointerButtonCode.middle) {
         return "middle mouse";
-    } else if (button === pointer_button_code.eraser) {
+    } else if (button === pointerButtonCode.eraser) {
         return "eraser";
     } else {
         return "unknown";
     }
 }
 
-function isTargetPointerEvent(ptr_event) {
+function isTargetPointerEvent(ptrEvent) {
     return (
-        ptr_event.pointerType === "mouse" ||
-        ptr_event.pointerType === "pen" ||
-        ptr_event.pointerType === "touch"
+        ptrEvent.pointerType === "mouse" ||
+        ptrEvent.pointerType === "pen" ||
+        ptrEvent.pointerType === "touch"
     );
 }
 
-function defaultPtrEventHandlerDoNothing(ptr_event) {
+function defaultPtrEventHandlerDoNothing(ptrEvent) {
     // do nothing
 }
 
 /////////////////////////////////////////////////////////////////////////
 // Handle drawing for HTML5 Pointer Events.
 //
-function pointerEventHandler(ptr_event) {
+function pointerEventHandler(ptrEvent) {
     // Ignore events we don't care about
-    if (!isTargetPointerEvent(ptr_event)) {
+    if (!isTargetPointerEvent(ptrEvent)) {
         return;
     }
 
     // The paint system needs to know the dimensions of the canvas it will draw on
-    const canvas_rect = app_canvas_el.getBoundingClientRect();
+    const canvasRect = appCanvasEl.getBoundingClientRect();
     // given the canvas and the pointer event the paint_rec
     // has all the information needed to draw
-    const ptr_rec = getPtrRec(canvas_rect, ptr_event);
+    const ptrRec = getPtrRec(canvasRect, ptrEvent);
 
     // Live stats such as pointer position need to updated
-    updateUxPointerStats(ptr_rec);
+    updateUxPointerStats(ptrRec);
     // perform the actual paint
-    paintDab(ptr_rec);
+    paintDab(ptrRec);
 
-    paint_state.canvas_pos_old_all_events = new Position(ptr_rec.canvas_pos_x_processed, ptr_rec.canvas_pos_y_processed);
-    paint_state.time_old = ptr_rec.time;
+    paintState.canvasPosOldAllEvents = new Position(ptrRec.canvasPosXProcessed, ptrRec.canvasPosYProcessed);
+    paintState.timeOld = ptrRec.time;
 }
 
-function onPointerUp(ptr_event) {
+function onPointerUp(ptrEvent) {
     paintStrokeStop();
     updateUxStrokeStats();
 }
 
-function onPointerEnter(ptr_event) {
+function onPointerEnter(ptrEvent) {
     document.body.style.cursor = "crosshair";
 }
 
-function onPointerLeave(ptr_event) {
+function onPointerLeave(ptrEvent) {
     document.body.style.cursor = "default";
     clearUxPointerStats();
 }
@@ -99,57 +99,57 @@ function registerWindowLoadEventListeners() {
     // gotpointercapture -> not handled
     // lostpointercapture -> not handled
 
-    app_canvas_el.addEventListener("pointerdown", pointerEventHandler, false);
-    app_canvas_el.addEventListener("pointerup", onPointerUp, false);
+    appCanvasEl.addEventListener("pointerdown", pointerEventHandler, false);
+    appCanvasEl.addEventListener("pointerup", onPointerUp, false);
 
-    app_canvas_el.addEventListener("pointercancel", pointerEventHandler, false);
-    app_canvas_el.addEventListener("pointermove", pointerEventHandler, false);
+    appCanvasEl.addEventListener("pointercancel", pointerEventHandler, false);
+    appCanvasEl.addEventListener("pointermove", pointerEventHandler, false);
 
-    app_canvas_el.addEventListener(
+    appCanvasEl.addEventListener(
         "pointerover",
         defaultPtrEventHandlerDoNothing,
         false
     );
 
-    app_canvas_el.addEventListener(
+    appCanvasEl.addEventListener(
         "pointerout",
         defaultPtrEventHandlerDoNothing,
         false
     );
 
-    app_canvas_el.addEventListener("pointerenter", onPointerEnter, false);
-    app_canvas_el.addEventListener("pointerleave", onPointerLeave, false);
+    appCanvasEl.addEventListener("pointerenter", onPointerEnter, false);
+    appCanvasEl.addEventListener("pointerleave", onPointerLeave, false);
 
-    app_canvas_el.addEventListener(
+    appCanvasEl.addEventListener(
         "gotpointercapture",
         defaultPtrEventHandlerDoNothing,
         false
     );
-    app_canvas_el.addEventListener(
+    appCanvasEl.addEventListener(
         "lostpointercapture",
         defaultPtrEventHandlerDoNothing,
         false
     );
 }
 
-function getPtrRec(canvas_rect, ptr_event) {
-    paint_stroke_stats.ptrevent_count = paint_stroke_stats.ptrevent_count + 1;
-    return new PointerRecord(canvas_rect, ptr_event);
+function getPtrRec(canvasRect, ptrEvent) {
+    paintStrokeStats.ptreventCount = paintStrokeStats.ptreventCount + 1;
+    return new PointerRecord(canvasRect, ptrEvent);
 }
 
-function processPressure(input_pressure) {
-    var output_pressure = input_pressure;
+function processPressure(inputPressure) {
+    var outputPressure = inputPressure;
     // FIRST QUANTIZE
-    if (processing_settings.pressure_quant > 0) {
-        output_pressure = quantize(input_pressure, processing_settings.pressure_quant);
+    if (processingSettings.pressureQuant > 0) {
+        outputPressure = quantize(inputPressure, processingSettings.pressureQuant);
     }
 
     // SECOND APPLY A CURVE
-    output_pressure = processing_settings.pressure_curve_amount.apply(output_pressure);
+    outputPressure = processingSettings.pressureCurveAmount.apply(outputPressure);
 
     // THIRD APPLY SMOOTHING (negative old values mean there is no old value)
-    output_pressure = processing_settings.pressure_smoother.apply(output_pressure);
+    outputPressure = processingSettings.pressureSmoother.apply(outputPressure);
 
 
-    return output_pressure;
+    return outputPressure;
 }

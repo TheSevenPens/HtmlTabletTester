@@ -1,44 +1,43 @@
-let ux_processing_settings = {
+let uxProcessingSettings = {
     pressureCurveAmountSlider: document.getElementById(
         "pressureCurveAmountSlider"
     ),
-    position_smoothing_slider: document.getElementById("positionSmoothingSlider"),
-    position_smoothing_value: document.getElementById("positionSmoothingValue"),
-    pressure_smoothing_slider: document.getElementById("pressureSmoothingSlider"),
-    pressure_smoothing_value: document.getElementById("pressureSmoothingValue"),
-    pressure_curve_amount_slider: document.getElementById("pressureCurveAmountSlider"),
-    pressure_curve_amount_value: document.getElementById("pressureCurveAmountValue"),
-    tilt_smoothing_slider: document.getElementById("tiltSmoothingSlider"),
-    tilt_smoothing_value: document.getElementById("tiltSmoothingValue"),
-    pressure_quantization_dropdown: document.getElementById("pressureQuantSelect"),
+    positionSmoothingSlider: document.getElementById("positionSmoothingSlider"),
+    positionSmoothingValue: document.getElementById("positionSmoothingValue"),
+    pressureSmoothingSlider: document.getElementById("pressureSmoothingSlider"),
+    pressureSmoothingValue: document.getElementById("pressureSmoothingValue"),
+    pressureCurveAmountValue: document.getElementById("pressureCurveAmountValue"),
+    tiltSmoothingSlider: document.getElementById("tiltSmoothingSlider"),
+    tiltSmoothingValue: document.getElementById("tiltSmoothingValue"),
+    pressureQuantizationDropdown: document.getElementById("pressureQuantSelect"),
 };
 
 function updateProcessingSettingsFromUx() {
     // POSITION
-    processing_settings.pos_x_smoother.amount = getSmoothingValue(ux_processing_settings.position_smoothing_slider.value);
-    processing_settings.pos_y_smoother.amount = processing_settings.pos_x_smoother.amount;
+    processingSettings.posXSmoother.amount = getSmoothingValue(uxProcessingSettings.positionSmoothingSlider.value);
+    processingSettings.posYSmoother.amount = processingSettings.posXSmoother.amount;
 
     // PRESSURE
-    processing_settings.pressure_smoother.amount = getSmoothingValue(ux_processing_settings.pressure_smoothing_slider.value);
-    processing_settings.pressure_curve_amount.setCurveAmount(parseFloat(ux_processing_settings.pressureCurveAmountSlider.value));
-    processing_settings.pressure_quant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
+    processingSettings.pressureSmoother.amount = getSmoothingValue(uxProcessingSettings.pressureSmoothingSlider.value);
+    processingSettings.pressureCurveAmount.setCurveAmount(parseFloat(uxProcessingSettings.pressureCurveAmountSlider.value));
+    processingSettings.pressureQuant = parseInt(uxProcessingSettings.pressureQuantizationDropdown.value);
 
     // TILT
-    const tilt_smoothing = ux_processing_settings.tilt_smoothing_slider.value;
-    processing_settings.tilt_x_smoother.amount = getSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_y_smoother.amount = getSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_altitude_smoother.amount = getSmoothingValue(tilt_smoothing);
-    processing_settings.tilt_azimuth_smoother.amount = getSmoothingValue(tilt_smoothing);
+    const tiltSmoothing = uxProcessingSettings.tiltSmoothingSlider.value;
+    processingSettings.tiltXSmoother.amount = getSmoothingValue(tiltSmoothing);
+    processingSettings.tiltYSmoother.amount = getSmoothingValue(tiltSmoothing);
+    processingSettings.tiltAltitudeSmoother.amount = getSmoothingValue(tiltSmoothing);
+    processingSettings.tiltAzimuthSmoother.amount = getSmoothingValue(tiltSmoothing);
 
     updateUxFromProcessingSettings();
 
 }
 
 function updateUxFromProcessingSettings() {
-    ux_processing_settings.position_smoothing_value.innerText = processing_settings.pos_x_smoother.amount.toString();
-    ux_processing_settings.pressure_smoothing_value.innerText = processing_settings.pressure_smoother.amount.toString();
-    ux_processing_settings.pressure_curve_amount_value.innerText = processing_settings.pressure_curve_amount.amount.toFixed(1);
-    ux_processing_settings.tilt_smoothing_value.innerText = processing_settings.tilt_x_smoother.amount.toString();
+    uxProcessingSettings.positionSmoothingValue.innerText = processingSettings.posXSmoother.amount.toString();
+    uxProcessingSettings.pressureSmoothingValue.innerText = processingSettings.pressureSmoother.amount.toString();
+    uxProcessingSettings.pressureCurveAmountValue.innerText = processingSettings.pressureCurveAmount.amount.toFixed(1);
+    uxProcessingSettings.tiltSmoothingValue.innerText = processingSettings.tiltXSmoother.amount.toString();
     drawPressureCurve();
     
     // Update pressure label color based on pressure processing settings
@@ -56,9 +55,9 @@ function updatePressureLabelColor() {
     if (!pressureLabel) return;
     
     // Check if any pressure processing is active
-    const pressureSmoothing = parseFloat(ux_processing_settings.pressure_smoothing_slider.value);
-    const pressureQuant = parseInt(ux_processing_settings.pressure_quantization_dropdown.value);
-    const pressureCurve = parseFloat(ux_processing_settings.pressure_curve_amount_slider.value);
+    const pressureSmoothing = parseFloat(uxProcessingSettings.pressureSmoothingSlider.value);
+    const pressureQuant = parseInt(uxProcessingSettings.pressureQuantizationDropdown.value);
+    const pressureCurve = parseFloat(uxProcessingSettings.pressureCurveAmountSlider.value);
     
     const isProcessingActive = 
         pressureSmoothing > 0 || 
@@ -77,7 +76,7 @@ function updateTiltLabelColors() {
     if (!tiltXLabel || !tiltYLabel || !tiltAzimuthLabel || !tiltAltitudeLabel) return;
     
     // Check if tilt smoothing is enabled
-    const tiltSmoothing = parseFloat(ux_processing_settings.tilt_smoothing_slider.value);
+    const tiltSmoothing = parseFloat(uxProcessingSettings.tiltSmoothingSlider.value);
     const isSmoothingActive = tiltSmoothing > 0;
     
     const color = isSmoothingActive ? "red" : "";
@@ -94,7 +93,7 @@ function updatePositionLabelColors() {
     if (!posXLabel || !posYLabel) return;
     
     // Check if position smoothing is enabled
-    const positionSmoothing = parseFloat(ux_processing_settings.position_smoothing_slider.value);
+    const positionSmoothing = parseFloat(uxProcessingSettings.positionSmoothingSlider.value);
     const isSmoothingActive = positionSmoothing > 0;
     
     const color = isSmoothingActive ? "red" : "";

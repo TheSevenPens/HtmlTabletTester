@@ -24,7 +24,7 @@ class RGBColor {
   }
 }
 
-const azimuth_color_stops = [
+const azimuthColorStops = [
     new RGBColor( 1.000, 1.000, 0.000 ) , // Yellow
     new RGBColor( 1.000, 0.000, 1.000 ), // Magenta
     new RGBColor( 0.000, 0.700, 1.000 ), // Blue
@@ -32,25 +32,25 @@ const azimuth_color_stops = [
     new RGBColor( 1.000, 1.000, 0.000 )  // Yellow (cyclic)
 ];
 
-const azimuth_angle_stops = [0, 90, 180, 270, 360]; 
+const azimuthAngleStops = [0, 90, 180, 270, 360]; 
 
-function angleToColor(angle, color_stops, angle_stops) {
+function angleToColor(angle, colorStops, angleStops) {
     const normalizedAngle = angle % 360;
     let lowerIdx = 0;
     let upperIdx = 1;
     let t = 0;
 
     // Find the two closest stops
-    for (let i = 0; i < angle_stops.length - 1; i++) {
-        if (normalizedAngle >= angle_stops[i] && normalizedAngle <= angle_stops[i + 1]) {
+    for (let i = 0; i < angleStops.length - 1; i++) {
+        if (normalizedAngle >= angleStops[i] && normalizedAngle <= angleStops[i + 1]) {
             lowerIdx = i;
             upperIdx = i + 1;
-            t = (normalizedAngle - angle_stops[i]) / (angle_stops[i + 1] - angle_stops[i]);
+            t = (normalizedAngle - angleStops[i]) / (angleStops[i + 1] - angleStops[i]);
             break;
         }
     }
 
     // Interpolate between the two colors
-    const output_color = RGBColor.interpolate(color_stops[lowerIdx], color_stops[upperIdx], t);
-    return output_color;
+    const outputColor = RGBColor.interpolate(colorStops[lowerIdx], colorStops[upperIdx], t);
+    return outputColor;
 }
