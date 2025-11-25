@@ -9,6 +9,7 @@ const paintSettings =
         brushColorControl: "DEFAULT",
         eraserSize: 30,
         linecap: "round",
+        minStrokeSize: 1.0,
     };
 
 const processingSettings =

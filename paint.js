@@ -61,6 +61,10 @@ function getDabSize( ptrRec )
         newSize = newSize * ((1.0 - (ptrRec.tiltAltitudeProcessed / pointerConstants.maxTiltAltitude)) + 0.05); // when pen is vertical size is small, as pen tilts dab gets larger
     }
     newSize = clampToRange( newSize, BRUSHSIZE_RANGE )
+    // Apply minimum stroke size constraint
+    if (newSize < paintSettings.minStrokeSize) {
+        newSize = paintSettings.minStrokeSize;
+    }
     newSize = roundTo3DecimalPlaces( newSize );
     return newSize;
 }
